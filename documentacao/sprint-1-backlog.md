@@ -2,7 +2,7 @@
 
 ## Tarefas
 
-### Revisar requisitos funcionais
+Requisitos
 
 - Revisar requisitos funcionais para seguir a regra de negócio
     - RF-001 até RF-003 (Vinícius)
@@ -10,5 +10,7 @@
     - RF-007 até RF-008 (Amanda)
 - Revisar requisitos não-funcionais para seguir a regra de negócio
     - RNF-001 (Amanda)
+
+Figma
 
 - Fazer novo protótipo do Figma
