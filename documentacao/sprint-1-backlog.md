@@ -1,11 +1,14 @@
-Tarefas
-Revisar requisitos funcionais
-* Tarefa 1 (responsavel)
-* Tarefa 2 (responsavel)
+# 01/04/2025 - 15/04/2025
 
-Revisar requisitos não-funcionais
-Modelar banco de dados (MongoDB)
-Fazer novo protótipo do Figma
+## Tarefas
 
-Tempo
-01/04/2025 até 15/04/2025
+### Revisar requisitos funcionais
+
+- Revisar requisitos funcionais para seguir a regra de negócio
+    - RF-001 até RF-003 (Vinícius)
+    - RF-004 até RF-006 (Geovanna)
+    - RF-007 até RF-008 (Amanda)
+- Revisar requisitos não-funcionais para seguir a regra de negócio
+    - RNF-001 (Amanda)
+
+- Fazer novo protótipo do Figma
