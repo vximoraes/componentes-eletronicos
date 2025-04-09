@@ -2,4 +2,6 @@
 
 ## Tarefas
 
+Banco de Dados
+
 - Modelar banco de dados MongoDB (Amanda, Geovanna, Vinícius)
