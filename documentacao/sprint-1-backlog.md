@@ -14,3 +14,7 @@ Requisitos
 Figma
 
 - Fazer novo protótipo do Figma
+    - Fazer telas de login, cadastro e perfil (Amanda)
+    - Fazer tela de componentes (Vinícius)
+    - Fazer tela de relatórios (Geovanna)
+    - Fazer tela de orçamentos
