@@ -17,4 +17,5 @@ Figma
     - Fazer telas de login, cadastro e perfil (Amanda)
     - Fazer tela de componentes (Vinícius)
     - Fazer tela de relatórios (Geovanna)
-    - Fazer tela de orçamentos
+    - Fazer tela de orçamentos (Amanda)
+    - Fazer fluxo/funcionalidades do protótipo (Amanda, Geovanna, Vinícius)
