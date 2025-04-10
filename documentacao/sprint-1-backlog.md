@@ -2,7 +2,7 @@
 
 ## Tarefas
 
-Requisitos
+### Requisitos
 
 - Revisar requisitos funcionais para seguir a regra de negócio
     - RF-001 até RF-003 (Vinícius)
@@ -11,7 +11,7 @@ Requisitos
 - Revisar requisitos não-funcionais para seguir a regra de negócio
     - RNF-001 (Amanda)
 
-Figma
+### Figma
 
 - Fazer novo protótipo do Figma
     - Fazer telas de login, cadastro e perfil (Amanda)
