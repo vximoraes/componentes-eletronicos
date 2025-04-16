@@ -2,6 +2,10 @@
 
 ## Tarefas
 
+### Figma
+
+- Começar organizações básicas do projeto (Amanda, Geovanna, Vinícius)
+
 ### Requisitos
 
 - Revisar requisitos funcionais para seguir a regra de negócio
