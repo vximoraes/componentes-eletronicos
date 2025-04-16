@@ -13,17 +13,18 @@
 
 | IDENTIFICADOR | NOME | DESCRIÇÃO | PRIORIDADE |
 :---|:---|:---|:---|
-|RF-001| Cadastrar Usuários | O sistema deve permitir o cadastro de usuários com nome, e-mail, nível de acesso e senha obrigatórios. Os níveis de acesso são: Administrador, com acesso total para gerenciar o sistema; e Aluno/Estagiário, com acesso apenas para consultas, sem permissão para alterações.| Essencial|
-|RF-002| Cadastrar Componentes | O sistema deve permitir o cadastro de componentes eletrônicos, exigindo os seguintes campos obrigatórios: nome do componente, descrição, quantidade, estoque mínimo, localização ou alocação do produto e valor unitário. Apenas usuários com permissão de administrador podem cadastrar novos componentes ou editar as informações dos já existentes.| Essencial |
-|RF-003| Notificar Alerta de Estoque | O sistema deve gerar alertas automáticos para os usuários quando a quantidade de um componente estiver próxima ou abaixo do estoque mínimo ou quando alterações no estoque forem realizadas. As notificações devem ser visíveis para os administradores. | Importante |
-|RF-004| Consultar Gestão de Estoque | O sistema deve exibir as informações dos componentes, incluindo a quantidade disponível, o status e a localização do componente no estoque. O sistema deve atualizar automaticamente os dados de estoque após entradas ou saídas de itens. | Essencial |
-|RF-005| Cadastrar Categorias e Subcategorias | Administradores devem poder cadastrar e gerenciar categorias e subcategorias para classificar componentes. O sistema deve implementar mecanismos de busca e filtros por nome e categoria. | Essencial |
-|RF-006| Realizar Orçamento | O sistema deve permitir o registro e consulta de orçamentos de componentes, incluindo os seguintes campos: nome do item, preço unitário, fornecedor e data da aquisição ou do orçamento. Além disso, deve calcular automaticamente o total do orçamento com base nas quantidades e valores dos itens.| Essencial |
-|RF-007| Cadastrar Fornecedores | O sistema deve possibilitar o cadastro de fornecedores de componentes, incluindo as seguintes informações: nome do fornecedor e URL do fornecedor. Além disso, deve permitir que administradores editem ou excluam fornecedores cadastrados. | Essencial |
-|RF-008| Registrar Relatórios | O sistema deve gerar relatórios detalhados sobre os componentes cadastrados, os orçamentos gerados e o histórico de movimentações de estoque, abrangendo entradas e saídas. Cada movimentação de componentes deve ser registrada com data e hora, quantidade movimentada e tipo de movimentação (entrada ou saída). Além disso, o sistema deve armazenar informações sobre orçamentos realizados e fornecer um relatório completo do estoque, incluindo o status atualizado de todos os itens. | Essencial |
+|RF-001|Cadastro de Usuário|O sistema deve permitir o cadastro de usuários, informando: nome, e-mail e senha.|Essencial|
+|RF-002|Login de Usuário|O sistema deve permitir que usuários cadastrados acessem suas contas existentes para gerenciar seus componentes.|Essencial|
+|RF-003|Cadastrar Componentes|O sistema deve permitir cadastrar e editar componentes eletrônicos, informando: nome, código, quantidade, estoque mínimo, valor unitário, categoria, localização e fornecedor.|Essencial|
+|RF-004|Notificar Alerta de Estoque|O sistema deverá gerar alertas automáticos quando um componente estiver abaixo do estoque mínimo, quando se tornar indisponível, e quando houver entradas ou saídas de componentes no estoque.|Importante|
+|RF-005|Consultar Gestão de Estoque|O sistema deve exibir informações detalhadas dos componentes (quantidade disponível, status e localização física no estoque) e atualizar automaticamente os dados de estoque em tempo real após qualquer movimentação de entrada ou saída de itens.|Essencial|
+|RF-006|Cadastrar Categorias|O sistema deve permitir cadastrar e gerenciar categorias para classificar componentes.|Essencial|
+|RF-007|Buscar Componentes|O sistema deve possuir mecanismos de busca e filtragem por nome, status e categoria.|Essencial|
+|RF-008|Realizar Orçamento|O sistema deve permitir registrar e consultar orçamentos de componentes, incluindo os seguintes campos: nome, código, quantidade, valor unitário, fornecedor e data da aquisição. Além disso, deve calcular automaticamente o valor total baseado nas quantidades e preços unitários.|Essencial|
+|RF-009|Registrar Relatórios|O sistema deve gerar relatórios de componentes, orçamentos e movimentações de estoque. Cada movimentação registrará data/hora, quantidade e tipo (entrada/saída). O sistema também armazenará histórico de orçamentos e fornecerá relatório atualizado do estoque.|Essencial|
 
 ### REQUISITOS NÃO FUNCIONAIS
 
 | IDENTIFICADOR | NOME | DESCRIÇÃO | PRIORIDADE |
 |:---|:---|:---|:---|
-RNF-001| Interface Web Responsiva | O sistema deve ser acessível e funcional em diferentes dispositivos, como smartphones, tablets e computadores desktop. O design deve ser adaptável a diferentes tamanhos de tela, garantindo uma boa experiência do usuário e navegação intuitiva e rápida. | Desejável |
+|RNF-001|Acessibilidade Multiplataforma|O sistema deve ser acessível e funcional em diferentes dispositivos, como smartphones, tablets e computadores desktop. O design deve ser adaptável a diferentes tamanhos de tela, garantindo tanto uma boa experiência do usuário quanto uma navegação intuitiva e rápida.|Essencial|
