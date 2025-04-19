@@ -1,12 +1,5 @@
 # PROJETO DE SOFTWARE - Componentes Eletrônicos
 
-## TAREFAS 
-
-- Requisitos (revisão)
-- Modelagem do Banco (revisão)
-- Protótipo Figma (revisão)
-- Documentação de cada rota (incluindo regras de negócio)
-
 ## REQUISITOS DO SISTEMA
 
 ### REQUISITOS FUNCIONAIS
@@ -28,3 +21,10 @@
 | IDENTIFICADOR | NOME | DESCRIÇÃO | PRIORIDADE |
 |:---|:---|:---|:---|
 |RNF-001|Acessibilidade Multiplataforma|O sistema deve ser acessível e funcional em diferentes dispositivos, como smartphones, tablets e computadores desktop. O design deve ser adaptável a diferentes tamanhos de tela, garantindo tanto uma boa experiência do usuário quanto uma navegação intuitiva e rápida.|Essencial|
+
+## TAREFAS - Milestone 1
+
+- Requisitos (revisão)
+- Modelagem do Banco (revisão)
+- Protótipo Figma (revisão)
+- Documentação de cada rota (incluindo regras de negócio)
