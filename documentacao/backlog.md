@@ -14,7 +14,7 @@
 |RF-006|Cadastrar Categorias|O sistema deve permitir cadastrar e gerenciar categorias para classificar componentes.|Essencial|
 |RF-007|Buscar Componentes|O sistema deve possuir mecanismos de busca e filtragem por nome, status e categoria.|Essencial|
 |RF-008|Realizar Orçamento|O sistema deve permitir registrar e consultar orçamentos de componentes, incluindo os seguintes campos: nome, protocolo, descrição, e, para cada componente adicionado ao orçamento: nome, fornecedor, quantidade, valor unitário e subtotal. O sistema deve calcular automaticamente o subtotal do componente (quantidade × valor unitário) e o valor total do orçamento, bem como permitir a exportação dos orçamentos em PDF. Após o salvamento, o orçamento deve ser automaticamente registrado nos relatórios do sistema para fins de histórico e consulta.|Essencial|
-|RF-009|Registrar Relatórios|O sistema deve gerar relatórios de componentes, orçamentos e movimentações de estoque. Cada movimentação registrará data/hora, quantidade e tipo (entrada/saída). O sistema também armazenará histórico de orçamentos e fornecerá relatório atualizado do estoque.|Essencial|
+|RF-009|Registrar Relatórios|O sistema deve gerar relatórios de componentes, movimentações de estoque e orçamentos. Cada movimentação de estoque registrará os dados do componente, data e hora, quantidade e tipo de movimentação (entrada ou saída). O sistema também armazenará o histórico completo de orçamentos salvos e as informações detalhadas sobre o estoque de componentes.|Essencial|
 
 ### REQUISITOS NÃO FUNCIONAIS
 
