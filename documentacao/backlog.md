@@ -13,7 +13,7 @@
 |RF-005|Consultar Gestão de Estoque|O sistema deve exibir informações detalhadas dos componentes (quantidade disponível, status e localização física no estoque) e atualizar automaticamente os dados de estoque em tempo real após qualquer movimentação de entrada ou saída de itens.|Essencial|
 |RF-006|Cadastrar Categorias|O sistema deve permitir cadastrar e gerenciar categorias para classificar componentes.|Essencial|
 |RF-007|Buscar Componentes|O sistema deve possuir mecanismos de busca e filtragem por nome, status e categoria.|Essencial|
-|RF-008|Realizar Orçamento|O sistema deve permitir registrar e consultar orçamentos de componentes, incluindo os seguintes campos: nome, código, quantidade, valor unitário, fornecedor e data da aquisição. Além disso, deve calcular automaticamente o valor total baseado nas quantidades e preços unitários.|Essencial|
+|RF-008|Realizar Orçamento|O sistema deve permitir registrar e consultar orçamentos de componentes, incluindo os seguintes campos: nome, protocolo, descrição, e, para cada componente adicionado ao orçamento: nome, fornecedor, quantidade, valor unitário e subtotal. O sistema deve calcular automaticamente o subtotal do componente (quantidade × valor unitário) e o valor total do orçamento, bem como permitir a exportação dos orçamentos em PDF. Após o salvamento, o orçamento deve ser automaticamente registrado nos relatórios do sistema para fins de histórico e consulta.|Essencial|
 |RF-009|Registrar Relatórios|O sistema deve gerar relatórios de componentes, orçamentos e movimentações de estoque. Cada movimentação registrará data/hora, quantidade e tipo (entrada/saída). O sistema também armazenará histórico de orçamentos e fornecerá relatório atualizado do estoque.|Essencial|
 
 ### REQUISITOS NÃO FUNCIONAIS
@@ -24,7 +24,7 @@
 
 ## TAREFAS - Milestone 1
 
-- [ ] Requisitos (revisão)
+- [x] Requisitos (revisão)
 - [ ] Modelagem do Banco (revisão)
 - [ ] Protótipo Figma (revisão)
 - [ ] Documentação de cada rota (incluindo regras de negócio)
