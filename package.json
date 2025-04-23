@@ -1,0 +1,25 @@
+{
+  "name": "meals-api",
+  "version": "1.0.0",
+  "description": "",
+  "license": "MIT",
+  "author": "Vinícius Moraes",
+  "type": "module",
+  "main": "src/app.js",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "seed": "node src/seeds/seeds.js",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "faker-br": "^0.4.1",
+    "mongodb": "^6.15.0",
+    "mongoose": "^8.13.2",
+    "mongoose-paginate-v2": "^1.9.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
+}
