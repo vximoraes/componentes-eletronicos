@@ -371,3 +371,8 @@ Resultado
 #### Resultado
 - Retorna o arquivo PDF gerado do relatório de orçamentos.
 - Em caso de falha, retornar mensagem de erro específica.
+
+# Considerações Finais
+- Segurança: Em todos os endpoints, a segurança deve ser uma prioridade, com a implementação de mecanismos de autenticação, autorização e registro de logs.
+- Validação e Tratamento de Erros: É fundamental validar as entradas dos usuários e retornar mensagens de erro claras para auxiliar na resolução de problemas.
+- Documentação e Monitoramento: Manter uma documentação atualizada dos endpoints e monitorar as requisições para garantir a integridade e disponibilidade do sistema.
