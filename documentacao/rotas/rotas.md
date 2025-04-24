@@ -1,127 +1,373 @@
-# Endpoints com Foco em Casos de Uso
+# Documento de Rotas - Sistema de Gestão de Componentes Eletrônicos
 
-## 3.1 /login (ou endpoint de autenticação)
+## 1. Cadastro e Login de Usuário
 
-### Função de Negócio
-- Permitir que os usuários (ou sistemas externos) entrem no sistema e obtenham acesso às funcionalidades internas.
+### 1.1 POST /auth/register
 
-### Regras de Negócio Envolvidas
+#### Caso de Uso
+- Criar um novo registro de usuário no sistema.
 
-- **Verificação de Credenciais:** Validar login/senha ou outro método de autenticação.
-- Bloqueio de Usuários:** Impedir o acesso de usuários inativos ou sem autorização específica.
-- Gestão de Tokens:** Gerar e armazenar tokens de acesso e refresh (se aplicável) de forma segura, permitindo revogação futura.
+#### Regras de Negócio Envolvidas
+- Validação de dados (todos obrigatórios):
+   - Nome: Mínimo 3 caracteres.
+   - E-mail: Formato válido, único no sistema.
+   - Senha: Mínimo 8 caracteres, letras maiúsculas, letras minúsculas, números, caracteres especiais.
+   - Confirmação de senha deve ser idêntica.
+- Segurança:
+   - Criptografar senha antes do armazenamento.
 
-### Resultado Esperado
-- Retorno dos tokens de acesso e refresh (se aplicável).
-- Dados básicos do usuário, como nome, status (ativo/inativo) e outras informações relevantes ao contexto de negócio.
+#### Resultado Esperado
+- Registro de usuário criado com sucesso.
+- Retorno do objeto de usuário criado com identificador único.
+- Em caso de falha, retornar mensagem de erro específica.
 
-## 3.2 / (CRUD Principal)
+### 1.2 POST /auth/login
 
-Endpoints principais responsáveis pelas operações de CRUD (Create, Read, Update, Delete) do recurso central do sistema, que pode ser, por exemplo, /usuarios, /produtos ou /contratos.
+#### Caso de Uso
+- Realizar autenticação de usuário no sistema, permitindo o acesso às funcionalidades internas.
 
-## 3.2.1 POST /
+#### Regras de Negócio Envolvidas
+- Validação de Credenciais: Verificar se o e-mail e senha correspondem a um usuário cadastrado
+  
+#### Resultado Esperado
+- Geração de token de autenticação para acesso ao sistema.
+- Retorno do objeto de usuário.
+- Em caso de falha, retornar mensagem de erro específica.
 
-**Caso de Uso**
-- Criar um novo registro (ex.: novo usuário, produto, item, etc.).
+## 2. Perfil de Usuário
 
-**Regras de Negócio**
-- **Validação de Atributos Obrigatórios:** Garantir que dados essenciais (ex.: e-mail, nome, código interno) sejam fornecidos.
-- **Exclusividade de Campos:** Assegurar que campos únicos, como o e-mail, não sejam duplicados.
-- **Definição de Status Inicial:** Atribuir um status inicial (ex.: ativo, pendente) conforme o fluxo de negócio.
+### 2.1 GET /usuario/:id
 
-**Resultado**
-- Registro criado com sucesso, retornando o objeto criado ou seu identificador.
-- Em caso de falha, retorno de erro de validação (por exemplo, e-mail duplicado).
+#### Caso de Uso
+- Obter informações detalhadas do perfil do usuário autenticado.
 
-## 3.2.2 GET /
+#### Regras de Negócio
+- Validação de Atributos: Recuperar apenas dados do usuário logado.
+- Segurança: Acesso restrito ao próprio usuário.
 
-**Caso de Uso**
-- Listar todos os registros existentes, possibilitando a geração de relatórios ou uma visão geral dos dados.
+#### Resultado
+- Retorno de informações completas do perfil.
+- Inclusão de estatísticas de uso.
+- Em caso de falha, retornar mensagem de erro específica.
 
-**Regras de Negócio**
-- **Filtros e Paginação:** Implementar filtros e paginação para evitar sobrecarga em consultas volumosas.
-- **Políticas de Acesso:** Respeitar restrições de visualização de acordo com o perfil do usuário.
-- **Filtros Específicos:** Permitir filtragem por atributos como nome, status, data, entre outros, conforme as necessidades de cada área.
+### 2.2 PATCH /usuario/:id
 
-**Resultado**
-- Lista dos registros conforme os filtros aplicados.
-- Metadados de paginação, como total de páginas e total de registros.
+#### Caso de Uso
+- Atualizar informações do perfil do usuário autenticado.
 
-## 3.2.3 GET //:id
+#### Regras de Negócio
+- Permitir atualização de um ou mais campos independentemente.
+- Verificar a integridade apenas dos campos enviados.
+- Garantir unicidade e formato de e-mail válido, se alterado.
 
-**Caso de Uso**
-- Obter detalhes de um registro específico para exibição em painéis, relatórios ou interfaces administrativas.
+#### Resultado
+- Atualização bem-sucedida de informações do perfil.
+- Retorno apenas dos campos modificados.
+- Em caso de falha, retornar mensagem de erro específica.
 
-**Regras de Negócio**
-- **Validação de Existência:** Confirmar se o registro existe e seu status (ativo/inativo).
-- **Retorno de Relacionamentos:** Opcionalmente, incluir estatísticas ou dados relacionados (ex.: quantas unidades ou grupos estão vinculados).
-- **Controle de Permissão:** Assegurar que apenas usuários autorizados possam acessar dados sensíveis.
+## 3. Componentes
 
-**Resultado**
-- Detalhamento completo do registro (campos principais, relacionamentos, permissões).
-- Retorno de erro se o registro não for encontrado ou o acesso não for permitido.
+### 3.1 POST /componentes
 
-## 3.2.4 PATCH/PUT //:id
+#### Caso de Uso
+- Adicionar um novo componente ao sistema.
 
-**Caso de Uso**
-- Atualizar informações de um registro (ex.: status, atributos de cadastro, permissões, etc.).
+#### Regras de Negócio
+- Validação de Campos Obrigatórios:
+   - Nome.
+   - Código (único).
+   - Quantidade.
+   - Estoque mínimo.
+   - Valor unitário.
+   - Categoria.
+   - Localização.
+   - Fornecedor.
+- Validações de Integridade:
+   - Código não pode ser duplicado no sistema.
+   - Quantidade não pode ser negativa.
+   - Estoque mínimo não pode ser negativo.
+   - Valor unitário deve ser positivo.
 
-**Regras de Negócio**
-- **Exclusividade de Campos:** Manter a unicidade de campos (ex.: e-mail).
-- **Ações Imediatas em Alterações Críticas:** Caso o registro seja marcado como inativo, remover ou limitar o acesso imediatamente.
-- **Validação de Restrições:** Impedir alterações que violem regras de negócio (ex.: mudança de campos não permitidos após a criação).
+#### Resultado
+- Componente criado com sucesso.
+- Retorno do objeto criado.
+- Em caso de falha, retornar mensagem de erro específica.
 
-**Resultado**
-- Registro atualizado com as novas informações.
-- Mensagem de erro se houver violação de regras (por exemplo, duplicidade de e-mail).
+### 3.2 GET /componentes
 
-## 3.2.5 DELETE //:id
+#### Caso de Uso
+- Listar todos os componentes eletrônicos cadastrados no sistema de estoque.
 
-**Caso de Uso**
-- Excluir ou inativar um registro que não será mais utilizado (ex.: usuário desligado, produto descontinuado).
+#### Regras de Negócio
+- Retornar informações essenciais de cada componente.
 
-**Regras de Negócio**
-- **Verificação de Impedimentos:** Avaliar impedimentos como regras de compliance ou auditoria; muitas vezes, é preferível apenas inativar o registro.
-- **Registro de Logs:** Disparar logs ou notificações para manter um histórico de alterações.
-- **Respeito aos Relacionamentos:** Garantir que a exclusão não viole vínculos críticos (ex.: pedidos vinculados).
+#### Resultado
+- Retorna lista dos componentes cadastrados e seus dados.
+- Informações de estoque (quantidade, localização, status).
+- Em caso de lista vazia, retornar mensagem específica.
+- Em caso de falha, retornar mensagem de erro específica.
 
-**Resultado**
-- Registro excluído ou inativado conforme a política definida.
-- Emissão de logs ou eventos para sistemas de auditoria, se aplicável.
+### 3.3 GET /componentes/:id
 
-## 3.3 Endpoints Adicionais (Exemplos)
-Dependendo da complexidade do sistema, podem existir endpoints extras para funcionalidades específicas.
+#### Caso de Uso
+- Obter detalhes de um componente específico.
 
-## 3.3.1 POST //:id/foto
+#### Regras de Negócio
+- Confirmar se o componente existe no sistema.
 
-**Caso de Uso**
-- Atualizar a foto de perfil ou outro arquivo relacionado ao registro (ex.: foto de usuário, imagem de produto).
+#### Resultado
+- Retorna os dados do componente.
+- Em caso de nenhum componente encontrado, retornar mensagem específica.
+- Em caso de falha, retornar mensagem de erro específica.
 
-**Regras de Negócio**
-- **Validação de Formato e Dimensões:** Verificar se a imagem atende aos requisitos (ex.: formato JPEG, dimensões mínimas ou máximas como 400x400).
-- **Substituição de Arquivo:** Caso exista um arquivo anterior, substituí-lo ou manter uma versão histórica, conforme a política definida.
-- **Registro de Metadata:** Armazenar informações como data e hora do upload, associando-as ao registro correspondente.
+### 3.4 GET /componentes/filtros
 
-**Resultado**
-- Foto/arquivo atualizado com sucesso.
-- Retorno de erro em caso de formato inválido ou dimensões que não atendam aos critérios estabelecidos.
+#### Caso de Uso
+- Realizar busca e filtragem avançada de componentes no sistema.
 
-## 3.3.2 GET //:id/foto
+#### Parâmetros de Filtro
+- categoria: Filtrar por categoria do componente.
+- localizacao: Filtrar por localização física do componente.
+- status: Filtrar por status de estoque.
+   - em_estoque: Componentes com quantidade adequada.
+   - baixo_estoque: Componentes com quantidade abaixo do mínimo.
+   - indisponivel: Componentes com quantidade zero.
 
-**Caso de Uso**
-- Exibir a foto ou arquivo associado a um registro para ser utilizado em painéis, aplicativos móveis ou relatórios.
+#### Regras de Negócio
+- Validação de Parâmetros:
+   - Garantir que os filtros sejam válidos
+   - Permitir combinação de filtros
 
-**Regras de Negócio**
-- **Verificação de Existência:** Confirmar se o arquivo existe; caso contrário, retornar uma imagem padrão ou uma mensagem de erro.
-- **Controle de Acesso:** Assegurar que apenas usuários com as devidas permissões possam visualizar o arquivo.
-- **Otimização do Download:** Limitar o tamanho do download ou converter a imagem para um formato adequado à exibição.
+#### Exemplos de Uso
+```bash
+GET /componentes/filtros?categoria=microcontroladores  
+GET /componentes/filtros?localizacao=B23  
+GET /componentes/filtros?status=baixo_estoque  
+GET /componentes/filtros?categoria=sensores&status=em_estoque  
+```
 
-**Resultado**
-- Retorno do arquivo em formato binário ou de um link direto para visualização.
-- Mensagem de erro se o arquivo não existir ou se o acesso estiver negado.
+#### Resultado
+- Retorna a lista de componentes filtrados.
+- Retorna o total de resultados encontrados.
+- Em caso de nenhum componente encontrado com os filtros específicados, retornar mensagem específica.
+- Em caso de falha, retornar mensagem de erro específica.
 
-## Considerações Finais
-- **Segurança:** Em todos os endpoints, a segurança deve ser uma prioridade, com a implementação de mecanismos de autenticação, autorização e registro de logs.
-- **Validação e Tratamento de Erros:** É fundamental validar as entradas dos usuários e retornar mensagens de erro claras para auxiliar na resolução de problemas.
-- **Escalabilidade e Performance:** Considerar a aplicação de filtros, paginação e caching para otimizar o desempenho das consultas e operações.
-- **Documentação e Monitoramento:** Manter uma documentação atualizada dos endpoints e monitorar as requisições para garantir a integridade e disponibilidade do sistema.
+### 3.5 PATCH /componentes/:id
+
+#### Caso de Uso
+- Atualizar as informações de um componente existente no sistema.
+
+#### Regras de Negócio
+- Permitir atualização de um ou mais campos independentemente.
+- Verificar a integridade apenas dos campos enviados.
+- Código não pode ser duplicado no sistema (se foi atualizado).
+- Quantidade não pode ser negativa.
+- Estoque mínimo não pode ser negativo.
+- Valor unitário deve ser positivo.
+
+#### Resultado
+- Componente atualizado com sucesso.
+- Retorno do objeto atualizado.
+- Em caso de falha, retornar mensagem de erro específica.
+
+### 3.6 DELETE /componentes/:id
+
+#### Caso de Uso
+- Remover um componente do sistema.
+
+#### Regras de Negócio
+- Confirmar se o componente existe no sistema.
+
+#### Resultado
+- Componente excluído com sucesso.
+- Em caso de componente não encontrado, retornar mensagem específica.
+- Em caso de falha, retornar mensagem de erro específica.
+
+## 4. Movimentações
+
+### 4.1 POST /movimentacoes
+
+#### Caso de Uso
+- Registrar a movimentação de um componente (entrada ou saída).
+
+#### Regras de Negócio
+- Campos obrigatórios: ID do componente, tipo de movimentação (entrada ou saída), data/hora, quantidade.
+Resultado
+
+#### Resultado
+- Registro de movimentação com sucesso.
+- Em caso de falha, retornar mensagem de erro específica.
+
+### 4.2 GET /movimentacoes
+
+#### Caso de Uso
+- Listar todas as movimentações de componentes, com a indicação de tipo (entrada ou saída).
+
+#### Resultado
+- Retorna todas as movimentações, mostrando tipo, componente, quantidade e data/hora.
+- Em caso de falha, retornar mensagem de erro específica.
+
+### 4.3 GET /movimentacoes/:id
+
+#### Caso de Uso
+- Obter detalhes de uma movimentação específica.
+
+#### Resultado
+- Retorna os detalhes da movimentação.
+
+## 5. Notificações
+
+### 5.1 POST /notificacao
+
+#### Caso de Uso
+- Criar uma nova notificação no sistema.
+
+#### Regras de Negócio
+- Validação de Campos Obrigatórios:
+   - Mensagem da notificação.
+   - Data e hora da notificação.
+   - ID do usuário que receberá a notificação.
+
+#### Resultado
+- Notificação criada com sucesso.
+- Retorno do objeto criado.
+- Em caso de falha, retornar mensagem de erro específica.
+
+### 5.2 GET /notificacao
+
+#### Caso de Uso
+- Listar todas as notificações de um usuário.
+
+#### Regras de Negócio
+- Retornar as notificações associadas ao ID do usuário.
+
+#### Resultado
+- Retorna lista de notificações.
+- Em caso de lista vazia, retornar mensagem específica.
+- Em caso de falha, retornar mensagem de erro específica.
+
+### 5.3 GET /notificacao/:id
+
+#### Caso de Uso
+- Obter detalhes de uma notificação específica.
+
+#### Regras de Negócio
+- Confirmar se a notificação existe no sistema.
+
+#### Resultado
+- Retorna os dados da notificação.
+- Em caso de notificação não encontrada, retornar mensagem específica.
+- Em caso de falha, retornar mensagem de erro específica.
+
+## 6. Orçamentos
+
+### 6.1 POST /orcamento
+
+#### Caso de Uso
+- Criar um novo orçamento no sistema.
+
+#### Regras de Negócio
+- Validação de Campos Obrigatórios:
+   - Nome do orçamento;
+   - Protocolo;
+   - Descrição;
+   - Deve incluir pelo menos um componente associado.
+
+#### Resultado
+- Orçamento criado com sucesso.
+- Retorno do objeto criado.
+- Em caso de falha, retornar mensagem de erro específica.
+
+### 6.2 GET /orcamento
+
+#### Caso de Uso
+- Listar todos os orçamentos existentes.
+
+#### Resultado
+- Retorna uma lista de orçamentos.
+- Se não houver orçamentos, retornar mensagem específica.
+- Em caso de falha, retornar mensagem de erro específica.
+
+### 6.3 GET /orcamento/:id
+
+#### Caso de Uso
+- Obter detalhes de um orçamento específico.
+
+#### Regras de Negócio
+- Confirmar se o orçamento existe no sistema.
+
+#### Resultado
+- Retorna os dados do orçamento, incluindo lista de componentes associados.
+- Se o orçamento não for encontrado, retornar mensagem específica.
+- Em caso de falha, retornar mensagem de erro específica.
+
+### 6.4 POST /orcamento/:id/componente
+
+#### Caso de Uso
+- Adicionar um componente a um orçamento específico.
+
+#### Regras de Negócio
+- Validação de Campos Obrigatórios:
+   - ID do componente;
+   - Quantidade;
+   - Valor unitário.
+
+#### Resultado
+- Componente adicionado ao orçamento com sucesso.
+- Retorno do objeto criado na tabela componente_orcamento.
+- Se o orçamento não existir, retornar mensagem específica.
+- Em caso de falha, retornar mensagem de erro específica.
+
+### 6.5 DELETE /orcamento/:id/componente/:id
+
+#### Caso de Uso
+- Remover um componente de um orçamento específico.
+
+#### Regras de Negócio
+- Confirmar se a associação do componente ao orçamento existe.
+
+#### Resultado
+- Componente removido do orçamento com sucesso.
+- Se o componente não for encontrado, retornar mensagem específica.
+- Em caso de falha, retornar mensagem de erro específica.
+
+## 7. Relatórios
+
+### 7.1 GET /relatorios/componentes
+
+#### Caso de Uso
+- Gerar um relatório completo sobre os componentes.
+
+#### Regras de Negócio
+- O relatório deve incluir: código do componente, nome, quantidade, status, localização e fornecedor.
+- O sistema deve gerar um arquivo PDF.
+
+#### Resultado
+- Retorna o arquivo PDF gerado do relatório de componentes.
+- Em caso de falha, retornar mensagem de erro específica.
+
+### 7.2 GET /relatorios/movimentacoes
+
+#### Caso de Uso
+- Gerar um relatório de movimentações de estoque.
+
+#### Regras de Negócio
+- O relatório deve incluir: código do componente, nome, quantidade, tipo de movimentação (entrada ou saída), localização e data/hora.
+- O sistema deve gerar um arquivo PDF.
+
+#### Resultado
+- Retorna o arquivo PDF gerado do relatório de movimentações.
+- Em caso de falha, retornar mensagem de erro específica.
+
+### 7.3 GET /relatorios/orcamentos
+
+#### Caso de Uso
+- Gerar um relatório histórico de orçamentos.
+
+#### Regras de Negócio
+- O relatório deve incluir: protocolo, nome do orçamento, valor total e data.
+- O sistema deve gerar um arquivo PDF.
+
+#### Resultado
+- Retorna o arquivo PDF gerado do relatório de orçamentos.
+- Em caso de falha, retornar mensagem de erro específica.
