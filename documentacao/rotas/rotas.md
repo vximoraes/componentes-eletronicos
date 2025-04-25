@@ -218,7 +218,6 @@ GET /componentes/filtros?categoria=sensores&status=em_estoque
 
 #### Regras de Negócio
 - Campos obrigatórios: ID do componente, tipo de movimentação (entrada ou saída), data/hora, quantidade e fornecedor (caso seja uma movimentação de entrada).
-Resultado
 
 #### Resultado
 - Registro de movimentação com sucesso.
