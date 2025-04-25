@@ -1,5 +1,32 @@
 # Documento de Rotas - Sistema de Gestão de Componentes Eletrônicos
 
+| **Endpoint**                          | **Método** | **Caso de Uso**                                            | **Descrição**                                                         |  
+|---------------------------------------|------------|-----------------------------------------------------------|----------------------------------------------------------------------|  
+| /auth/register                        | POST       | Cadastro de Usuário                                       | Cria um novo registro de usuário no sistema.                        |  
+| /auth/login                           | POST       | Login de Usuário                                          | Realiza a autenticação do usuário.                                   |  
+| /usuario/:id                          | GET        | Obter Perfil de Usuário                                   | Obtém informações detalhadas do perfil do usuário autenticado.      |  
+| /usuario/:id                          | PATCH      | Atualizar Perfil de Usuário                               | Atualiza informações do perfil do usuário autenticado.              |  
+| /componentes                          | POST       | Adicionar Componente                                      | Adiciona um novo componente ao sistema.                             |  
+| /componentes                          | GET        | Listar Componentes                                        | Lista todos os componentes eletrônicos cadastrados.                 |  
+| /componentes/:id                      | GET        | Obter Detalhes de Componente                              | Obtém detalhes de um componente específico.                         |  
+| /componentes/filtros                 | GET        | Filtragem Avançada de Componentes                        | Realiza busca e filtragem de componentes com parâmetros específicos. |  
+| /componentes/:id                      | PATCH      | Atualizar Componente                                      | Atualiza as informações de um componente existente no sistema.      |  
+| /componentes/:id                      | DELETE     | Remover Componente                                        | Remove um componente do sistema.                                    |  
+| /movimentacoes                        | POST       | Registrar Movimentação                                    | Registra a movimentação de um componente (entrada ou saída).       |  
+| /movimentacoes                        | GET        | Listar Movimentações                                      | Lista todas as movimentações de componentes.                        |  
+| /movimentacoes/:id                    | GET        | Obter Detalhes de Movimentação                            | Obtém detalhes de uma movimentação específica.                      |  
+| /notificacao                          | POST       | Criar Notificação                                         | Cria uma nova notificação no sistema.                               |  
+| /notificacao                          | GET        | Listar Notificações                                       | Lista todas as notificações de um usuário.                          |  
+| /notificacao/:id                      | GET        | Obter Detalhes de Notificação                             | Obtém detalhes de uma notificação específica.                       |  
+| /orcamento                            | POST       | Criar Orçamento                                          | Cria um novo orçamento no sistema.                                  |  
+| /orcamento                            | GET        | Listar Orçamentos                                        | Lista todos os orçamentos existentes.                               |  
+| /orcamento/:id                        | GET        | Obter Detalhes de Orçamento                               | Obtém detalhes de um orçamento específico.                          |  
+| /orcamento/:id/componente            | POST       | Adicionar Componente a Orçamento                          | Adiciona um componente a um orçamento específico.                  |  
+| /orcamento/:id/componente/:id        | DELETE     | Remover Componente de Orçamento                           | Remove um componente de um orçamento específico.                   |  
+| /relatorios/componentes               | GET        | Relatório de Componentes                                  | Gera um relatório completo sobre os componentes.                    |  
+| /relatorios/movimentacoes             | GET        | Relatório de Movimentações                                | Gera um relatório de movimentações de estoque.                      |  
+| /relatorios/orcamentos                | GET        | Relatório de Orçamentos                                   | Gera um relatório histórico de orçamentos.                          |  
+
 ## 1. Cadastro e Login de Usuário
 
 ### 1.1 POST /auth/register
