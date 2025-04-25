@@ -108,7 +108,6 @@
    - Valor unitário.
    - Categoria.
    - Localização.
-   - Fornecedor.
 - Validações de Integridade:
    - Código não pode ser duplicado no sistema.
    - Quantidade não pode ser negativa.
@@ -218,7 +217,7 @@ GET /componentes/filtros?categoria=sensores&status=em_estoque
 - Registrar a movimentação de um componente (entrada ou saída).
 
 #### Regras de Negócio
-- Campos obrigatórios: ID do componente, tipo de movimentação (entrada ou saída), data/hora, quantidade.
+- Campos obrigatórios: ID do componente, tipo de movimentação (entrada ou saída), data/hora, quantidade e fornecedor (caso seja uma movimentação de entrada).
 Resultado
 
 #### Resultado
