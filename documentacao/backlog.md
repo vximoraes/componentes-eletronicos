@@ -26,6 +26,6 @@
 - [x] Requisitos (revisão)
 - [x] Modelagem do Banco (revisão)
 - [x] Protótipo Figma (revisão)
-- [ ] Documentação de cada rota (incluindo regras de negócio)
+- [x] Documentação de cada rota (incluindo regras de negócio)
 
 
