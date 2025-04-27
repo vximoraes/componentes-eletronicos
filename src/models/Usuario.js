@@ -8,5 +8,11 @@ class Usuario {
             email: { type: String, unique: true, required: true },
             senha: { type: String, select: false, required: true }
         })
+
+        usuarioSchema.plugin(mongoosePaginate)
+
+        this.model = mongoose.model("usuario", usuarioSchema);
     }
 }
+
+export default new Usuario().model
