@@ -1,0 +1,16 @@
+import mongoose from "mongoose"
+import mongoosePaginate from "mongoose-paginate-v2"
+
+class Localizacao {
+    constructor() {
+        const localizacaoSchema = new mongoose.Schema ({
+            nome: { type: String, index: true, required: true },
+        })
+
+        localizacaoSchema.plugin(mongoosePaginate)
+
+        this.model = mongoose.model("localizacao", localizacaoSchema)
+    }
+}
+
+export default new Localizacao().model
