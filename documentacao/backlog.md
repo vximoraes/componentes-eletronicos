@@ -28,4 +28,9 @@
 - [x] Protótipo Figma (revisão)
 - [x] Documentação de cada rota (incluindo regras de negócio)
 
+## TAREFAS - Milestone 2
 
+- [ ] Requisitos Implementados na API (explicar como se deu a escolha e quantos vão ficar para a próxima milestone) 
+- [ ] Documentação das rota implementadas (incluindo regras de negócio) 
+- [ ] Plano de Teste do projeto com cenários de teste implementados (explicar o fluxo principal associando a regra de negócio aos testes)
+- [ ] Teste unitário das funcionalidades implementadas (explicação do teste do fluxo principal, demonstrar a cobertura de testes unitários)
