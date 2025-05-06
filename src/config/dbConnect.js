@@ -1,7 +1,6 @@
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import { URL } from 'url';
-import SendMail from '../utils/SendMail.js'; 
 import logger from '../utils/logger.js';
 
 dotenv.config(); 
@@ -9,13 +8,12 @@ dotenv.config();
 class DbConnect {
     static async conectar() {
         try {
-            const mongoUri = process.env.DB_URL;
+            const mongoURI = process.env.DB_URL;
 
-            if (!mongoUri) {
+            if (!mongoURI) {
                 throw new Error("A variável de ambiente DB_URL não está definida.");
             }
 
-            // Log seguro indicando que a URI está definida
             logger.info('DB_URL está definida.');
 
             // Configuração de strictQuery baseada no ambiente
@@ -53,7 +51,7 @@ class DbConnect {
             });
 
             // Conexão com opções configuráveis via variáveis de ambiente
-            await mongoose.connect(mongoUri, {
+            await mongoose.connect(mongoURI, {
                 serverSelectionTimeoutMS: process.env.MONGO_SERVER_SELECTION_TIMEOUT_MS
                     ? parseInt(process.env.MONGO_SERVER_SELECTION_TIMEOUT_MS)
                     : 5000,
