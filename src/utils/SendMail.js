@@ -55,7 +55,7 @@ class SendMail {
     await this.enviaEmail(infoEmail);
   }
 
-  static async enviaEmailErrorDbConect(err, pathname, date) {
+  static async enviaEmailErrorDbConnect(err, pathname, date) {
     const infoEmail = {
       to: process.env.ADMIN_EMAIL,
       subject: `Erro interno do servidor na classe: ${pathname}`,
