@@ -4,7 +4,7 @@
 
 ### Rotas
 
-#### Implementar rotas do sistema
+#### Implementar rotas do sistema:
     - Componentes (Vinícius)
         - POST /componentes
         - GET /componentes
