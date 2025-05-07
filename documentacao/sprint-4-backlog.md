@@ -20,6 +20,8 @@
 ### Testes
 
 #### Implementar testes unitários:
+
+- Rotas
     - Componentes (Vinícius)
         - POST /componentes
         - GET /componentes
