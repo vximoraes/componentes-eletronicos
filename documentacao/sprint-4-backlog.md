@@ -1,1 +1,18 @@
 # 12/05/2025 - 23/05/2025
+
+## Tarefas
+
+### Rotas
+
+#### Implementar rotas do sistema
+    - Componentes (Vinícius)
+        - POST /componentes
+        - GET /componentes
+        - GET /componentes/:id
+        - GET /componentes/filtros
+        - PATCH /componentes/:id
+        - DELETE /componentes/:id
+    - Movimentações (Geovanna)
+        - POST /movimentacoes
+        - GET /movimentacoes
+        - GET /movimentacoes/:id
