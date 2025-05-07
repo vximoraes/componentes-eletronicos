@@ -31,12 +31,12 @@
 
 #### Implementar testes unitários:
 
-- Rotas
-    - Perfil de Usuário (Vinícius)
-        - POST /usuario
-        - GET /usuario/:id
-        - PATCH /usuario/:id
-    - Notificações (Geovanna)
-        - POST /notificacao
-        - GET /notificacao
-        - GET /notificacao/:id
+    - Rotas
+        - Perfil de Usuário (Vinícius)
+            - POST /usuario
+            - GET /usuario/:id
+            - PATCH /usuario/:id
+        - Notificações (Geovanna)
+            - POST /notificacao
+            - GET /notificacao
+            - GET /notificacao/:id
