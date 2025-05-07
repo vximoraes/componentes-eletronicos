@@ -12,7 +12,18 @@
         - GET /componentes/filtros
         - PATCH /componentes/:id
         - DELETE /componentes/:id
+    - Orçamentos (Vinícius)
+        - POST /orcamento
+        - GET /orcamento
+        - GET /orcamento/:id
+        - POST /orcamento/:id/componente
+        - DELETE /orcamento/:id/componente/:id
     - Movimentações (Geovanna)
         - POST /movimentacoes
         - GET /movimentacoes
         - GET /movimentacoes/:id
+    - Relatórios (Geovanna)
+        - GET /relatorios/componentes
+        - GET /relatorios/movimentacoes
+        - GET /relatorios/orcamentos
+
