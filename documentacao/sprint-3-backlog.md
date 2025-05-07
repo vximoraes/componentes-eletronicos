@@ -14,3 +14,18 @@
     - Movimentacao (Vinícius)
     - Notificacao (Geovanna)
     - Usuario (Geovanna)
+
+### Rotas
+
+- Implementar rotas do sistema:
+    - Perfil de Usuário (Geovanna)
+        - POST /usuario
+        - GET /usuario/:id
+        - PATCH /usuario/:id
+    - Componentes (Vinícius)
+        - POST /componentes
+        - GET /componentes
+        - GET /componentes/:id
+        - GET /componentes/filtros
+        - PATCH /componentes/:id
+        - DELETE /componentes/:id
