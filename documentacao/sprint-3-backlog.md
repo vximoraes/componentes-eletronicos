@@ -4,7 +4,7 @@
 
 ### Seeds
 
-- Implementar seeds de todos os models do sistema:
+#### Implementar seeds de todos os models do sistema:
     - Categoria (Vinícius)
     - Componente (Vinícius)
     - Orcamento (Geovanna)
@@ -17,7 +17,7 @@
 
 ### Rotas
 
-- Implementar rotas do sistema:
+#### Implementar rotas do sistema:
     - Perfil de Usuário (Geovanna)
         - POST /usuario
         - GET /usuario/:id
