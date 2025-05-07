@@ -1,35 +1,24 @@
 # Documento de Rotas - Sistema de Gestão de Componentes Eletrônicos
 
-| **Endpoint**                          | **Método** | **Caso de Uso**                                            | **Descrição**                                                         |  
-|---------------------------------------|------------|-----------------------------------------------------------|----------------------------------------------------------------------|  
-| [/auth/register](#11-post-authregister)                        | POST       | Cadastro de Usuário                                       | Cria um novo registro de usuário no sistema.                        |  
-| [/auth/login](#12-post-authlogin)                           | POST       | Login de Usuário                                          | Realiza a autenticação do usuário.                                   |  
-| [/usuario/:id](#21-get-usuarioid)                          | GET        | Obter Perfil de Usuário                                   | Obtém informações detalhadas do perfil do usuário autenticado.      |  
-| [/usuario/:id](#22-patch-usuarioid)                          | PATCH      | Atualizar Perfil de Usuário                               | Atualiza informações do perfil do usuário autenticado.              |  
-| [/componentes](#31-post-componentes)                          | POST       | Adicionar Componente                                      | Adiciona um novo componente ao sistema.                             |  
-| [/componentes](#32-get-componentes)                          | GET        | Listar Componentes                                        | Lista todos os componentes eletrônicos cadastrados.                 |  
-| [/componentes/:id](#33-get-componentesid)                      | GET        | Obter Detalhes de Componente                              | Obtém detalhes de um componente específico.                         |  
-| [/componentes/filtros](#34-get-componentesfiltros)                 | GET        | Filtragem Avançada de Componentes                        | Realiza busca e filtragem de componentes com parâmetros específicos. |  
-| [/componentes/:id](#35-patch-componentesid)                      | PATCH      | Atualizar Componente                                      | Atualiza as informações de um componente existente no sistema.      |  
-| [/componentes/:id](#36-delete-componentesid)                      | DELETE     | Remover Componente                                        | Remove um componente do sistema.                                    |  
-| [/movimentacoes](#41-post-movimentacoes)                        | POST       | Registrar Movimentação                                    | Registra a movimentação de um componente (entrada ou saída).       |  
-| [/movimentacoes](#42-get-movimentacoes)                        | GET        | Listar Movimentações                                      | Lista todas as movimentações de componentes.                        |  
-| [/movimentacoes/:id](#43-get-movimentacoesid)                    | GET        | Obter Detalhes de Movimentação                            | Obtém detalhes de uma movimentação específica.                      |  
-| [/notificacao](#51-post-notificacao)                          | POST       | Criar Notificação                                         | Cria uma nova notificação no sistema.                               |  
-| [/notificacao](#52-get-notificacao)                          | GET        | Listar Notificações                                       | Lista todas as notificações de um usuário.                          |  
-| [/notificacao/:id](#53-get-notificacaoid)                      | GET        | Obter Detalhes de Notificação                             | Obtém detalhes de uma notificação específica.                       |  
-| [/orcamento](#61-post-orcamento)                            | POST       | Criar Orçamento                                          | Cria um novo orçamento no sistema.                                  |  
-| [/orcamento](#62-get-orcamento)                            | GET        | Listar Orçamentos                                        | Lista todos os orçamentos existentes.                               |  
-| [/orcamento/:id](#63-get-orcamentoid)                        | GET        | Obter Detalhes de Orçamento                               | Obtém detalhes de um orçamento específico.                          |  
-| [/orcamento/:id/componente](#64-post-orcamentoidcomponente)            | POST       | Adicionar Componente a Orçamento                          | Adiciona um componente a um orçamento específico.                  |  
-| [/orcamento/:id/componente/:id](#65-delete-orcamentoidcomponenteid)        | DELETE     | Remover Componente de Orçamento                           | Remove um componente de um orçamento específico.                   |  
-| [/relatorios/componentes](#71-get-relatorioscomponentes)               | GET        | Relatório de Componentes                                  | Gera um relatório completo sobre os componentes.                    |  
-| [/relatorios/movimentacoes](#72-get-relatoriosmovimentacoes)             | GET        | Relatório de Movimentações                                | Gera um relatório de movimentações de estoque.                      |  
-| [/relatorios/orcamentos](#73-get-relatoriosorcamentos)                | GET        | Relatório de Orçamentos                                   | Gera um relatório histórico de orçamentos.                          |  
+## 1. Login de Usuário
 
-## 1. Cadastro e Login de Usuário
+### 1.1 POST /auth/login
 
-### 1.1 POST /auth/register
+#### Caso de Uso
+- Realizar autenticação de usuário no sistema, permitindo o acesso às funcionalidades internas.
+
+#### Regras de Negócio Envolvidas
+- Validação de Credenciais: Verificar se o e-mail e senha correspondem a um usuário cadastrado;
+- Emissão de Token: gerar um JWT.
+  
+#### Resultado Esperado
+- Geração de token de autenticação para acesso ao sistema.
+- Retorno do objeto de usuário.
+- Em caso de falha, retornar mensagem de erro específica.
+
+## 2. Perfil de Usuário
+
+### 2.1 POST /usuario
 
 #### Caso de Uso
 - Criar um novo registro de usuário no sistema.
@@ -48,22 +37,7 @@
 - Retorno do objeto de usuário criado com identificador único.
 - Em caso de falha, retornar mensagem de erro específica.
 
-### 1.2 POST /auth/login
-
-#### Caso de Uso
-- Realizar autenticação de usuário no sistema, permitindo o acesso às funcionalidades internas.
-
-#### Regras de Negócio Envolvidas
-- Validação de Credenciais: Verificar se o e-mail e senha correspondem a um usuário cadastrado
-  
-#### Resultado Esperado
-- Geração de token de autenticação para acesso ao sistema.
-- Retorno do objeto de usuário.
-- Em caso de falha, retornar mensagem de erro específica.
-
-## 2. Perfil de Usuário
-
-### 2.1 GET /usuario/:id
+### 2.2 GET /usuario/:id
 
 #### Caso de Uso
 - Obter informações detalhadas do perfil do usuário autenticado.
@@ -77,7 +51,7 @@
 - Inclusão de estatísticas de uso.
 - Em caso de falha, retornar mensagem de erro específica.
 
-### 2.2 PATCH /usuario/:id
+### 2.3 PATCH /usuario/:id
 
 #### Caso de Uso
 - Atualizar informações do perfil do usuário autenticado.
