@@ -16,3 +16,18 @@
         - POST /movimentacoes
         - GET /movimentacoes
         - GET /movimentacoes/:id
+
+### Testes
+
+#### Implementar testes unitários:
+    - Componentes (Vinícius)
+        - POST /componentes
+        - GET /componentes
+        - GET /componentes/:id
+        - GET /componentes/filtros
+        - PATCH /componentes/:id
+        - DELETE /componentes/:id
+    - Movimentações (Geovanna)
+        - POST /movimentacoes
+        - GET /movimentacoes
+        - GET /movimentacoes/:id
