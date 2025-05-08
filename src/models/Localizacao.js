@@ -3,8 +3,12 @@ import mongoosePaginate from "mongoose-paginate-v2"
 
 class Localizacao {
     constructor() {
-        const localizacaoSchema = new mongoose.Schema ({
-            nome: { type: String, index: true, required: true },
+        const localizacaoSchema = new mongoose.Schema({
+            nome: {
+                type: String,
+                index: true,
+                required: true
+            },
         })
 
         localizacaoSchema.plugin(mongoosePaginate)
