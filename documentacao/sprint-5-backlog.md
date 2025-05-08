@@ -1,5 +1,7 @@
 # 24/05/2025 - 03/06/2025
 
+## Tarefas
+
 ### Rotas
 
 #### Implementar rotas do sistema:
