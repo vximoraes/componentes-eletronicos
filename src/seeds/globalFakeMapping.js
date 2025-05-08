@@ -33,12 +33,12 @@ export const fakeMappings = {
 
     Categoria: {
         nome: () => {const values = ["Sensores", "Cabos", "Microcontroladores"];
-        return values[Math.floor(Math.random() * values.length)]
+        return values[Math.floor(Math.random() * values.length)];
         },
     },
 
     Localizacao: {
-        nome: () => `${String.fromCharCode(65 + fakebr.datatype.number({ min: 0, max: 25 }))}${fakebr.datatype.number({ min: 1, max: 100 })}`,
+        nome: () => `${String.fromCharCode(65 + fakebr.random.number({ min: 0, max: 25 }))}${fakebr.random.number({ min: 1, max: 100 })}`,
     },
 
     Componente: {
@@ -105,7 +105,7 @@ export const fakeMappings = {
 //     return globalMapping;
 // }
 
-// // Função auxiliar para extrair os nomes dos campos de um schema, considerando apenas os níveis superiores (campos aninhados são verificados pela parte antes do ponto).
+// // Função auxiliar para extrair os nomes dos campos de um schema, considerando apenas os níveis superiores (campos aninhados são verificados pela parte antes do ponto).
 
 // function getSchemaFieldNames(schema) {
 //     const fieldNames = new Set();
