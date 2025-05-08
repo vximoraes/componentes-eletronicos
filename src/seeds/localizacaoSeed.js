@@ -1,7 +1,6 @@
 import { fakeMappings } from "./globalFakeMapping.js";
 import Localizacao from "../models/Localizacao.js";
 
-
 export default async function categoriaSeed() {
     await Localizacao.deleteMany({});
 
