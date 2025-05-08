@@ -27,7 +27,7 @@ class Movimentacao {
             fornecedor: {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: "fornecedor",
-                required: true,
+                required: false,
             },
         });
 
