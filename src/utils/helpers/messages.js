@@ -13,7 +13,7 @@ const messages = {
     },
 
     // Mensagens de aviso de atorização
-    authorized:{
+    authorized: {
         default: "autorizado",
     },
 
@@ -32,7 +32,7 @@ const messages = {
         operationCanceled: "Operação cancelada pelo usuário.",
         internalServerError: (resource) => `Erro interno no servidor ao processar ${resource}.`,
         unauthorized: (resource) => `Erro de autorização: ${resource}.`,
-        resourceConflict: (resource,  conflictField) => `Conflito de recurso em ${resource} contém ${conflictField}.`,
+        resourceConflict: (resource, conflictField) => `Conflito de recurso em ${resource} contém ${conflictField}.`,
         pageIsNotAvailable: (page) => `A página ${page} não está disponível.`,
         pageNotContainsData: (page) => `A página ${page} não contém dados.`,
         duplicateEntry: (fieldName) => `Já existe um registro com o dado informado no(s) campo(s) ${fieldName}.`,
