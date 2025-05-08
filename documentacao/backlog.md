@@ -39,6 +39,6 @@
     Próxima Milestone: <br>
     - Componentes 
     - Relatórios
-- [ ] Documentação das rota implementadas (incluindo regras de negócio) 
+- [x] Documentação das rota implementadas (incluindo regras de negócio) 
 - [ ] Plano de Teste do projeto com cenários de teste implementados (explicar o fluxo principal associando a regra de negócio aos testes)
 - [ ] Teste unitário das funcionalidades implementadas (explicação do teste do fluxo principal, demonstrar a cobertura de testes unitários)
