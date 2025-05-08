@@ -5,31 +5,25 @@
 ### Rotas
 
 #### Implementar rotas do sistema:
-    - Componentes (Vinícius)
-        - POST /componentes
-        - GET /componentes
-        - GET /componentes/:id
-        - GET /componentes/filtros
-        - PATCH /componentes/:id
-        - DELETE /componentes/:id
-    - Movimentações (Geovanna)
-        - POST /movimentacoes
-        - GET /movimentacoes
-        - GET /movimentacoes/:id
+    - Perfil de Usuário (Vinícius)
+        - POST /usuario
+        - GET /usuario/:id
+        - PATCH /usuario/:id
+    - Notificações (Geovanna)
+        - POST /notificacao
+        - GET /notificacao
+        - GET /notificacao/:id
 
 ### Testes
 
 #### Implementar testes unitários:
 
     - Rotas
-        - Componentes (Vinícius)
-            - POST /componentes
-            - GET /componentes
-            - GET /componentes/:id
-            - GET /componentes/filtros
-            - PATCH /componentes/:id
-            - DELETE /componentes/:id
-        - Movimentações (Geovanna)
-            - POST /movimentacoes
-            - GET /movimentacoes
-            - GET /movimentacoes/:id
+        - Perfil de Usuário (Vinícius)
+            - POST /usuario
+            - GET /usuario/:id
+            - PATCH /usuario/:id
+        - Notificações (Geovanna)
+            - POST /notificacao
+            - GET /notificacao
+            - GET /notificacao/:id
