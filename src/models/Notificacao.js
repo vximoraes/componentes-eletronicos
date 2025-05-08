@@ -1,5 +1,5 @@
-import mongoose from "mongoose"
-import mongoosePaginate from "mongoose-paginate-v2"
+import mongoose from "mongoose";
+import mongoosePaginate from "mongoose-paginate-v2";
 
 class Notificacao {
     constructor() {
@@ -23,12 +23,12 @@ class Notificacao {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: "usuario", required: true
             }
-        })
+        });
 
         notificacaoSchema.plugin(mongoosePaginate);
 
-        this.model = mongoose.model("notificacao", notificacaoSchema);
+        this.model = mongoose.model("notificacoes", notificacaoSchema);
     }
 }
 
-export default new Notificacao().model
+export default new Notificacao().model;

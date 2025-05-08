@@ -1,5 +1,5 @@
-import mongoose from "mongoose"
-import mongoosePaginate from "mongoose-paginate-v2"
+import mongoose from "mongoose";
+import mongoosePaginate from "mongoose-paginate-v2";
 
 class Usuario {
     constructor() {
@@ -19,12 +19,12 @@ class Usuario {
                 select: false,
                 required: true
             }
-        })
+        });
 
-        usuarioSchema.plugin(mongoosePaginate)
+        usuarioSchema.plugin(mongoosePaginate);
 
-        this.model = mongoose.model("usuario", usuarioSchema);
+        this.model = mongoose.model("usuarios", usuarioSchema);
     }
 }
 
-export default new Usuario().model
+export default new Usuario().model;

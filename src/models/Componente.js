@@ -1,5 +1,5 @@
-import mongoose from "mongoose"
-import mongoosePaginate from "mongoose-paginate-v2"
+import mongoose from "mongoose";
+import mongoosePaginate from "mongoose-paginate-v2";
 
 class Componente {
     constructor() {
@@ -42,12 +42,12 @@ class Componente {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: "categoria", required: true
             }
-        })
+        });
 
         componenteSchema.plugin(mongoosePaginate);
 
-        this.model = mongoose.model("componente", componenteSchema);
+        this.model = mongoose.model("componentes", componenteSchema);
     }
 }
 
-export default new Componente().model
+export default new Componente().model;

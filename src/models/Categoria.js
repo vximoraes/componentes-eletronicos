@@ -1,5 +1,5 @@
-import mongoose from "mongoose"
-import mongoosePaginate from "mongoose-paginate-v2"
+import mongoose from "mongoose";
+import mongoosePaginate from "mongoose-paginate-v2";
 
 class Categoria {
     constructor() {
@@ -9,12 +9,12 @@ class Categoria {
                 index: true,
                 required: true
             },
-        })
+        });
 
-        categoriaSchema.plugin(mongoosePaginate)
+        categoriaSchema.plugin(mongoosePaginate);
 
-        this.model = mongoose.model("categoria", categoriaSchema)
+        this.model = mongoose.model("categorias", categoriaSchema);
     }
 }
 
-export default new Categoria().model
+export default new Categoria().model;

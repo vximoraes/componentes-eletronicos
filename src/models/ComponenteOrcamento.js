@@ -1,5 +1,5 @@
-import mongoose from "mongoose"
-import mongoosePaginate from "mongoose-paginate-v2"
+import mongoose from "mongoose";
+import mongoosePaginate from "mongoose-paginate-v2";
 
 class ComponenteOrcamento {
     constructor() {
@@ -29,12 +29,12 @@ class ComponenteOrcamento {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: "orcamento", required: true
             }
-        })
+        });
 
         componenteOrcamentoSchema.plugin(mongoosePaginate);
 
-        this.model = mongoose.model("componente_orcamento", componenteOrcamentoSchema);
+        this.model = mongoose.model("componente_orcamentos", componenteOrcamentoSchema);
     }
 }
 
-export default new ComponenteOrcamento().model
+export default new ComponenteOrcamento().model;

@@ -1,5 +1,5 @@
-import mongoose from "mongoose"
-import mongoosePaginate from "mongoose-paginate-v2"
+import mongoose from "mongoose";
+import mongoosePaginate from "mongoose-paginate-v2";
 
 class Localizacao {
     constructor() {
@@ -9,12 +9,12 @@ class Localizacao {
                 index: true,
                 required: true
             },
-        })
+        });
 
-        localizacaoSchema.plugin(mongoosePaginate)
+        localizacaoSchema.plugin(mongoosePaginate);
 
-        this.model = mongoose.model("localizacao", localizacaoSchema)
+        this.model = mongoose.model("localizacoes", localizacaoSchema);
     }
 }
 
-export default new Localizacao().model
+export default new Localizacao().model;

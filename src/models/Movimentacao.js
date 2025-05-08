@@ -33,7 +33,7 @@ class Movimentacao {
 
         movimentacaoSchema.plugin(mongoosePaginate);
 
-        this.model = mongoose.model("movimentacao", movimentacaoSchema);
+        this.model = mongoose.model("movimentacoes", movimentacaoSchema);
     }
 }
 

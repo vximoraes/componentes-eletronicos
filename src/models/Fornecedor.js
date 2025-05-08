@@ -1,5 +1,5 @@
-import mongoose from "mongoose"
-import mongoosePaginate from "mongoose-paginate-v2"
+import mongoose from "mongoose";
+import mongoosePaginate from "mongoose-paginate-v2";
 
 class Fornecedor {
     constructor() {
@@ -9,12 +9,12 @@ class Fornecedor {
                 index: true,
                 required: true
             },
-        })
+        });
 
-        fornecedorSchema.plugin(mongoosePaginate)
+        fornecedorSchema.plugin(mongoosePaginate);
 
-        this.model = mongoose.model("fornecedor", fornecedorSchema)
+        this.model = mongoose.model("fornecedores", fornecedorSchema);
     }
 }
 
-export default new Fornecedor().model
+export default new Fornecedor().model;

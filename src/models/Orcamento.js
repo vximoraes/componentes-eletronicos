@@ -32,7 +32,7 @@ class Orcamento {
 
         orcamentoSchema.plugin(mongoosePaginate);
 
-        this.model = mongoose.model("orcamento", orcamentoSchema);
+        this.model = mongoose.model("orcamentos", orcamentoSchema);
     }
 }
 
