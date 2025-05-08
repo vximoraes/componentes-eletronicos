@@ -21,20 +21,19 @@
  * });
  */
 class CustomError extends Error {
-    constructor({ statusCode, errorType, field = null, details = [], customMessage = null } = {}) {
-      // Usa a mensagem passada ou, se ausente, usa a customMessage ou uma mensagem padrão
-      super(customMessage || 'An error occurred');
-      this.name = 'CustomError';
-      this.statusCode = statusCode;
-      this.errorType = errorType;
-      this.field = field;
-      this.details = details;
-      this.customMessage = customMessage;
-      // Marca o erro como operacional para diferenciá-lo de erros internos inesperados
-      this.isOperational = true;
-      Error.captureStackTrace(this, this.constructor);
-    }
+  constructor({ statusCode, errorType, field = null, details = [], customMessage = null } = {}) {
+    // Usa a mensagem passada ou, se ausente, usa a customMessage ou uma mensagem padrão
+    super(customMessage || 'An error occurred');
+    this.name = 'CustomError';
+    this.statusCode = statusCode;
+    this.errorType = errorType;
+    this.field = field;
+    this.details = details;
+    this.customMessage = customMessage;
+    // Marca o erro como operacional para diferenciá-lo de erros internos inesperados
+    this.isOperational = true;
+    Error.captureStackTrace(this, this.constructor);
   }
-  
-  export default CustomError;
-  
+}
+
+export default CustomError;
