@@ -17,5 +17,4 @@
     - Usuario (Geovanna)
 
 ### Rotas
-
 - Fazer configurações iniciais.
