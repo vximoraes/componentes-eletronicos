@@ -5,7 +5,7 @@ import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 import compression from "compression";
-import DbConnect from './config/dbConnect.js';
+import DbConnect from './config/DbConnect.js';
 import errorHandler from './utils/helpers/errorHandler.js';
 import logger from './utils/logger.js';
 import CommonResponse from './utils/helpers/CommonResponse.js';

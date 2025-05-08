@@ -1,6 +1,8 @@
-import categoriaSeed from "./categoriaSeed";
-import dbConnect from "../config/dbConnect.js"
+import DbConnect from "../config/DbConnect.js";
+import categoriaSeed from "./categoriaSeed.js";
+import localizacaoSeed from "./localizacaoSeed.js";
 
-dbConnect.conectar()
+DbConnect.conectar();
 
 await categoriaSeed();
+await localizacaoSeed();
