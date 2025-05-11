@@ -22,12 +22,12 @@ export const fakeMappings = {
 
     Notificacao: {
         mensagem: () => {
-            const dispositivo = fakebr.commerce.productName();
-            const quantidade = fakebr.random.number({ min: 1, max: 50 }); 
+            const dispositivo = fakeMappings.Componente.nome();
+            const quantidade = fakebr.random.number({ min: 1, max: 50 });
             return `${dispositivo} está com estoque baixo (${quantidade} unidades)`;
         },
         data_hora: () => new Date().toISOString(),
-        visualizacao: () => fakebr.datatype.boolean(),
+        visualizacao: () => new Date().toISOString(),
         usuario: () => new mongoose.Types.ObjectId().toString(),
     },
 
@@ -60,7 +60,7 @@ export const fakeMappings = {
         imagem: () => fakebr.image.imageUrl(),
         categoria: () => new mongoose.Types.ObjectId().toString(),
         localizacao: () => new mongoose.Types.ObjectId().toString(),
-    }, 
+    },
 
     Fornecedor: {
         nome: () => fakebr.company.companyName(),
@@ -76,19 +76,26 @@ export const fakeMappings = {
     },
 
     ComponenteOrcamento: {
-        nome: () => fakebr.commerce.productName(),
+        nomesFixos: [
+            "Placa Arduino Uno",
+            "Sensor de Movimento",
+            "Display LCD 16x2",
+            "Módulo Relé 4 Canais",
+            "Módulo Wifi ESP8266",
+            "Kit Jumpers 120 peças"
+        ],
+        nome: () => fakebr.helpers.randomize(fakeMappings.ComponenteOrcamento.nomesFixos),
         fornecedor: () => fakebr.company.companyName(),
         quantidade: () => fakebr.random.number({ min: 1, max: 100 }),
         valor_unitario: () => fakebr.commerce.price(1, 1000, 2),
         subtotal: () => fakebr.commerce.price(1, 1000, 2),
         orca_id: () => new mongoose.Types.ObjectId().toString(),
-        fornecedor: () => fakebr.company.companyName(),
-        subtotal: () => fakebr.commerce.price(1, 1000, 2),
-        orcamento: () => new mongoose.Types.ObjectId().toString(),
     },
 
     Orcamento: {
-        nome: () => fakebr.commerce.productName(),
+        produtoNome: () => fakebr.commerce.productName(),
+        adjetivoNome: () => fakebr.lorem.word(),
+        nome: () => `Projeto ${fakeMappings.Orcamento.adjetivoNome()} - ${fakeMappings.Orcamento.produtoNome()}`,
         protocolo: () => uuid(),
         descricao: () => fakebr.lorem.sentence(),
         valor: () => fakebr.commerce.price(100, 10000, 2),
@@ -145,7 +152,7 @@ function validateModelMapping(model, modelName, mapping) {
     } else {
         console.log(`Model ${modelName} possui mapeamento para todos os campos.`);
     }
-    
+
     return missing;
 }
 
