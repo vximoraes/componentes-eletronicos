@@ -17,6 +17,4 @@ export default async function usuarioSeed() {
 
         await Usuario.create(usuario);
     }
-
-    console.log('Usuario criado com sucesso.')
 }

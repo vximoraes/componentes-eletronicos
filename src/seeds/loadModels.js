@@ -28,7 +28,7 @@ async function loadModels() {
             models.push({ model, name: modelName });
         }
     }
-    
+
     return models;
 }
 

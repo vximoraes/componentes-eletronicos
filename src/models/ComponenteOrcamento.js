@@ -25,10 +25,6 @@ class ComponenteOrcamento {
                 type: Number,
                 required: true
             },
-            orcamento: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "orcamento", required: true
-            }
         });
 
         componenteOrcamentoSchema.plugin(mongoosePaginate);

@@ -1,4 +1,4 @@
-import {fakeMappings} from './globalFakeMapping.js';
+import { fakeMappings } from './globalFakeMapping.js';
 import Notificacao from '../models/Notificacao.js';
 import Usuario from '../models/Usuario.js';
 
@@ -14,11 +14,8 @@ export default async function notificacaoSeed() {
             data_hora: fakeMappings.Notificacao.data_hora.apply(),
             visualizacao: fakeMappings.Notificacao.visualizacao.apply(),
             usuario: usuarioRandom._id
-
         };
 
         await Notificacao.create(notificacao);
-
     }
-
 }           
