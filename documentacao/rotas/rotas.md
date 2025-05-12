@@ -16,9 +16,9 @@
 - Retorno do objeto de usuário.
 - Em caso de falha, retornar mensagem de erro específica.
 
-## 2. Perfil de Usuário
+## 2. Usuário
 
-### 2.1 POST /usuario
+### 2.1 POST /usuarios
 
 #### Caso de Uso
 - Criar um novo registro de usuário no sistema.
@@ -37,7 +37,7 @@
 - Retorno do objeto de usuário criado com identificador único.
 - Em caso de falha, retornar mensagem de erro específica.
 
-### 2.2 GET /usuario/:id
+### 2.2 GET /usuarios/:id
 
 #### Caso de Uso
 - Obter informações detalhadas do perfil do usuário autenticado.
@@ -51,7 +51,7 @@
 - Inclusão de estatísticas de uso.
 - Em caso de falha, retornar mensagem de erro específica.
 
-### 2.3 PATCH /usuario/:id
+### 2.3 PATCH /usuarios/:id
 
 #### Caso de Uso
 - Atualizar informações do perfil do usuário autenticado.
