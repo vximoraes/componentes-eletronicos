@@ -74,7 +74,7 @@ class UsuarioController {
         // Remove campos indesejados, como a senha e outros que não devem ser expostos
         delete usuarioLimpo.senha;
 
-        return CommonResponse.success(res, data, 200, 'Usuário atualizado com sucesso. Porém, o e-mail é ignorado em tentativas de atualização, pois é opração proibida. IDs de Unidades e Grupos não cadastradas são ignoradas.');
+        return CommonResponse.success(res, data, 200, 'Usuário atualizado com sucesso. Porém, o e-mail é ignorado em tentativas de atualização, pois é operação proibida.');
     }
 
     // Deleta um usuário existente.
