@@ -39,12 +39,6 @@ class UsuarioRepository {
         }
 
         const documento = await this.model.findOne(filtro, '+senha')
-            .populate({
-                path: 'grupos',
-                populate: { path: 'unidades' }
-            })
-            .populate('permissoes')
-            .populate('unidades');
 
         return documento;
     }
@@ -140,17 +134,8 @@ class UsuarioRepository {
         resultado.docs = resultado.docs.map(doc => {
             const usuarioObj = typeof doc.toObject === 'function' ? doc.toObject() : doc;
 
-            const totalGrupos = usuarioObj.grupos ? usuarioObj.grupos.length : 0;
-            const totalUnidades = usuarioObj.unidades ? usuarioObj.unidades.length : 0;
-            const totalPermissoes = usuarioObj.permissoes ? usuarioObj.permissoes.length : 0;
-
             return {
                 ...usuarioObj,
-                estatisticas: {
-                    totalGrupos,
-                    totalUnidades,
-                    totalPermissoes
-                }
             };
         });
 
@@ -165,16 +150,7 @@ class UsuarioRepository {
 
     // Método atualizar usuário
     async atualizar(id, parsedData) {
-        const usuario = await this.model.findByIdAndUpdate(id, parsedData, { new: true })
-            .populate([
-                {
-                    path: 'grupos',
-                    populate: { path: 'unidades' }
-                },
-                'permissoes',
-                'unidades'
-            ])
-            .exec();
+        const usuario = await this.model.findByIdAndUpdate(id, parsedData, { new: true }).exec();
 
         if (!usuario) {
             throw new CustomError({
