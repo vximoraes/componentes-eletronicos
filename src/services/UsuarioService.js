@@ -29,8 +29,10 @@ class UsuarioService {
 
         console.log('Estou validando o schema em UsuarioService');
 
-        // Valida e processa o array de permissões
-        // parsedData.permissoes = await this.validatePermissions(parsedData.permissoes);
+        if (parsedData.senha) {
+            const saltRounds = 10;
+            parsedData.senha = await bcrypt.hash(parsedData.senha, saltRounds);
+        }
 
         console.log('Estou processando o schema em UsuarioService' + parsedData);
 
@@ -126,30 +128,30 @@ class UsuarioService {
 
     // Valida o array de permissões.
 
-    async validatePermissions(permissoes) {
-        // Se permissoes não for um array, define como array vazio
-        if (!Array.isArray(permissoes)) {
-            permissoes = [];
-        }
+    // async validatePermissions(permissoes) {
+    //     // Se permissoes não for um array, define como array vazio
+    //     if (!Array.isArray(permissoes)) {
+    //         permissoes = [];
+    //     }
 
-        if (permissoes.length > 0) {
-            PermissoesArraySchema.parse(permissoes);
-        }
+    //     if (permissoes.length > 0) {
+    //         PermissoesArraySchema.parse(permissoes);
+    //     }
 
-        const permissoesExistentes = await this.repository.buscarPorPermissao(permissoes);
+    //     const permissoesExistentes = await this.repository.buscarPorPermissao(permissoes);
 
-        if (permissoesExistentes.length !== permissoes.length) {
-            throw new CustomError({
-                statusCode: 400,
-                errorType: 'validationError',
-                field: 'permissoes',
-                details: [{ path: 'permissoes', message: 'Permissões inválidas.' }],
-                customMessage: 'Permissões inválidas.',
-            });
-        }
+    //     if (permissoesExistentes.length !== permissoes.length) {
+    //         throw new CustomError({
+    //             statusCode: 400,
+    //             errorType: 'validationError',
+    //             field: 'permissoes',
+    //             details: [{ path: 'permissoes', message: 'Permissões inválidas.' }],
+    //             customMessage: 'Permissões inválidas.',
+    //         });
+    //     }
 
-        return permissoesExistentes;
-    }
+    //     return permissoesExistentes;
+    // }
 
     // Garante que o usuário existe.
 
