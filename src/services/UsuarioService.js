@@ -10,42 +10,28 @@ class UsuarioService {
         this.repository = new UsuarioRepository();
     }
 
-    // Lista usuários. Se um objeto de request é fornecido (com query, por exemplo), retorna os usuários conforme os filtros.
-
     async listar(req) {
-        console.log('Estou no listar em UsuarioService');
         const data = await this.repository.listar(req);
-        console.log('Estou retornando os dados em UsuarioService');
+
         return data;
     }
 
-    // Cria um novo usuário após validação dos dados.
-
     async criar(parsedData) {
-        console.log('Estou no criar em UsuarioService');
-
         await this.validateEmail(parsedData.email);
-
-        console.log('Estou validando o schema em UsuarioService');
 
         if (parsedData.senha) {
             const saltRounds = 10;
             parsedData.senha = await bcrypt.hash(parsedData.senha, saltRounds);
         }
 
-        console.log('Estou processando o schema em UsuarioService' + parsedData);
-
         const data = await this.repository.criar(parsedData);
 
         return data;
     }
 
-    // Atualiza um usuário existente.
-    // Atenção: É proibido alterar o email. No serviço o objeto sempre chegará sem, pois o controller impedirá.
-
     async atualizar(id, parsedData) {
         delete parsedData.senha;
-        delete parsedData.email;
+        delete parsedData.email; // É proibido alterar o email. No service o objeto sempre chegará sem, pois o controller impedirá.
 
         await this.ensureUserExists(id);
 

@@ -35,9 +35,6 @@ class UsuarioRepository {
         return documento;
     }
 
-    // Método buscar por ID.
-    // Deve ser chamado por controllers ou services para retornar um usuário e ser utilizado em outras funções de validação cujo listar não atende por exigir req.
-
     async buscarPorId(id, includeTokens = false) {
         let query = this.model.findById(id);
 
@@ -59,19 +56,7 @@ class UsuarioRepository {
         return user;
     }
 
-    // Método buscar por permissão para saber se a permissão existe no cadastro de rotas e domínios.
-    // O método deve buscar combinando rota e domínio.
-
-    // async buscarPorPermissao(permissoes) {
-    //     const query = permissoes.map(p => ({
-    //         rota: p.rota,
-    //         dominio: p.dominio || null
-    //     }));
-    //     const rotasEncontradas = await this.rotaModel.find({ $or: query });
-    //     return rotasEncontradas;
-    // }
-
-    // Método listar usuário com suporte a filtros, paginação e enriquecimento com estatísticas.
+    // Métodos CRUD.
 
     async listar(req) {
         console.log('Estou no listar em UsuarioRepository');
@@ -100,12 +85,11 @@ class UsuarioRepository {
 
         // Caso não haja ID, retorna todos os usuários com suporte a filtros e paginação
         const { nome, email, page = 1 } = req.query;
-        const limite = Math.min(parseInt(req.query.limite, 10) || 10, 100);
+        const limite = Math.min(parseInt(req.query.limite, 20) || 20, 100);
 
         const filterBuilder = new UsuarioFilterBuilder()
             .comNome(nome || '')
             .comEmail(email || '')
-            // .comAtivo(ativo || '');
 
         if (typeof filterBuilder.build !== 'function') {
             throw new CustomError({
@@ -122,7 +106,7 @@ class UsuarioRepository {
             limit: limite,
         });
 
-        // Enriquecer cada usuário com estatísticas utilizando o length dos arrays
+        // Enriquecer cada usuário com estatísticas utilizando o length dos arrays.
         resultado.docs = resultado.docs.map(doc => {
             const usuarioObj = typeof doc.toObject === 'function' ? doc.toObject() : doc;
 
@@ -134,13 +118,11 @@ class UsuarioRepository {
         return resultado;
     }
 
-    // Método criar usuário
     async criar(dadosUsuario) {
         const usuario = new this.model(dadosUsuario);
         return await usuario.save();
     }
 
-    // Método atualizar usuário
     async atualizar(id, parsedData) {
         const usuario = await this.model.findByIdAndUpdate(id, parsedData, { new: true }).exec();
 
@@ -153,11 +135,10 @@ class UsuarioRepository {
                 customMessage: messages.error.resourceNotFound('Usuário')
             });
         }
-        
+
         return usuario;
     }
 
-    // Método deletar usuário
     async deletar(id) {
         const usuario = await this.model.findByIdAndDelete(id);
         return usuario;
