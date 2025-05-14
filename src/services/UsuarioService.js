@@ -44,50 +44,25 @@ class UsuarioService {
     // Atenção: É proibido alterar o email. No serviço o objeto sempre chegará sem, pois o controller impedirá.
 
     async atualizar(id, parsedData) {
-        console.log('Estou no atualizar em UsuarioService');
-
-        /**
-          * REGRA DE NEGÓCIO
-        */
-
-        // if (!parsedData.ativo) {
-        //     // Gerar um novo objeto com tokens nulos se o user estiver sendo desativado
-        //     parsedData.accesstoken = null
-        //     parsedData.refreshtoken = null
-        // }
-
-        // Senha nunca deve ser atualizada
         delete parsedData.senha;
         delete parsedData.email;
 
-        // Garante que o usuário existe
         await this.ensureUserExists(id);
 
-        // Se forem informadas permissões, valida-as
-        // if (parsedData.permissoes) {
-        //     parsedData.permissoes = await this.validatePermissions(parsedData.permissoes);
-        // }
-
         const data = await this.repository.atualizar(id, parsedData);
+
         return data;
     }
 
-    // Deleta um usuário existente.
-
     async deletar(id) {
-        console.log('Estou no deletar em UsuarioService');
-
         await this.ensureUserExists(id);
 
         const data = await this.repository.deletar(id);
+
         return data;
     }
 
-    ////////////////////////////////////////////////////////////////////////////////
-    // MÉTODOS AUXILIARES
-    ////////////////////////////////////////////////////////////////////////////////
-
-    // Valida a unicidade do email.
+    // Métodos auxiliares.
 
     async validateEmail(email, id = null) {
         const usuarioExistente = await this.repository.buscarPorEmail(email, id);
@@ -102,8 +77,6 @@ class UsuarioService {
         }
     }
 
-    // Garante que o usuário existe.
-
     async ensureUserExists(id) {
         const usuarioExistente = await this.repository.buscarPorId(id);
         if (!usuarioExistente) {
@@ -115,6 +88,7 @@ class UsuarioService {
                 customMessage: messages.error.resourceNotFound('Usuário'),
             });
         }
+
         return usuarioExistente;
     }
 }
