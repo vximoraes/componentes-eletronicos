@@ -5,7 +5,7 @@ import { CommonResponse, CustomError, HttpStatusCodes, errorHandler, messages, S
 
 class UsuarioRepository {
     constructor({
-        usuarioModel = UsuarioModel,
+        usuarioModel = UsuarioModel, 
     } = {}) {
         this.model = usuarioModel;
     }
@@ -19,14 +19,6 @@ class UsuarioRepository {
             const [rota, dominio] = combinacao.split('_');
             return { rota, dominio: dominio === 'undefined' ? null : dominio };
         });
-    }
-
-    // Obter permissões duplicadas na requisição.
-
-    async obterPermissoesDuplicadas(permissoes, combinacoesRecebidas) {
-        return permissoes.filter((p, index) =>
-            combinacoesRecebidas.indexOf(`${p.rota}_${p.dominio || 'undefined'}`) !== index
-        );
     }
 
     // Buscar usuário por email e, opcionalmente, por um ID diferente.
@@ -161,6 +153,7 @@ class UsuarioRepository {
                 customMessage: messages.error.resourceNotFound('Usuário')
             });
         }
+        
         return usuario;
     }
 
