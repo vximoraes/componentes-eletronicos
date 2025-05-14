@@ -31,7 +31,7 @@
 ## TAREFAS - Milestone 2
 
 - [ ] Requisitos Implementados na API (explicar como se deu a escolha e quantos vão ficar para a próxima milestone):
-    - Perfil de Usuário
+    - Usuário
     - Notificações 
     - Componentes
     - Movimentações
