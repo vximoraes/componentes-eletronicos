@@ -1,4 +1,3 @@
-// src/utils/validators/schemas/zod/BaseRotaSchema.js
 import { z } from 'zod';
 import ObjectID from './ObjectIdSchema.js';
 
