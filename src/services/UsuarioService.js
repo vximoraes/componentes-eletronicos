@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 import UsuarioRepository from '../repositories/UsuarioRepository.js';
-import { PermissoesArraySchema } from '../utils/validators/schemas/zod/PermissaoValidation.js';
 import { UsuarioSchema, UsuarioUpdateSchema } from '../utils/validators/schemas/zod/UsuarioSchema.js';
 import { CommonResponse, CustomError, HttpStatusCodes, errorHandler, messages, StatusService, asyncWrapper } from '../utils/helpers/index.js';
 import AuthHelper from '../utils/AuthHelper.js';
@@ -84,29 +83,6 @@ class UsuarioService {
         return data;
     }
 
-    // // Adiciona permissões a um usuário.
-
-    // async adicionarPermissoes(req) {
-    //     const parsedPermissoes = PermissoesArraySchema.parse(req.body.permissoes);
-    //     const result = await this.repository.adicionarPermissoes(req.params.id, parsedPermissoes);
-    //     return result;
-    // }
-
-    // Remove uma permissão de um usuário.
-
-    async removerPermissao(usuarioId, permissaoId) {
-        const result = await this.repository.removerPermissao(usuarioId, permissaoId);
-        return result;
-    }
-
-    // Atualiza as permissões de um usuário.
-
-    async atualizarPermissoes(usuarioId, permissoesData) {
-        const parsedData = PermissoesArraySchema.parse(permissoesData);
-        const result = await this.repository.atualizarPermissoes(usuarioId, parsedData);
-        return result;
-    }
-
     ////////////////////////////////////////////////////////////////////////////////
     // MÉTODOS AUXILIARES
     ////////////////////////////////////////////////////////////////////////////////
@@ -125,33 +101,6 @@ class UsuarioService {
             });
         }
     }
-
-    // Valida o array de permissões.
-
-    // async validatePermissions(permissoes) {
-    //     // Se permissoes não for um array, define como array vazio
-    //     if (!Array.isArray(permissoes)) {
-    //         permissoes = [];
-    //     }
-
-    //     if (permissoes.length > 0) {
-    //         PermissoesArraySchema.parse(permissoes);
-    //     }
-
-    //     const permissoesExistentes = await this.repository.buscarPorPermissao(permissoes);
-
-    //     if (permissoesExistentes.length !== permissoes.length) {
-    //         throw new CustomError({
-    //             statusCode: 400,
-    //             errorType: 'validationError',
-    //             field: 'permissoes',
-    //             details: [{ path: 'permissoes', message: 'Permissões inválidas.' }],
-    //             customMessage: 'Permissões inválidas.',
-    //         });
-    //     }
-
-    //     return permissoesExistentes;
-    // }
 
     // Garante que o usuário existe.
 
