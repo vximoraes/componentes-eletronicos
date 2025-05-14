@@ -11,9 +11,9 @@ const notificacaoController = new notificacaoController();
 
 
 router
-    .post("/notificacao", AuthMiddleware, authPermission, asyncWrapper(notificacaoController.criar.bind(notificacaoController)))
-    .get("/notificacao", AuthMiddleware, authPermission, asyncWrapper(notificacaoController.listar.bind(notificacaoController)))
-    .get("/notificacao/:id", AuthMiddleware, authPermission, asyncWrapper(notificacaoController.listarPorId.bind(notificacaoController)));
+    .post("/notificacao",/* AuthMiddleware, authPermission,*/ asyncWrapper(notificacaoController.criar.bind(notificacaoController)))
+    .get("/notificacao", /*AuthMiddleware, authPermission,*/ asyncWrapper(notificacaoController.listar.bind(notificacaoController)))
+    .get("/notificacao/:id",/* AuthMiddleware, authPermission,*/ asyncWrapper(notificacaoController.listarPorId.bind(notificacaoController)));
 
 export default router;
     
