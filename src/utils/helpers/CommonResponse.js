@@ -1,5 +1,3 @@
-// src/utils/helpers/CommonResponse.js
-
 import StatusService from './StatusService.js';
 
 class CommonResponse {

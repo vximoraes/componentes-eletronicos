@@ -1,6 +1,5 @@
-// /src/utils/swagger_utils/removeFields.js
+// Função recursiva para remover propriedades indesejadas.
 
-// Função recursiva para remover propriedades indesejadas
 export default function removeFieldsRecursively(obj, fieldsToRemove) {
     if (Array.isArray(obj)) {
         obj.forEach(item => removeFieldsRecursively(item, fieldsToRemove));

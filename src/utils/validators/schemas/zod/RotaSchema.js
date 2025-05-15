@@ -1,4 +1,3 @@
-// src/utils/validators/schemas/zod/RotaSchema.js
 import { z } from 'zod';
 import { BaseRotaSchema } from './BaseRotaSchema.js';
 

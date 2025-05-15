@@ -1,5 +1,3 @@
-// src/utils/helpers/StatusService.js
-
 import HttpStatusCodes from './HttpStatusCodes.js';
 import messages from './messages.js';
 

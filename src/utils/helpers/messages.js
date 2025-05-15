@@ -1,23 +1,21 @@
-// src/utils/helpers/messages.js
-
 const messages = {
-    // Mensagens Informativas
+    // Mensagens Informativas.
     info: {
         welcome: "Bem-vindo à nossa aplicação!",
         userLoggedIn: (username) => `Usuário ${username} logado com sucesso.`,
     },
 
-    // Mensagens de Sucesso
+    // Mensagens de Sucesso.
     success: {
         default: "Operação concluída com sucesso.",
     },
 
-    // Mensagens de aviso de atorização
+    // Mensagens de aviso de atorização.
     authorized: {
         default: "autorizado",
     },
 
-    // Mensagens de Erro
+    // Mensagens de Erro.
     error: {
         default: "Ocorreu um erro ao processar a solicitação.",
         serverError: "Erro interno do servidor. Tente novamente mais tarde.",
@@ -42,7 +40,7 @@ const messages = {
         resourceNotFound: (fieldName) => `Recurso não encontrado em ${fieldName}.`,
     },
 
-    // Mensagens de Validação
+    // Mensagens de Validação.
     validation: {
         generic: {
             fieldIsRequired: (fieldName) => `O campo ${fieldName} é obrigatório.`,
@@ -80,7 +78,7 @@ const messages = {
         },
     },
 
-    // Mensagens de Autenticação
+    // Mensagens de Autenticação.
     auth: {
         authenticationFailed: "Falha na autenticação. Credenciais inválidas.",
         userNotFound: (userId) => `Usuário com ID ${userId} não encontrado.`,

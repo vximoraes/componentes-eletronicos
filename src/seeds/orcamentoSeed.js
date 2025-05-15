@@ -16,6 +16,7 @@ export default async function orcamentoSeed() {
             valor: fakeMappings.Orcamento.valor.apply(),
             componentes: componentesIds.splice(0, 3)
         };
+        
         await Orcamento.create(orcamento);
     }
 }

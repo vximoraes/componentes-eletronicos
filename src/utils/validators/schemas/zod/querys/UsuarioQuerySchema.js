@@ -14,7 +14,8 @@ export const UsuarioQuerySchema = z.object({
         })
         .transform((val) => val?.trim()),
     email: z
-        .union([z.string().email("Formato de email inválido"), z.undefined()])
+        .union([z.string()
+        .email("Formato de email inválido"), z.undefined()])
         .optional(),
     ativo: z
         .string()
@@ -22,8 +23,6 @@ export const UsuarioQuerySchema = z.object({
         .refine((value) => !value || value === "true" || value === "false", {
             message: "Ativo deve ser 'true' ou 'false'",
         }),
-    grupo: z.string().optional().transform((val) => val?.trim()),
-    unidade: z.string().optional().transform((val) => val?.trim()),
     page: z
         .string()
         .optional()

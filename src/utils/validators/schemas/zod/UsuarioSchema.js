@@ -1,16 +1,10 @@
-// src/utils/validators/schemas/zod/UsuarioSchema.js
-
 import { z } from 'zod';
 import objectIdSchema from './ObjectIdSchema.js';
 import { RotaSchema } from './RotaSchema.js';
 
-/** Definição da expressão regular para a senha
- * Padrão: 1 letra maiúscula, 1 letra minúscula, 1 número e 1 caractere especial
- * Tamanho mínimo: 8 caracteres
- **/
 const senhaRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
-// Validação de array de ObjectId sem duplicações
+// Validação de array de ObjectId sem duplicações.
 const distinctObjectIdArray = z
   .array(objectIdSchema)
   .refine(
@@ -30,7 +24,7 @@ const UsuarioSchema = z.object({
     .optional()
     .refine(
       (senha) => {
-        // Senha é opcional
+        // Senha é opcional.
         if (!senha) return true;
         return senhaRegex.test(senha);
       },
@@ -39,17 +33,11 @@ const UsuarioSchema = z.object({
           'A senha deve conter pelo menos 1 letra maiúscula, 1 letra minúscula, 1 número e 1 caractere especial.',
       }
     ),
-  link_foto: z.string().optional(),
-  ativo: z.boolean().default(false),
-
-  // Arrays sem ids repetidos:
-  grupos: distinctObjectIdArray.default([]),
-  unidades: distinctObjectIdArray.default([]),
-
-  // Permissões permanece como estava
-  permissoes: z.array(RotaSchema).default([]),
+    ativo: z.boolean().default(false),
 });
 
-const UsuarioUpdateSchema = UsuarioSchema.partial();
+const UsuarioUpdateSchema = UsuarioSchema
+  .omit({ email: true })
+  .partial(); 
 
 export { UsuarioSchema, UsuarioUpdateSchema };
