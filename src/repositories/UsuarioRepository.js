@@ -87,10 +87,15 @@ class UsuarioRepository {
             });
         }
 
-        const resultado = await this.model.paginate(filterBuilder.build(), {
-            page,
-            limit: limite,
-        });
+        const filtros = filterBuilder.build()
+
+        const opttions = {
+            page: parseInt(page, 10),
+            limit: parseInt(limite, 10),
+            sort: { nome: 1 }
+        }
+
+        const resultado = await this.model.paginate(filtros, options);
 
         // Enriquecer cada usuário com estatísticas utilizando o length dos arrays.
         resultado.docs = resultado.docs.map(doc => {
