@@ -17,6 +17,12 @@ export const UsuarioQuerySchema = z.object({
         .union([z.string()
         .email("Formato de email inválido"), z.undefined()])
         .optional(),
+    ativo: z
+        .string()
+        .optional()
+        .refine((value) => !value || value === "true" || value === "false", {
+            message: "Ativo deve ser 'true' ou 'false'",
+        }),
     page: z
         .string()
         .optional()

@@ -13,6 +13,7 @@ export default async function usuarioSeed() {
             nome: fakeMappings.Usuario.nome.apply(),
             email: fakeMappings.Usuario.email.apply(),
             senha: senhaCriptografada,
+            ativo: fakeMappings.Usuario.ativo.apply()
         };
 
         await Usuario.create(usuario);

@@ -33,8 +33,11 @@ const UsuarioSchema = z.object({
           'A senha deve conter pelo menos 1 letra maiúscula, 1 letra minúscula, 1 número e 1 caractere especial.',
       }
     ),
+    ativo: z.boolean().default(false),
 });
 
-const UsuarioUpdateSchema = UsuarioSchema.partial();
+const UsuarioUpdateSchema = UsuarioSchema
+  .omit({ email: true })
+  .partial(); 
 
 export { UsuarioSchema, UsuarioUpdateSchema };

@@ -1,6 +1,7 @@
 import fakebr from 'faker-br';
 import mongoose from 'mongoose';
 import { v4 as uuid } from 'uuid';
+import TokenUtil from '../utils/TokenUtil.js';
 import loadModels from './loadModels.js';
 
 export const fakeMappings = {
@@ -17,7 +18,11 @@ export const fakeMappings = {
     Usuario: {
         nome: () => `${fakebr.name.firstName()} ${fakebr.name.lastName()} ${fakebr.name.lastName()}`,
         email: () => fakebr.internet.email(),
-        senha: () => fakebr.internet.password()
+        senha: () => fakebr.internet.password(),
+        ativo: () => fakebr.random.boolean(),
+        // tokenUnico: () => TokenUtil.generateAccessToken(new mongoose.Types.ObjectId().toString()),
+        // refreshtoken: () => TokenUtil.generateRefreshToken(new mongoose.Types.ObjectId().toString()),
+        // accesstoken: () => TokenUtil.generateAccessToken(new mongoose.Types.ObjectId().toString()),
     },
 
     Notificacao: {
