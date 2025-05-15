@@ -20,6 +20,7 @@
     "faker-br": "^0.4.1",
     "fs": "^0.0.1-security",
     "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.15.0",
     "mongoose": "^8.13.2",
     "mongoose-paginate-v2": "^1.9.0",
