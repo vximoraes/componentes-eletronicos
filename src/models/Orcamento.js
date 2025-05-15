@@ -1,7 +1,6 @@
 import mongoose from "mongoose"
 import mongoosePaginate from "mongoose-paginate-v2"
 
-// Falta colocar as chaves estrangeiras e array de componente_orcamento
 class Orcamento {
     constructor() {
         const orcamentoSchema = new mongoose.Schema({
@@ -26,7 +25,7 @@ class Orcamento {
             componentes:
                 [{
                     type: mongoose.Schema.Types.ObjectId,
-                    ref: "componente_orcamento"
+                    ref: "componente_orcamentos"
                 }]
         })
 

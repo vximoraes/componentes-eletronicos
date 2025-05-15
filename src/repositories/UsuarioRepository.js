@@ -10,7 +10,7 @@ class UsuarioRepository {
     }
 
     // Buscar usuário por email e, opcionalmente, por um ID diferente.
-
+    
     async buscarPorEmail(email, idIgnorado = null) {
         const filtro = { email };
 
@@ -45,6 +45,11 @@ class UsuarioRepository {
     }
 
     // Métodos CRUD.
+
+    async criar(dadosUsuario) {
+        const usuario = new this.model(dadosUsuario);
+        return await usuario.save();
+    }
 
     async listar(req) {
         const id = req.params.id || null;
@@ -89,7 +94,7 @@ class UsuarioRepository {
 
         const filtros = filterBuilder.build()
 
-        const opttions = {
+        const options = {
             page: parseInt(page, 10),
             limit: parseInt(limite, 10),
             sort: { nome: 1 }
@@ -109,14 +114,8 @@ class UsuarioRepository {
         return resultado;
     }
 
-    async criar(dadosUsuario) {
-        const usuario = new this.model(dadosUsuario);
-        return await usuario.save();
-    }
-
     async atualizar(id, parsedData) {
         const usuario = await this.model.findByIdAndUpdate(id, parsedData, { new: true }).exec();
-
         if (!usuario) {
             throw new CustomError({
                 statusCode: 404,

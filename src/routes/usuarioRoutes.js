@@ -9,7 +9,7 @@ const router = express.Router();
 const usuarioController = new UsuarioController(); 
 
 router
-    .get("/usuarios", /*AuthMiddleware, *authPermission,*/ asyncWrapper(usuarioController.listar.bind(usuarioController)))
+    .get("/usuarios", /*AuthMiddleware, authPermission,*/ asyncWrapper(usuarioController.listar.bind(usuarioController)))
     .get("/usuarios/:id", /*AuthMiddleware, authPermission,*/ asyncWrapper(usuarioController.listar.bind(usuarioController)))
     .post("/usuarios", /*AuthMiddleware, authPermission,*/ asyncWrapper(usuarioController.criar.bind(usuarioController)))
     .patch("/usuarios/:id", /*AuthMiddleware, authPermission,*/ asyncWrapper(usuarioController.atualizar.bind(usuarioController)))

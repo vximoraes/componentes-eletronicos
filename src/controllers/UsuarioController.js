@@ -20,6 +20,7 @@ class UsuarioController {
         }
 
         const data = await this.service.listar(req);
+
         return CommonResponse.success(res, data);
     }
 
@@ -28,7 +29,6 @@ class UsuarioController {
         let data = await this.service.criar(parsedData);
 
         let usuarioLimpo = data.toObject();
-
         delete usuarioLimpo.senha;
 
         return CommonResponse.created(res, usuarioLimpo);
@@ -42,7 +42,6 @@ class UsuarioController {
         const data = await this.service.atualizar(id, parsedData);
 
         let usuarioLimpo = data.toObject();
-
         delete usuarioLimpo.senha;
 
         return CommonResponse.success(res, data, 200, 'Usuário atualizado com sucesso. Porém, o e-mail é ignorado em tentativas de atualização, pois é operação proibida.');
