@@ -1,4 +1,3 @@
-import mongoose from 'mongoose';
 import UsuarioFilterBuilder from './filters/UsuarioFilterBuilder.js';
 import UsuarioModel from '../models/Usuario.js';
 import { CommonResponse, CustomError, HttpStatusCodes, errorHandler, messages, StatusService, asyncWrapper } from '../utils/helpers/index.js';
@@ -8,17 +7,6 @@ class UsuarioRepository {
         usuarioModel = UsuarioModel, 
     } = {}) {
         this.model = usuarioModel;
-    }
-
-    // Obter combinações únicas de rota e domínio a partir das permissões.
-
-    async obterParesRotaDominioUnicos(permissoes) {
-        const combinacoes = permissoes.map(p => `${p.rota}_${p.dominio || 'undefined'}`);
-        const combinacoesUnicas = [...new Set(combinacoes)];
-        return combinacoesUnicas.map(combinacao => {
-            const [rota, dominio] = combinacao.split('_');
-            return { rota, dominio: dominio === 'undefined' ? null : dominio };
-        });
     }
 
     // Buscar usuário por email e, opcionalmente, por um ID diferente.
@@ -38,9 +26,9 @@ class UsuarioRepository {
     async buscarPorId(id, includeTokens = false) {
         let query = this.model.findById(id);
 
-        if (includeTokens) {
-            query = query.select('+refreshtoken +accesstoken');
-        }
+        // if (includeTokens) {
+        //     query = query.select('+refreshtoken +accesstoken');
+        // }
 
         const user = await query;
 
@@ -59,7 +47,6 @@ class UsuarioRepository {
     // Métodos CRUD.
 
     async listar(req) {
-        console.log('Estou no listar em UsuarioRepository');
         const id = req.params.id || null;
 
         // Se um ID for fornecido, retorna o usuário enriquecido com estatísticas.
@@ -83,9 +70,8 @@ class UsuarioRepository {
             return dataWithStats;
         }
 
-        // Caso não haja ID, retorna todos os usuários com suporte a filtros e paginação
         const { nome, email, page = 1 } = req.query;
-        const limite = Math.min(parseInt(req.query.limite, 20) || 20, 100);
+        const limite = Math.min(parseInt(req.query.limite, 10) || 10, 100);
 
         const filterBuilder = new UsuarioFilterBuilder()
             .comNome(nome || '')

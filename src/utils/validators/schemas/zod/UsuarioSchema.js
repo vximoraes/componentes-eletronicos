@@ -4,7 +4,7 @@ import { RotaSchema } from './RotaSchema.js';
 
 const senhaRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
-// Validação de array de ObjectId sem duplicações
+// Validação de array de ObjectId sem duplicações.
 const distinctObjectIdArray = z
   .array(objectIdSchema)
   .refine(
@@ -24,7 +24,7 @@ const UsuarioSchema = z.object({
     .optional()
     .refine(
       (senha) => {
-        // Senha é opcional
+        // Senha é opcional.
         if (!senha) return true;
         return senhaRegex.test(senha);
       },

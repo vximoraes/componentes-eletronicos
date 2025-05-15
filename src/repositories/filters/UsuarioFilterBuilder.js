@@ -22,48 +22,6 @@ class UsuarioFilterBuilder {
         return this;
     }
 
-    comAtivo(ativo = 'true') {
-        if (ativo === 'true') {
-            this.filtros.ativo = true;
-        }
-        if (ativo === 'false') {
-            this.filtros.ativo = false;
-        }
-        this.filtros = {};
-        return this;
-    }
-
-    async comGrupo(grupo) {
-        if (grupo) {
-            // Não re-instancie o grupoRepository aqui.
-            const gruposEncontrados = await this.grupoRepository.buscarPorNome(grupo);
-
-            const grupoIds = gruposEncontrados
-                ? Array.isArray(gruposEncontrados)
-                    ? gruposEncontrados.map(g => g._id)
-                    : [gruposEncontrados._id]
-                : [];
-
-            this.filtros.grupos = { $in: grupoIds };
-        }
-        return this;
-    }
-
-    async comUnidade(unidade) {
-        if (unidade) {
-            const unidadesEncontradas = await this.unidadeRepository.buscarPorNome(unidade);
-
-            const unidadeIds = unidadesEncontradas
-                ? Array.isArray(unidadesEncontradas)
-                    ? unidadesEncontradas.map(u => u._id)
-                    : [unidadesEncontradas._id]
-                : [];
-
-            this.filtros.unidades = { $in: unidadeIds };
-        }
-        return this;
-    }
-
     escapeRegex(texto) {
         return texto.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
     }

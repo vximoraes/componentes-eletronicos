@@ -1,5 +1,3 @@
-// src/utils/helpers/CustomError.js
-
 /**
  * Classe CustomError para manipulação de erros customizados.
  * Permite definir propriedades adicionais que auxiliam no tratamento
@@ -22,7 +20,7 @@
  */
 class CustomError extends Error {
   constructor({ statusCode, errorType, field = null, details = [], customMessage = null } = {}) {
-    // Usa a mensagem passada ou, se ausente, usa a customMessage ou uma mensagem padrão
+    // Usa a mensagem passada ou, se ausente, usa a customMessage ou uma mensagem padrão.
     super(customMessage || 'An error occurred');
     this.name = 'CustomError';
     this.statusCode = statusCode;
@@ -30,7 +28,7 @@ class CustomError extends Error {
     this.field = field;
     this.details = details;
     this.customMessage = customMessage;
-    // Marca o erro como operacional para diferenciá-lo de erros internos inesperados
+    // Marca o erro como operacional para diferenciá-lo de erros internos inesperados.
     this.isOperational = true;
     Error.captureStackTrace(this, this.constructor);
   }

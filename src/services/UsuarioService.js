@@ -1,9 +1,7 @@
-import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 import UsuarioRepository from '../repositories/UsuarioRepository.js';
-import { UsuarioSchema, UsuarioUpdateSchema } from '../utils/validators/schemas/zod/UsuarioSchema.js';
 import { CommonResponse, CustomError, HttpStatusCodes, errorHandler, messages, StatusService, asyncWrapper } from '../utils/helpers/index.js';
-import AuthHelper from '../utils/AuthHelper.js';
+// import AuthHelper from '../utils/AuthHelper.js';
 
 class UsuarioService {
     constructor() {

@@ -14,7 +14,8 @@ export const UsuarioQuerySchema = z.object({
         })
         .transform((val) => val?.trim()),
     email: z
-        .union([z.string().email("Formato de email inválido"), z.undefined()])
+        .union([z.string()
+        .email("Formato de email inválido"), z.undefined()])
         .optional(),
     page: z
         .string()
