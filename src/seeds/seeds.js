@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import DbConnect from "../config/DbConnect.js";
 import categoriaSeed from "./categoriaSeed.js";
 import localizacaoSeed from "./localizacaoSeed.js";
@@ -9,16 +10,25 @@ import notificacaoSeed from "./notificacaoSeed.js";
 import componenteOrcamentoSeed from "./componenteOrcamentoSeed.js";
 import orcamentoSeed from "./orcamentoSeed.js";
 
-DbConnect.conectar();
+await DbConnect.conectar();
 
-await categoriaSeed();
-await localizacaoSeed();
-await componenteSeed();
-await fornecedorSeed();
-await movimentacaoSeed();
-await usuarioSeed();
-await notificacaoSeed();
-await componenteOrcamentoSeed();
-await orcamentoSeed();
+try {
+    console.log(`[${new Date().toLocaleString()}] - Iniciando criação das seeds...`);
 
-DbConnect.desconectar();
+    await categoriaSeed();
+    await localizacaoSeed();
+    await componenteSeed();
+    await fornecedorSeed();
+    await movimentacaoSeed();
+    await usuarioSeed();
+    await notificacaoSeed();
+    await componenteOrcamentoSeed();
+    await orcamentoSeed();
+
+    console.log(`[${new Date().toLocaleString()}] - Seeds criadas com sucesso!`);
+} catch (error) {
+    console.error("Erro ao criar seeds:", error);
+} finally {
+    mongoose.connection.close();
+    process.exit(0);
+}
