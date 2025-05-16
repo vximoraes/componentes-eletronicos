@@ -4,26 +4,15 @@
 
 ### Rotas
 
-#### Implementar rotas do sistema:
-    - Perfil de Usuário (Vinícius)
-        - POST /usuario
-        - GET /usuario/:id
-        - PATCH /usuario/:id
-    - Notificações (Geovanna)
-        - POST /notificacao
-        - GET /notificacao
-        - GET /notificacao/:id
+#### Implementar rotas, controllers, services e repositories:
+    - Usuário (Vinícius)
+    - Categoria & Localização (Vinícius)
+    - Notificação (Geovanna)
 
 ### Testes
 
 #### Implementar testes unitários:
 
-    - Rotas
-        - Perfil de Usuário (Vinícius)
-            - POST /usuario
-            - GET /usuario/:id
-            - PATCH /usuario/:id
-        - Notificações (Geovanna)
-            - POST /notificacao
-            - GET /notificacao
-            - GET /notificacao/:id
+    - Controllers, services, repositories:
+        - Usuário (Vinícius)
+        - Notificação (Geovanna)
