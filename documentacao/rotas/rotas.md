@@ -27,8 +27,8 @@
 - Validação de dados (todos obrigatórios):
    - Nome: Mínimo 3 caracteres.
    - E-mail: Formato válido, único no sistema.
-   - Senha: Mínimo 8 caracteres, letras maiúsculas, letras minúsculas, números, caracteres especiais.
-   - Confirmação de senha deve ser idêntica.
+   - Senha: Mínimo 8 caracteres, letras maiúsculas, letras minúsculas, números e caracteres especiais.
+   - Ativo: true ou false
 - Segurança:
    - Criptografar senha antes do armazenamento.
 
@@ -37,33 +37,63 @@
 - Retorno do objeto de usuário criado com identificador único.
 - Em caso de falha, retornar mensagem de erro específica.
 
-### 2.2 GET /usuarios/:id
+### 2.2 GET /usuarios
+
+#### Caso de Uso
+- Recuperar uma lista completa de todos os usuários cadastrados no sistema.
+
+#### Regras de Negócio
+- Paginação: A resposta deve suportar paginação, permitindo limitar a quantidade de usuários retornados por solicitação.
+- Filtragem: Permitir filtragem por atributos como nome, e-mail ou status do usuário.
+- A senha dos usuários não devem ser retornadas.
+
+#### Resultado
+- Retorno de uma lista de usuários, incluindo informações básicas (nome, e-mail, status).
+- Inclusão de informações adicionais como contagem total de usuários e dados da página atual.
+- Em caso de falha, retornar mensagem de erro específica.
+
+### 2.3 GET /usuarios/:id
 
 #### Caso de Uso
 - Obter informações detalhadas do perfil do usuário autenticado.
 
 #### Regras de Negócio
-- Validação de Atributos: Recuperar apenas dados do usuário logado.
-- Segurança: Acesso restrito ao próprio usuário.
+- A senha do usuário não deve ser retornada.
 
 #### Resultado
 - Retorno de informações completas do perfil.
-- Inclusão de estatísticas de uso.
 - Em caso de falha, retornar mensagem de erro específica.
 
-### 2.3 PATCH /usuarios/:id
+### 2.4 PATCH/PUT /usuarios/:id
 
 #### Caso de Uso
-- Atualizar informações do perfil do usuário autenticado.
+- Atualizar informações do perfil do usuário.
 
 #### Regras de Negócio
-- Permitir atualização de um ou mais campos independentemente.
+- Apenas o nome e o status ativo (true/false) podem ser atualizados.
 - Verificar a integridade apenas dos campos enviados.
-- Garantir unicidade e formato de e-mail válido, se alterado.
+- A senha não pode ser alterada através desta requisição.
+- O e-mail é único e não pode ser alterado.
 
 #### Resultado
 - Atualização bem-sucedida de informações do perfil.
 - Retorno apenas dos campos modificados.
+- Em caso de falha, retornar mensagem de erro específica.
+
+### 2.5 DELETE /usuarios/:id
+
+#### Caso de Uso
+- Desativar um usuário do sistema.
+
+#### Regras de Negócio
+- Desativação em vez de Exclusão:
+   - Ao invés de excluir o usuário, a operação deverá alterar o status do usuário para inativo.
+   - O campo ```ativo``` deve ser setado para ```false```.
+- Preservação de Dados:
+   - Manter todos os dados históricos do usuário, garantindo a integridade referencial em relação a outros dados no sistema.
+
+#### Resultado
+- Em caso de sucesso, retornar uma mensagem confirmando que o usuário foi desativado.
 - Em caso de falha, retornar mensagem de erro específica.
 
 ## 3. Componentes
