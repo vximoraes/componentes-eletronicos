@@ -87,8 +87,7 @@
 
 #### Regras de Negócio
 - Desativação em vez de Exclusão:
-   - Ao invés de excluir o usuário, a operação deverá alterar o status do usuário para inativo.
-   - O campo ```ativo``` deve ser setado para ```false```.
+   - Ao invés de excluir o usuário, a operação deverá alterar o campo ```ativo``` deve para ```false```.
 - Preservação de Dados:
    - Manter todos os dados históricos do usuário, garantindo a integridade referencial em relação a outros dados no sistema.
 
