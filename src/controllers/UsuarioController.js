@@ -49,15 +49,7 @@ class UsuarioController {
 
     async deletar(req, res) {
         const { id } = req.params || {};
-        if (!id) {
-            throw new CustomError({
-                statusCode: HttpStatusCodes.BAD_REQUEST.code,
-                errorType: 'validationError',
-                field: 'id',
-                details: [],
-                customMessage: 'ID do usuário é obrigatório para deletar.'
-            });
-        }
+        UsuarioIdSchema.parse(id);
 
         const data = await this.service.deletar(id);
 
