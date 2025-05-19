@@ -1,4 +1,4 @@
-import NotificacaoRepository from "../repositories/notificacaoRepository.js";
+import NotificacaoRepository from "../repositories/NotificacaoRepository";
 
 class NotificacaoService {
   async listarTodas(query) {

@@ -1,7 +1,6 @@
 import { fakeMappings } from './globalFakeMapping.js';
 import Notificacao from '../models/Notificacao.js';
 import Usuario from '../models/Usuario.js';
-import notificacaoRoutes from '../routes/notificacaoRoutes.js';
 
 export default async function notificacaoSeed() {
     const usuarios = await Usuario.find({});

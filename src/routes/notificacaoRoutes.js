@@ -1,13 +1,8 @@
 import express from "express";
-//import AuthMiddlare from "../middlewares/.js"
-//import authPermission from '../middlewares/.js';
 import { asyncWrapper } from '../utils/helpers/index.js';
 import notificacaoController from '../controllers/NotificacaoController.js';
-import notificacaoSeed from "../seeds/notificacaoSeed.js";
 
 const router = express.Router();
-
-const notificacaoController = new notificacaoController();
 
 
 router

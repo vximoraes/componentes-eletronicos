@@ -1,32 +1,28 @@
 import mongoose from "mongoose";
 import mongoosePaginate from "mongoose-paginate-v2";
 
-class Notificacao {
-    constructor() {
-        const notificacaoSchema = new mongoose.Schema({
-            mensagem: {
-                type: String,
-                index: true,
-                required: true
-            },
-            data_hora: {
-                type: Date,
-                required: true,
-                default: Date.now
-            },
-            visualizacao: {
-                type: Date,
-                default: null
-            },
-            usuario: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "usuario", 
-                required: true
-            }
-        });
+const notificacaoSchema = new mongoose.Schema({
+  mensagem: {
+    type: String,
+    index: true,
+    required: true
+  },
+  data_hora: {
+    type: Date,
+    required: true,
+    default: Date.now
+  },
+  visualizacao: {
+    type: Date,
+    default: null
+  },
+  usuario: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "usuario", 
+    required: true
+  }
+});
 
-        notificacaoSchema.plugin(mongoosePaginate);
-    }
-}
+notificacaoSchema.plugin(mongoosePaginate);
 
 export default mongoose.model("notificacao", notificacaoSchema);
