@@ -14,3 +14,18 @@ class NotificacaoService {
       populate: "usuario"
     });
 }
+
+ async buscarPorId(id) {
+    return await NotificacaoRepository.findById(id);
+  }
+
+  async criar(data) {
+    return await NotificacaoRepository.create(data);
+  }
+
+  async listar(id, data) {
+    return await NotificacaoRepository.update(id, data);
+  }
+}
+
+export default new NotificacaoService();
