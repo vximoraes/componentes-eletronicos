@@ -1,9 +1,9 @@
 import express from "express";
 //import AuthMiddlare from "../middlewares/.js"
 //import authPermission from '../middlewares/.js';
-import GrupoController from '../controllers/GrupoController.js';
 import { asyncWrapper } from '../utils/helpers/index.js';
-// import NotificacaoController from '../controllers/NotificacaoController.js';
+import notificacaoController from '../controllers/NotificacaoController.js';
+import notificacaoSeed from "../seeds/notificacaoSeed.js";
 
 const router = express.Router();
 
