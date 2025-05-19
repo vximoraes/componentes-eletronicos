@@ -1,15 +1,15 @@
-import CategoriaFilterBuilder from './filters/CategoriaFilterBuilder.js';
-import CategoriaModel from '../models/Categoria.js';
+import LocalizacaoFilterBuilder from './filters/LocalizacaoFilterBuilder.js';
+import LocalizacaoModel from '../models/Localizacao.js';
 import { CommonResponse, CustomError, HttpStatusCodes, errorHandler, messages, StatusService, asyncWrapper } from '../utils/helpers/index.js';
 
-class CategoriaRepository {
+class LocalizacaoRepository {
     constructor({
-        categoriaModel = CategoriaModel, 
+        localizacaoModel = LocalizacaoModel, 
     } = {}) {
-        this.model = categoriaModel;
+        this.model = localizacaoModel;
     }
 
-    // Buscar categoria por um ID diferente.
+    // Buscar localização por um ID diferente.
 
     async buscarPorNome(nome, idIgnorado) {
         const filtro = { nome };
@@ -30,26 +30,26 @@ class CategoriaRepository {
         //     query = query.select('+refreshtoken +accesstoken');
         // }
 
-        const categoria = await query;
+        const localizacao = await query;
 
-        if (!categoria) {
+        if (!localizacao) {
             throw new CustomError({
                 statusCode: 404,
                 errorType: 'resourceNotFound',
-                field: 'Categoria',
+                field: 'Localizacao',
                 details: [],
-                customMessage: messages.error.resourceNotFound('Categoria')
+                customMessage: messages.error.resourceNotFound('Localizacao')
             });
         }
 
-        return categoria;
+        return localizacao;
     }
 
     // Métodos CRUD.
 
-    async criar(dadosCategoria) {
-        const categoria = new this.model(dadosCategoria);
-        return await categoria.save();
+    async criar(dadosLocalizacao) {
+        const localizacao = new this.model(dadosLocalizacao);
+        return await localizacao.save();
     }
 
     async listar(req) {
@@ -63,9 +63,9 @@ class CategoriaRepository {
                 throw new CustomError({
                     statusCode: 404,
                     errorType: 'resourceNotFound',
-                    field: 'Categoria',
+                    field: 'Localizacao',
                     details: [],
-                    customMessage: messages.error.resourceNotFound('Categoria')
+                    customMessage: messages.error.resourceNotFound('Localizacao')
                 });
             }
 
@@ -79,16 +79,16 @@ class CategoriaRepository {
         const { nome, page = 1 } = req.query;
         const limite = Math.min(parseInt(req.query.limite, 10) || 10, 100);
 
-        const filterBuilder = new CategoriaFilterBuilder()
+        const filterBuilder = new LocalizacaoFilterBuilder()
             .comNome(nome || '')
 
         if (typeof filterBuilder.build !== 'function') {
             throw new CustomError({
                 statusCode: 500,
                 errorType: 'internalServerError',
-                field: 'Categoria',
+                field: 'Localizacao',
                 details: [],
-                customMessage: messages.error.internalServerError('Categoria')
+                customMessage: messages.error.internalServerError('Localizacao')
             });
         }
 
@@ -104,10 +104,10 @@ class CategoriaRepository {
 
         // Enriquecer cada usuário com estatísticas utilizando o length dos arrays.
         resultado.docs = resultado.docs.map(doc => {
-            const categoriaObj = typeof doc.toObject === 'function' ? doc.toObject() : doc;
+            const localizacaoObj = typeof doc.toObject === 'function' ? doc.toObject() : doc;
 
             return {
-                ...categoriaObj,
+                ...localizacaoObj,
             };
         });
 
@@ -115,24 +115,24 @@ class CategoriaRepository {
     }
 
     async atualizar(id, parsedData) {
-        const categoria = await this.model.findByIdAndUpdate(id, parsedData, { new: true }).exec();
-        if (!categoria) {
+        const localizacao = await this.model.findByIdAndUpdate(id, parsedData, { new: true }).exec();
+        if (!localizacao) {
             throw new CustomError({
                 statusCode: 404,
                 errorType: 'resourceNotFound',
-                field: 'Categoria',
+                field: 'Localizacao',
                 details: [],
-                customMessage: messages.error.resourceNotFound('Categoria')
+                customMessage: messages.error.resourceNotFound('Localizacao')
             });
         }
 
-        return categoria;
+        return localizacao;
     }
 
     async deletar(id) {
-        const categoria = await this.model.findByIdAndDelete(id);
-        return categoria;
+        const localizacao = await this.model.findByIdAndDelete(id);
+        return localizacao;
     }
 }
 
-export default CategoriaRepository;
+export default LocalizacaoRepository;
