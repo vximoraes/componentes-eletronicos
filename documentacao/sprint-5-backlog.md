@@ -33,3 +33,7 @@
             - POST /movimentacoes
             - GET /movimentacoes
             - GET /movimentacoes/:id
+
+### Documentação
+
+    - Organizar documentação das rotas
