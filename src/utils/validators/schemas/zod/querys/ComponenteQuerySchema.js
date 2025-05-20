@@ -20,12 +20,18 @@ export const UsuarioQuerySchema = z.object({
             message: "Código não pode ser vazio",
         })
         .transform((val) => val?.trim()),
+    estoque_minimo: z
+        .string()
+        .optional()
+        .refine((value) => !value || value === "true" || value === "false", {
+            message: "Estoque mínimo deve ser 'true' ou 'false'",
+        }),
     quantidade: z
         .string()
         .optional()
         .transform((val) => (val ? parseInt(val) : undefined))
         .refine((val) => Number.isInteger(val), {
-        message: "Page deve ser um número inteiro",
+        message: "Quantidade deve ser um número inteiro",
         }),
     ativo: z
         .string()
