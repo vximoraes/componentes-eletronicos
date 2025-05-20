@@ -41,7 +41,12 @@ class Componente {
             categoria: {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: "categoria", required: true
-            }
+            },
+            ativo: { 
+                type: Boolean, 
+                default: 
+                false 
+            },
         });
 
         componenteSchema.plugin(mongoosePaginate);
