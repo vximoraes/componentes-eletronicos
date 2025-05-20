@@ -1,24 +1,24 @@
-import UsuarioFilterBuilder from './filters/UsuarioFilterBuilder.js';
-import UsuarioModel from '../models/Usuario.js';
+import LocalizacaoFilterBuilder from './filters/LocalizacaoFilterBuilder.js';
+import LocalizacaoModel from '../models/Localizacao.js';
 import { CommonResponse, CustomError, HttpStatusCodes, errorHandler, messages, StatusService, asyncWrapper } from '../utils/helpers/index.js';
 
-class UsuarioRepository {
+class LocalizacaoRepository {
     constructor({
-        usuarioModel = UsuarioModel, 
+        localizacaoModel = LocalizacaoModel, 
     } = {}) {
-        this.model = usuarioModel;
+        this.model = localizacaoModel;
     }
 
-    // Buscar usuário por email e, opcionalmente, por um ID diferente.
-    
-    async buscarPorEmail(email, idIgnorado = null) {
-        const filtro = { email };
+    // Buscar localização por um ID diferente.
+
+    async buscarPorNome(nome, idIgnorado) {
+        const filtro = { nome };
 
         if (idIgnorado) {
-            filtro._id = { $ne: idIgnorado };
+            filtro._id = { $ne: idIgnorado }
         }
 
-        const documento = await this.model.findOne(filtro, '+senha')
+        const documento = await this.model.findOne(filtro);
 
         return documento;
     }
@@ -30,26 +30,26 @@ class UsuarioRepository {
         //     query = query.select('+refreshtoken +accesstoken');
         // }
 
-        const user = await query;
+        const localizacao = await query;
 
-        if (!user) {
+        if (!localizacao) {
             throw new CustomError({
                 statusCode: 404,
                 errorType: 'resourceNotFound',
-                field: 'Usuário',
+                field: 'Localizacao',
                 details: [],
-                customMessage: messages.error.resourceNotFound('Usuário')
+                customMessage: messages.error.resourceNotFound('Localizacao')
             });
         }
-        
-        return user;
+
+        return localizacao;
     }
 
     // Métodos CRUD.
 
-    async criar(dadosUsuario) {
-        const usuario = new this.model(dadosUsuario);
-        return await usuario.save();
+    async criar(dadosLocalizacao) {
+        const localizacao = new this.model(dadosLocalizacao);
+        return await localizacao.save();
     }
 
     async listar(req) {
@@ -63,9 +63,9 @@ class UsuarioRepository {
                 throw new CustomError({
                     statusCode: 404,
                     errorType: 'resourceNotFound',
-                    field: 'Usuário',
+                    field: 'Localizacao',
                     details: [],
-                    customMessage: messages.error.resourceNotFound('Usuário')
+                    customMessage: messages.error.resourceNotFound('Localizacao')
                 });
             }
 
@@ -76,20 +76,19 @@ class UsuarioRepository {
             return dataWithStats;
         }
 
-        const { nome, email, page = 1 } = req.query;
+        const { nome, page = 1 } = req.query;
         const limite = Math.min(parseInt(req.query.limite, 10) || 10, 100);
 
-        const filterBuilder = new UsuarioFilterBuilder()
+        const filterBuilder = new LocalizacaoFilterBuilder()
             .comNome(nome || '')
-            .comEmail(email || '')
 
         if (typeof filterBuilder.build !== 'function') {
             throw new CustomError({
                 statusCode: 500,
                 errorType: 'internalServerError',
-                field: 'Usuário',
+                field: 'Localizacao',
                 details: [],
-                customMessage: messages.error.internalServerError('Usuário')
+                customMessage: messages.error.internalServerError('Localizacao')
             });
         }
 
@@ -105,10 +104,10 @@ class UsuarioRepository {
 
         // Enriquecer cada usuário com estatísticas utilizando o length dos arrays.
         resultado.docs = resultado.docs.map(doc => {
-            const usuarioObj = typeof doc.toObject === 'function' ? doc.toObject() : doc;
+            const localizacaoObj = typeof doc.toObject === 'function' ? doc.toObject() : doc;
 
             return {
-                ...usuarioObj,
+                ...localizacaoObj,
             };
         });
 
@@ -116,24 +115,24 @@ class UsuarioRepository {
     }
 
     async atualizar(id, parsedData) {
-        const usuario = await this.model.findByIdAndUpdate(id, parsedData, { new: true }).exec();
-        if (!usuario) {
+        const localizacao = await this.model.findByIdAndUpdate(id, parsedData, { new: true }).exec();
+        if (!localizacao) {
             throw new CustomError({
                 statusCode: 404,
                 errorType: 'resourceNotFound',
-                field: 'Usuário',
+                field: 'Localizacao',
                 details: [],
-                customMessage: messages.error.resourceNotFound('Usuário')
+                customMessage: messages.error.resourceNotFound('Localizacao')
             });
         }
 
-        return usuario;
+        return localizacao;
     }
 
     async deletar(id) {
-        const usuario = await this.model.findByIdAndDelete(id);
-        return usuario;
+        const localizacao = await this.model.findByIdAndDelete(id);
+        return localizacao;
     }
 }
 
-export default UsuarioRepository;
+export default LocalizacaoRepository;

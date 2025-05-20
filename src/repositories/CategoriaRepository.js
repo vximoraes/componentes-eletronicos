@@ -1,24 +1,24 @@
-import UsuarioFilterBuilder from './filters/UsuarioFilterBuilder.js';
-import UsuarioModel from '../models/Usuario.js';
+import CategoriaFilterBuilder from './filters/CategoriaFilterBuilder.js';
+import CategoriaModel from '../models/Categoria.js';
 import { CommonResponse, CustomError, HttpStatusCodes, errorHandler, messages, StatusService, asyncWrapper } from '../utils/helpers/index.js';
 
-class UsuarioRepository {
+class CategoriaRepository {
     constructor({
-        usuarioModel = UsuarioModel, 
+        categoriaModel = CategoriaModel, 
     } = {}) {
-        this.model = usuarioModel;
+        this.model = categoriaModel;
     }
 
-    // Buscar usuário por email e, opcionalmente, por um ID diferente.
-    
-    async buscarPorEmail(email, idIgnorado = null) {
-        const filtro = { email };
+    // Buscar categoria por um ID diferente.
+
+    async buscarPorNome(nome, idIgnorado) {
+        const filtro = { nome };
 
         if (idIgnorado) {
-            filtro._id = { $ne: idIgnorado };
+            filtro._id = { $ne: idIgnorado }
         }
 
-        const documento = await this.model.findOne(filtro, '+senha')
+        const documento = await this.model.findOne(filtro);
 
         return documento;
     }
@@ -30,26 +30,26 @@ class UsuarioRepository {
         //     query = query.select('+refreshtoken +accesstoken');
         // }
 
-        const user = await query;
+        const categoria = await query;
 
-        if (!user) {
+        if (!categoria) {
             throw new CustomError({
                 statusCode: 404,
                 errorType: 'resourceNotFound',
-                field: 'Usuário',
+                field: 'Categoria',
                 details: [],
-                customMessage: messages.error.resourceNotFound('Usuário')
+                customMessage: messages.error.resourceNotFound('Categoria')
             });
         }
-        
-        return user;
+
+        return categoria;
     }
 
     // Métodos CRUD.
 
-    async criar(dadosUsuario) {
-        const usuario = new this.model(dadosUsuario);
-        return await usuario.save();
+    async criar(dadosCategoria) {
+        const categoria = new this.model(dadosCategoria);
+        return await categoria.save();
     }
 
     async listar(req) {
@@ -63,9 +63,9 @@ class UsuarioRepository {
                 throw new CustomError({
                     statusCode: 404,
                     errorType: 'resourceNotFound',
-                    field: 'Usuário',
+                    field: 'Categoria',
                     details: [],
-                    customMessage: messages.error.resourceNotFound('Usuário')
+                    customMessage: messages.error.resourceNotFound('Categoria')
                 });
             }
 
@@ -76,20 +76,19 @@ class UsuarioRepository {
             return dataWithStats;
         }
 
-        const { nome, email, page = 1 } = req.query;
+        const { nome, page = 1 } = req.query;
         const limite = Math.min(parseInt(req.query.limite, 10) || 10, 100);
 
-        const filterBuilder = new UsuarioFilterBuilder()
+        const filterBuilder = new CategoriaFilterBuilder()
             .comNome(nome || '')
-            .comEmail(email || '')
 
         if (typeof filterBuilder.build !== 'function') {
             throw new CustomError({
                 statusCode: 500,
                 errorType: 'internalServerError',
-                field: 'Usuário',
+                field: 'Categoria',
                 details: [],
-                customMessage: messages.error.internalServerError('Usuário')
+                customMessage: messages.error.internalServerError('Categoria')
             });
         }
 
@@ -105,10 +104,10 @@ class UsuarioRepository {
 
         // Enriquecer cada usuário com estatísticas utilizando o length dos arrays.
         resultado.docs = resultado.docs.map(doc => {
-            const usuarioObj = typeof doc.toObject === 'function' ? doc.toObject() : doc;
+            const categoriaObj = typeof doc.toObject === 'function' ? doc.toObject() : doc;
 
             return {
-                ...usuarioObj,
+                ...categoriaObj,
             };
         });
 
@@ -116,24 +115,24 @@ class UsuarioRepository {
     }
 
     async atualizar(id, parsedData) {
-        const usuario = await this.model.findByIdAndUpdate(id, parsedData, { new: true }).exec();
-        if (!usuario) {
+        const categoria = await this.model.findByIdAndUpdate(id, parsedData, { new: true }).exec();
+        if (!categoria) {
             throw new CustomError({
                 statusCode: 404,
                 errorType: 'resourceNotFound',
-                field: 'Usuário',
+                field: 'Categoria',
                 details: [],
-                customMessage: messages.error.resourceNotFound('Usuário')
+                customMessage: messages.error.resourceNotFound('Categoria')
             });
         }
 
-        return usuario;
+        return categoria;
     }
 
     async deletar(id) {
-        const usuario = await this.model.findByIdAndDelete(id);
-        return usuario;
+        const categoria = await this.model.findByIdAndDelete(id);
+        return categoria;
     }
 }
 
-export default UsuarioRepository;
+export default CategoriaRepository;

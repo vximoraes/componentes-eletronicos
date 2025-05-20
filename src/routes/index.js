@@ -4,6 +4,8 @@ import express from "express";
 // import getSwaggerOptions from "../docs/config/head.js";
 import logRoutes from "../middlewares/LogRoutesMiddleware.js";
 import usuarios from './usuarioRoutes.js';
+import categorias from './categoriaRoutes.js'
+import localizacoes from './localizacaoRoutes.js'
 
 import dotenv from "dotenv";
 
@@ -26,6 +28,8 @@ const routes = (app) => {
 
     app.use(express.json(),
         usuarios,
+        categorias,
+        localizacoes
     );
 
     app.use((req, res) => {

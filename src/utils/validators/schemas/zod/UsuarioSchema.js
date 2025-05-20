@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import objectIdSchema from './ObjectIdSchema.js';
-import { RotaSchema } from './RotaSchema.js';
+// import { RotaSchema } from './RotaSchema.js';
 
 const senhaRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
@@ -33,11 +33,11 @@ const UsuarioSchema = z.object({
           'A senha deve conter pelo menos 1 letra maiúscula, 1 letra minúscula, 1 número e 1 caractere especial.',
       }
     ),
-    ativo: z.boolean().default(false),
+  ativo: z.boolean().default(true),
 });
 
 const UsuarioUpdateSchema = UsuarioSchema
   .omit({ email: true })
-  .partial(); 
+  .partial();
 
 export { UsuarioSchema, UsuarioUpdateSchema };
