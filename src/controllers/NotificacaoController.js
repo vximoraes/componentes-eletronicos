@@ -1,48 +1,73 @@
-import Notificacao from "../models/Notificacao.js";
+import NotificacaoService from "../services/NotificacaoService.js";
 import { NotificacaoSchema } from "../utils/validators/schemas/zod/NotificacaoSchema.js";
 
 class NotificacaoController {
-
   async listar(req, res) {
     try {
-      const notificacoes = await Notificacao.listarTodas(req.query);
+      const notificacoes = await NotificacaoService.listarTodas(req.query);
       res.status(200).json(notificacoes);
     } catch (err) {
-      res.status(500).json({ error: "Erro ao listar notificações", detalhe: err.message  });
+      res.status(500).json({
+        error: "Erro ao listar notificações",
+        detalhe: err.message
+      });
     }
   }
 
   async buscarPorId(req, res) {
     try {
-      const notificacao = await Notificacao.findById(req.params.id);
+      const notificacao = await NotificacaoService.buscarPorId(req.params.id);
       if (!notificacao) {
         return res.status(404).json({ message: "Notificação não encontrada" });
       }
       res.status(200).json(notificacao);
     } catch (err) {
-      res.status(500).json({ error: "Erro ao buscar notificação" });
+     res.status(500).json({
+     error: "Erro ao buscar notificação",
+     detalhe: err.message
+ });
     }
   }
 
   async criar(req, res) {
     try {
-      const novaNotificacao = await Notificacao.create(req.body);
+      const parsed = NotificacaoSchema.safeParse(req.body);
+
+      if (!parsed.success) {
+        return res.status(400).json({
+          error: "Erro de validação",
+          detalhes: parsed.error.format()
+        });
+      }
+
+      const novaNotificacao = await NotificacaoService.criar(parsed.data);
       res.status(201).json(novaNotificacao);
     } catch (err) {
-      res.status(400).json({ error: "Erro ao criar notificação" });
+      res.status(500).json({
+        error: "Erro ao criar notificação",
+        detalhe: err.message
+      });
     }
   }
 
-    async marcarComoVisualizada(req, res) {
+  async marcarComoVisualizada(req, res) {
     try {
       const { id } = req.params;
-      const notificacaoAtualizada = await NotificacaoService.marcarComoVisualizada(id);
-      res.status(200).json(notificacaoAtualizada);
+      const notificacao = await NotificacaoService.buscarPorId(id);
+
+      if (!notificacao) {
+        return res.status(404).json({ message: "Notificação não encontrada" });
+      }
+
+      const atualizada = await NotificacaoService.atualizar(id, { visualizada: true });
+      res.status(200).json(atualizada);
     } catch (err) {
-      res.status(400).json({ error: "Erro ao marcar como visualizada", detalhe: err.message });
+      res.status(500).json({
+        error: "Erro ao marcar como visualizada",
+        detalhe: err.message
+      });
     }
   }
-
 }
 
-export default NotificacaoController;
+export default new NotificacaoController();
