@@ -1,13 +1,10 @@
 import Notificacao from "../models/Notificacao.js";
 
 class NotificacaoRepository {
-  async findAll(filtro = {}, options = {}) {
-    return await Notificacao.paginate(filtro, {
-      ...options,
-      sort: { data_hora: -1 }
-    });
-  }
 
+  async findAll(filtro = {}, options = {}) {
+    return await Notificacao.paginate(filtro, options);
+  }
   async findById(id) {
     return await Notificacao.findById(id).populate("usuario");
   }
@@ -20,7 +17,6 @@ class NotificacaoRepository {
     return await Notificacao.findByIdAndUpdate(id, data, { new: true });
   }
 
-  //corrigir
 
 }
 

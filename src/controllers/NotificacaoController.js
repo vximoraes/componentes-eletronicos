@@ -1,6 +1,8 @@
 import Notificacao from "../models/Notificacao.js";
-import { notificacaoSchema } from "../utils/validators/schemas/zod/NotificacaoSchema.js";
+import { NotificacaoSchema } from "../utils/validators/schemas/zod/NotificacaoSchema.js";
+
 class NotificacaoController {
+
   async listar(req, res) {
     try {
       const notificacoes = await Notificacao.listarTodas(req.query);
@@ -30,6 +32,17 @@ class NotificacaoController {
       res.status(400).json({ error: "Erro ao criar notificação" });
     }
   }
+
+    async marcarComoVisualizada(req, res) {
+    try {
+      const { id } = req.params;
+      const notificacaoAtualizada = await NotificacaoService.marcarComoVisualizada(id);
+      res.status(200).json(notificacaoAtualizada);
+    } catch (err) {
+      res.status(400).json({ error: "Erro ao marcar como visualizada", detalhe: err.message });
+    }
+  }
+
 }
 
 export default NotificacaoController;
