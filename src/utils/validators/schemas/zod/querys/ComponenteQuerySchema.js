@@ -13,13 +13,6 @@ export const ComponenteQuerySchema = z.object({
             message: "Nome não pode ser vazio",
         })
         .transform((val) => val?.trim()),
-    codigo: z
-        .string()
-        .optional()
-        .refine((val) => !val || val.trim().length > 0, {
-            message: "Código não pode ser vazio",
-        })
-        .transform((val) => val?.trim()),
     quantidade: z
         .string()
         .optional()

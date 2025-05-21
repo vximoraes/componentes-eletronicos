@@ -22,6 +22,16 @@ class UsuarioFilterBuilder {
         return this;
     }
 
+    comAtivo(ativo = 'true') {
+        if (ativo === 'true') {
+            this.filtros.ativo = true;
+        }
+        if (ativo === 'false') {
+            this.filtros.ativo = false;
+        }
+        return this;
+    }
+
     escapeRegex(texto) {
         return texto.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
     }

@@ -11,7 +11,7 @@ const componenteController = new ComponenteController();
 router
     .get("/componentes", /*AuthMiddleware, authPermission,*/ asyncWrapper(componenteController.listar.bind(componenteController)))
     .get("/componentes/:id", /*AuthMiddleware, authPermission,*/ asyncWrapper(componenteController.listar.bind(componenteController)))
-    // .post("/usuarios", /*AuthMiddleware, authPermission,*/ asyncWrapper(usuarioController.criar.bind(usuarioController)))
+    .post("/componentes", /*AuthMiddleware, authPermission,*/ asyncWrapper(componenteController.criar.bind(componenteController)))
     // .patch("/usuarios/:id", /*AuthMiddleware, authPermission,*/ asyncWrapper(usuarioController.atualizar.bind(usuarioController)))
     // .put("/usuarios/:id", /*AuthMiddleware, authPermission,*/ asyncWrapper(usuarioController.atualizar.bind(usuarioController)))
     // .delete("/usuarios/:id", /*AuthMiddleware, authPermission,*/ asyncWrapper(usuarioController.deletar.bind(usuarioController)))

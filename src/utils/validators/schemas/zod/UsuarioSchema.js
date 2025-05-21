@@ -1,19 +1,11 @@
 import { z } from 'zod';
-import objectIdSchema from './ObjectIdSchema.js';
-// import { RotaSchema } from './RotaSchema.js';
 
 const senhaRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
-// Validação de array de ObjectId sem duplicações.
-const distinctObjectIdArray = z
-  .array(objectIdSchema)
-  .refine(
-    (arr) => new Set(arr.map((id) => id.toString())).size === arr.length,
-    { message: 'Não pode conter ids repetidos.' }
-  );
-
 const UsuarioSchema = z.object({
-  nome: z.string().min(1, 'Campo nome é obrigatório.'),
+  nome: z
+    .string()
+    .min(1, 'Campo nome é obrigatório.'),
   email: z
     .string()
     .email('Formato de email inválido.')
@@ -21,7 +13,6 @@ const UsuarioSchema = z.object({
   senha: z
     .string()
     .min(8, 'A senha deve ter pelo menos 8 caracteres.')
-    .optional()
     .refine(
       (senha) => {
         // Senha é opcional.
@@ -33,7 +24,9 @@ const UsuarioSchema = z.object({
           'A senha deve conter pelo menos 1 letra maiúscula, 1 letra minúscula, 1 número e 1 caractere especial.',
       }
     ),
-  ativo: z.boolean().default(true),
+  ativo: z
+    .boolean()
+    .default(true),
 });
 
 const UsuarioUpdateSchema = UsuarioSchema
