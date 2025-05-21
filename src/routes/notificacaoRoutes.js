@@ -1,0 +1,16 @@
+import express from "express";
+// import AuthMiddleware from "../middlewares/AuthMiddleware.js";
+// import authPermission from '../middlewares/AuthPermission.js';
+import UsuarioController from '../controllers/UsuarioController.js';
+import { asyncWrapper } from '../utils/helpers/index.js';
+
+const router = express.Router();
+
+const usuarioController = new UsuarioController(); 
+
+router
+    .get("/usuarios", /*AuthMiddleware, *authPermission,*/ asyncWrapper(usuarioController.listar.bind(usuarioController)))
+    .get("/usuarios/:id", /*AuthMiddleware, authPermission,*/ asyncWrapper(usuarioController.buscarPorId.bind(usuarioController)))
+    .post("/usuarios", /*AuthMiddleware, authPermission,*/ asyncWrapper(usuarioController.criar.bind(usuarioController)))
+    .patch("/notificacoes/:id/visualizar", /*AuthMiddleware, authPermission,*/ asyncWrapper(notificacaoController.marcarComoVisualizada.bind(notificacaoController)))
+export default router;
