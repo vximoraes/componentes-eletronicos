@@ -6,6 +6,7 @@ import logRoutes from "../middlewares/LogRoutesMiddleware.js";
 import usuarios from './usuarioRoutes.js';
 import categorias from './categoriaRoutes.js'
 import localizacoes from './localizacaoRoutes.js'
+import componentes from './componenteRoutes.js'
 
 import dotenv from "dotenv";
 
@@ -29,7 +30,8 @@ const routes = (app) => {
     app.use(express.json(),
         usuarios,
         categorias,
-        localizacoes
+        localizacoes,
+        componentes,
     );
 
     app.use((req, res) => {

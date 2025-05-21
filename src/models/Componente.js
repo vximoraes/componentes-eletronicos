@@ -36,12 +36,17 @@ class Componente {
             },
             localizacao: {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: "localizacao", required: true
+                ref: "localizacoes", required: true
             },
             categoria: {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: "categoria", required: true
-            }
+                ref: "categorias", required: true
+            },
+            ativo: { 
+                type: Boolean, 
+                default: 
+                false 
+            },
         });
 
         componenteSchema.plugin(mongoosePaginate);

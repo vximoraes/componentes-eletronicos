@@ -65,6 +65,7 @@ export const fakeMappings = {
         imagem: () => fakebr.image.imageUrl(),
         categoria: () => new mongoose.Types.ObjectId().toString(),
         localizacao: () => new mongoose.Types.ObjectId().toString(),
+        ativo: () => fakebr.random.boolean(),
     },
 
     Fornecedor: {

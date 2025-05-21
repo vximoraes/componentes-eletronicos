@@ -1,4 +1,3 @@
-// /src/utils/TokenUtil.js
 import jwt from 'jsonwebtoken';
 
 class TokenUtil {
