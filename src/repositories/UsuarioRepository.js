@@ -76,12 +76,13 @@ class UsuarioRepository {
             return dataWithStats;
         }
 
-        const { nome, email, page = 1 } = req.query;
+        const { nome, email, ativo, page = 1 } = req.query;
         const limite = Math.min(parseInt(req.query.limite, 10) || 10, 100);
 
         const filterBuilder = new UsuarioFilterBuilder()
             .comNome(nome || '')
             .comEmail(email || '')
+            .comAtivo(ativo || '')
 
         if (typeof filterBuilder.build !== 'function') {
             throw new CustomError({
