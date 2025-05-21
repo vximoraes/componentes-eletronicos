@@ -1,11 +1,11 @@
 import { z } from "zod";
 import mongoose from 'mongoose';
 
-export const UsuarioIdSchema = z.string().refine((id) => mongoose.Types.ObjectId.isValid(id), {
+export const ComponenteIdSchema = z.string().refine((id) => mongoose.Types.ObjectId.isValid(id), {
     message: "ID inválido",
 });
 
-export const UsuarioQuerySchema = z.object({
+export const ComponenteQuerySchema = z.object({
     nome: z
         .string()
         .optional()
@@ -20,19 +20,27 @@ export const UsuarioQuerySchema = z.object({
             message: "Código não pode ser vazio",
         })
         .transform((val) => val?.trim()),
+    quantidade: z
+        .string()
+        .optional()
+        .transform((val) => (val ? parseInt(val) : undefined))
+        .refine((val) => val === undefined || Number.isInteger(val), {
+            message: "Quantidade deve ser um número inteiro",
+        }),
     estoque_minimo: z
         .string()
         .optional()
         .refine((value) => !value || value === "true" || value === "false", {
             message: "Estoque mínimo deve ser 'true' ou 'false'",
         }),
-    quantidade: z
+    localizacao: z
         .string()
         .optional()
-        .transform((val) => (val ? parseInt(val) : undefined))
-        .refine((val) => Number.isInteger(val), {
-        message: "Quantidade deve ser um número inteiro",
-        }),
+        .transform((val) => val?.trim()),
+    categoria: z
+        .string()
+        .optional()
+        .transform((val) => val?.trim()),
     ativo: z
         .string()
         .optional()
