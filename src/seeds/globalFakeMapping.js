@@ -57,7 +57,6 @@ export const fakeMappings = {
             "Kit Jumpers 120 peças"
         ],
         nome: () => fakebr.helpers.randomize(fakeMappings.Componente.nomesFixos),
-        codigo: () => uuid(),
         quantidade: () => fakebr.random.number({ min: 0, max: 100 }),
         estoque_minimo: () => fakebr.random.number({ min: 1, max: 20 }),
         valor_unitario: () => fakebr.commerce.price(1, 1000, 2),
