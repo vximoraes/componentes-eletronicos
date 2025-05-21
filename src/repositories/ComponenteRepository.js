@@ -9,7 +9,7 @@ class ComponenteRepository {
         this.model = componenteModel;
     }
 
-    // Buscar componente por um ID diferente.
+    // Buscar componente por nome ou um ID diferente.
 
     async buscarPorId(id, includeTokens = false) {
         let query = this.model.findById(id);
@@ -27,6 +27,18 @@ class ComponenteRepository {
         }
         
         return componente;
+    }
+
+    async buscarPorNome(nome, idIgnorado) {
+        const filtro = { nome };
+
+        if (idIgnorado) {
+            filtro._id = { $ne: idIgnorado }
+        }
+
+        const documento = await this.model.findOne(filtro);
+
+        return documento;
     }
 
     // Métodos CRUD.
@@ -55,12 +67,11 @@ class ComponenteRepository {
             return dataWithStats;
         }
 
-        const { nome, codigo, quantidade, estoque_minimo, localizacao, categoria, ativo, page = 1 } = req.query;
+        const { nome, quantidade, estoque_minimo, localizacao, categoria, ativo, page = 1 } = req.query;
         const limite = Math.min(parseInt(req.query.limite, 10) || 10, 100);
 
         const filterBuilder = new ComponenteFilterBuilder()
             .comNome(nome || '')
-            .comCodigo(codigo || '')
             .comQuantidade(quantidade || '')
             .comEstoqueMinimo(estoque_minimo || '')
             .comAtivo(ativo || '')
@@ -102,6 +113,11 @@ class ComponenteRepository {
         });
 
         return resultado;
+    }
+
+    async criar(dadosComponente) {
+        const componente = new this.model(dadosComponente);
+        return await componente.save();
     }
 }
 
