@@ -19,13 +19,6 @@ class ComponenteFilterBuilder {
         return this;
     }
 
-    comCodigo(codigo) {
-        if (codigo) {
-            this.filtros.codigo = { $regex: codigo, $options: 'i' };
-        }
-        return this;
-    }
-
     comQuantidade(quantidade) {
         if (quantidade !== undefined && quantidade !== null && quantidade !== '') {
             const num = Number(quantidade);
