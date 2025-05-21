@@ -9,11 +9,6 @@ class Componente {
                 index: true,
                 required: true
             },
-            codigo: {
-                type: String,
-                unique: true,
-                required: true
-            },
             quantidade: {
                 type: Number,
                 required: true
