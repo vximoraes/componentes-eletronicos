@@ -15,7 +15,6 @@ export default async function componenteSeed() {
 
         const componente = {
             nome: fakeMappings.Componente.nome.apply(),
-            codigo: fakeMappings.Componente.codigo.apply(),
             quantidade: fakeMappings.Componente.quantidade.apply(),
             estoque_minimo: fakeMappings.Componente.estoque_minimo.apply(),
             valor_unitario: fakeMappings.Componente.valor_unitario.apply(),
@@ -23,6 +22,7 @@ export default async function componenteSeed() {
             imagem: fakeMappings.Componente.imagem.apply(),
             categoria: categoriaRandom._id,
             localizacao: localizacaoRandom._id,
+            ativo: fakeMappings.Componente.ativo.apply()
         };
 
         await Componente.create(componente);
