@@ -72,7 +72,7 @@ export const fakeMappings = {
     },
 
     Movimentacao: {
-        tipos: ["Entrada", "Saída"],
+        tipos: ["entrada", "saida"],
         tipo: () => fakebr.helpers.randomize(fakeMappings.Movimentacao.tipos),
         data_hora: () => new Date().toISOString(),
         quantidade: () => fakebr.random.number({ min: 1, max: 10 }),
