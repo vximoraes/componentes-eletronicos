@@ -42,6 +42,15 @@ class ComponenteController {
 
         return CommonResponse.success(res, data, 200, 'Componente atualizado com sucesso.');
     };
+
+    async deletar(req, res) {
+        const { id } = req.params || {};
+        ComponenteIdSchema.parse(id);
+
+        const data = await this.service.deletar(id);
+
+        return CommonResponse.success(res, data, 200, 'Componente excluído com sucesso.');
+    };
 };
 
 export default ComponenteController;

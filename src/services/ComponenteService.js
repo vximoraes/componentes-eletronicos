@@ -31,6 +31,14 @@ class ComponenteService {
         return data;
     }
 
+    async deletar(id) {
+        await this.ensureComponentExists(id);
+
+        const data = await this.repository.deletar(id);
+
+        return data;
+    }
+
     // Métodos auxiliares.
 
     async validateNome(nome, id = null) {

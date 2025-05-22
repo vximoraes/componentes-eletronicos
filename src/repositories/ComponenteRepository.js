@@ -1,10 +1,11 @@
 import ComponenteFilterBuilder from './filters/ComponenteFilterBuilder.js';
 import ComponenteModel from '../models/Componente.js';
+import MovimentacaoModel from '../models/Movimentacao.js';
 import { CommonResponse, CustomError, HttpStatusCodes, errorHandler, messages, StatusService, asyncWrapper } from '../utils/helpers/index.js';
 
 class ComponenteRepository {
     constructor({
-        componenteModel = ComponenteModel, 
+        componenteModel = ComponenteModel,
     } = {}) {
         this.model = componenteModel;
     };
@@ -13,7 +14,7 @@ class ComponenteRepository {
 
     async buscarPorId(id, includeTokens = false) {
         let query = this.model.findById(id);
-        
+
         const componente = await query;
 
         if (!componente) {
@@ -25,7 +26,7 @@ class ComponenteRepository {
                 customMessage: messages.error.resourceNotFound('Componente')
             });
         };
-        
+
         return componente;
     }
 
@@ -48,7 +49,7 @@ class ComponenteRepository {
     async listar(req) {
         const id = req.params.id || null;
 
-        // Se um ID for fornecido, retorna o usuário enriquecido com estatísticas.
+        // Se um ID for fornecido, retorna o componente enriquecido com estatísticas.
         if (id) {
             const data = await this.model.findById(id)
                 .populate('localizacao')
@@ -107,7 +108,7 @@ class ComponenteRepository {
 
         const resultado = await this.model.paginate(filtros, options);
 
-        // Enriquecer cada usuário com estatísticas utilizando o length dos arrays.
+        // Enriquecer cada componente com estatísticas utilizando o length dos arrays.
         resultado.docs = resultado.docs.map(doc => {
             const componenteObj = typeof doc.toObject === 'function' ? doc.toObject() : doc;
 
@@ -136,6 +137,22 @@ class ComponenteRepository {
             });
         };
 
+        return componente;
+    };
+
+    async deletar(id) {
+        const existeMovimentacao = await MovimentacaoModel.exists({ componente: id });
+        if (existeMovimentacao) {
+            throw new CustomError({
+                statusCode: 400,
+                errorType: 'resourceInUse',
+                field: 'Componente',
+                details: [],
+                customMessage: 'Não é possível deletar: componente está vinculado a movimentações.'
+            });
+        };
+
+        const componente = await this.model.findByIdAndDelete(id);
         return componente;
     };
 };
