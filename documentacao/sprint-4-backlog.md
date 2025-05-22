@@ -7,6 +7,7 @@
 #### Implementar rotas, controllers, services e repositories:
     - Usuário (Vinícius)
     - Categoria & Localização (Vinícius)
+    - Componente (Vinícius)
     - Notificação (Geovanna)
 
 ### Testes
