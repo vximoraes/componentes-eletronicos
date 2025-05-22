@@ -1,7 +1,5 @@
-import bcrypt from 'bcrypt';
 import CategoriaRepository from '../repositories/CategoriaRepository.js';
 import { CommonResponse, CustomError, HttpStatusCodes, errorHandler, messages, StatusService, asyncWrapper } from '../utils/helpers/index.js';
-// import AuthHelper from '../utils/AuthHelper.js';
 
 class CategoriaService {
     constructor() {

@@ -10,44 +10,6 @@ class CategoriaRepository {
         this.model = categoriaModel;
     };
 
-    // Buscar categoria por um ID diferente.
-
-    async buscarPorNome(nome, idIgnorado) {
-        const filtro = { nome };
-
-        if (idIgnorado) {
-            filtro._id = { $ne: idIgnorado };
-        };
-
-        const documento = await this.model.findOne(filtro);
-
-        return documento;
-    };
-
-    async buscarPorId(id, includeTokens = false) {
-        let query = this.model.findById(id);
-
-        // if (includeTokens) {
-        //     query = query.select('+refreshtoken +accesstoken');
-        // };
-
-        const categoria = await query;
-
-        if (!categoria) {
-            throw new CustomError({
-                statusCode: 404,
-                errorType: 'resourceNotFound',
-                field: 'Categoria',
-                details: [],
-                customMessage: messages.error.resourceNotFound('Categoria')
-            });
-        };
-
-        return categoria;
-    };
-
-    // Métodos CRUD.
-
     async criar(dadosCategoria) {
         const categoria = new this.model(dadosCategoria);
         return await categoria.save();
@@ -145,6 +107,43 @@ class CategoriaRepository {
         const categoria = await this.model.findByIdAndDelete(id);
         return categoria;
     };
+
+    // Métodos auxiliares.
+
+    async buscarPorNome(nome, idIgnorado) {
+        const filtro = { nome };
+
+        if (idIgnorado) {
+            filtro._id = { $ne: idIgnorado };
+        };
+
+        const documento = await this.model.findOne(filtro);
+
+        return documento;
+    };
+
+    async buscarPorId(id, includeTokens = false) {
+        let query = this.model.findById(id);
+
+        // if (includeTokens) {
+        //     query = query.select('+refreshtoken +accesstoken');
+        // };
+
+        const categoria = await query;
+
+        if (!categoria) {
+            throw new CustomError({
+                statusCode: 404,
+                errorType: 'resourceNotFound',
+                field: 'Categoria',
+                details: [],
+                customMessage: messages.error.resourceNotFound('Categoria')
+            });
+        };
+
+        return categoria;
+    };
+
 };
 
 export default CategoriaRepository;

@@ -10,44 +10,6 @@ class LocalizacaoRepository {
         this.model = localizacaoModel;
     };
 
-    // Buscar localização por um ID diferente.
-
-    async buscarPorNome(nome, idIgnorado) {
-        const filtro = { nome };
-
-        if (idIgnorado) {
-            filtro._id = { $ne: idIgnorado };
-        };
-
-        const documento = await this.model.findOne(filtro);
-
-        return documento;
-    };
-
-    async buscarPorId(id, includeTokens = false) {
-        let query = this.model.findById(id);
-
-        // if (includeTokens) {
-        //     query = query.select('+refreshtoken +accesstoken');
-        // }
-
-        const localizacao = await query;
-
-        if (!localizacao) {
-            throw new CustomError({
-                statusCode: 404,
-                errorType: 'resourceNotFound',
-                field: 'Localizacao',
-                details: [],
-                customMessage: messages.error.resourceNotFound('Localizacao')
-            });
-        };
-
-        return localizacao;
-    };
-
-    // Métodos CRUD.
-
     async criar(dadosLocalizacao) {
         const localizacao = new this.model(dadosLocalizacao);
         return await localizacao.save();
@@ -143,6 +105,42 @@ class LocalizacaoRepository {
         };
 
         const localizacao = await this.model.findByIdAndDelete(id);
+        return localizacao;
+    };
+
+    // Métodos auxiliares.
+
+    async buscarPorNome(nome, idIgnorado) {
+        const filtro = { nome };
+
+        if (idIgnorado) {
+            filtro._id = { $ne: idIgnorado };
+        };
+
+        const documento = await this.model.findOne(filtro);
+
+        return documento;
+    };
+
+    async buscarPorId(id, includeTokens = false) {
+        let query = this.model.findById(id);
+
+        // if (includeTokens) {
+        //     query = query.select('+refreshtoken +accesstoken');
+        // }
+
+        const localizacao = await query;
+
+        if (!localizacao) {
+            throw new CustomError({
+                statusCode: 404,
+                errorType: 'resourceNotFound',
+                field: 'Localizacao',
+                details: [],
+                customMessage: messages.error.resourceNotFound('Localizacao')
+            });
+        };
+
         return localizacao;
     };
 };

@@ -10,41 +10,10 @@ class ComponenteRepository {
         this.model = componenteModel;
     };
 
-    // Buscar componente por nome ou um ID diferente.
-
-    async buscarPorId(id, includeTokens = false) {
-        let query = this.model.findById(id);
-
-        const componente = await query;
-
-        if (!componente) {
-            throw new CustomError({
-                statusCode: 404,
-                errorType: 'resourceNotFound',
-                field: 'Componente',
-                details: [],
-                customMessage: messages.error.resourceNotFound('Componente')
-            });
-        };
-
-        return componente;
-    }
-
-    async buscarPorNome(nome, idIgnorado) {
-        const filtro = { nome };
-
-        if (idIgnorado) {
-            filtro._id = { $ne: idIgnorado }
-        };
-
-        const documento = await this.model.findOne(filtro)
-            .populate('localizacao')
-            .populate('categoria');
-
-        return documento;
-    }
-
-    // Métodos CRUD.
+    async criar(dadosComponente) {
+        const componente = new this.model(dadosComponente);
+        return await componente.save();
+    };
 
     async listar(req) {
         const id = req.params.id || null;
@@ -70,7 +39,7 @@ class ComponenteRepository {
             };
 
             return dataWithStats;
-        }
+        };
 
         const { nome, quantidade, estoque_minimo, localizacao, categoria, ativo, page = 1 } = req.query;
         const limite = Math.min(parseInt(req.query.limite, 10) || 10, 100);
@@ -120,11 +89,6 @@ class ComponenteRepository {
         return resultado;
     };
 
-    async criar(dadosComponente) {
-        const componente = new this.model(dadosComponente);
-        return await componente.save();
-    };
-
     async atualizar(id, parsedData) {
         const componente = await this.model.findByIdAndUpdate(id, parsedData, { new: true }).exec();
         if (!componente) {
@@ -154,6 +118,40 @@ class ComponenteRepository {
 
         const componente = await this.model.findByIdAndDelete(id);
         return componente;
+    };
+
+    // Métodos auxiliares.
+
+    async buscarPorId(id, includeTokens = false) {
+        let query = this.model.findById(id);
+
+        const componente = await query;
+
+        if (!componente) {
+            throw new CustomError({
+                statusCode: 404,
+                errorType: 'resourceNotFound',
+                field: 'Componente',
+                details: [],
+                customMessage: messages.error.resourceNotFound('Componente')
+            });
+        };
+
+        return componente;
+    };
+
+    async buscarPorNome(nome, idIgnorado) {
+        const filtro = { nome };
+
+        if (idIgnorado) {
+            filtro._id = { $ne: idIgnorado }
+        };
+
+        const documento = await this.model.findOne(filtro)
+            .populate('localizacao')
+            .populate('categoria');
+
+        return documento;
     };
 };
 

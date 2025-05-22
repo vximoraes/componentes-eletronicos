@@ -1,7 +1,5 @@
-import bcrypt from 'bcrypt';
 import LocalizacaoRepository from '../repositories/LocalizacaoRepository.js';
 import { CommonResponse, CustomError, HttpStatusCodes, errorHandler, messages, StatusService, asyncWrapper } from '../utils/helpers/index.js';
-// import AuthHelper from '../utils/AuthHelper.js';
 
 class LocalizacaoService {
     constructor() {

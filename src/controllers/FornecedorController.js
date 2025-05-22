@@ -3,7 +3,7 @@ import { FornecedorQuerySchema, FornecedorIdSchema } from '../utils/validators/s
 import { FornecedorSchema, FornecedorUpdateSchema } from '../utils/validators/schemas/zod/FornecedorSchema.js';
 import { CommonResponse, CustomError, HttpStatusCodes, errorHandler, messages, StatusService, asyncWrapper } from '../utils/helpers/index.js';
 
-class CategoriaController {
+class FornecedorController {
     constructor() {
         this.service = new FornecedorService();
     }
@@ -53,4 +53,4 @@ class CategoriaController {
     }
 }
 
-export default CategoriaController;
+export default FornecedorController;

@@ -10,44 +10,6 @@ class UsuarioRepository {
         this.model = usuarioModel;
     };
 
-    // Buscar usuário por email e, opcionalmente, por um ID diferente.
-
-    async buscarPorEmail(email, idIgnorado = null) {
-        const filtro = { email };
-
-        if (idIgnorado) {
-            filtro._id = { $ne: idIgnorado };
-        };
-
-        const documento = await this.model.findOne(filtro, '+senha');
-
-        return documento;
-    };
-
-    async buscarPorId(id, includeTokens = false) {
-        let query = this.model.findById(id);
-
-        // if (includeTokens) {
-        //     query = query.select('+refreshtoken +accesstoken');
-        // }
-
-        const user = await query;
-
-        if (!user) {
-            throw new CustomError({
-                statusCode: 404,
-                errorType: 'resourceNotFound',
-                field: 'Usuário',
-                details: [],
-                customMessage: messages.error.resourceNotFound('Usuário')
-            });
-        };
-
-        return user;
-    };
-
-    // Métodos CRUD.
-
     async criar(dadosUsuario) {
         const usuario = new this.model(dadosUsuario);
         return await usuario.save();
@@ -146,6 +108,42 @@ class UsuarioRepository {
 
         const usuario = await this.model.findByIdAndDelete(id);
         return usuario;
+    };
+
+    // Métodos auxiliares.
+
+    async buscarPorEmail(email, idIgnorado = null) {
+        const filtro = { email };
+
+        if (idIgnorado) {
+            filtro._id = { $ne: idIgnorado };
+        };
+
+        const documento = await this.model.findOne(filtro, '+senha');
+
+        return documento;
+    };
+
+    async buscarPorId(id, includeTokens = false) {
+        let query = this.model.findById(id);
+
+        // if (includeTokens) {
+        //     query = query.select('+refreshtoken +accesstoken');
+        // }
+
+        const user = await query;
+
+        if (!user) {
+            throw new CustomError({
+                statusCode: 404,
+                errorType: 'resourceNotFound',
+                field: 'Usuário',
+                details: [],
+                customMessage: messages.error.resourceNotFound('Usuário')
+            });
+        };
+
+        return user;
     };
 };
 
