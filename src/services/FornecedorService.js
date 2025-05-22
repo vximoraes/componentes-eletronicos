@@ -4,13 +4,13 @@ import { CommonResponse, CustomError, HttpStatusCodes, errorHandler, messages, S
 class FornecedorService {
     constructor() {
         this.repository = new FornecedorRepository();
-    }
+    };
 
     async listar(req) {
         const data = await this.repository.listar(req);
 
         return data;
-    }
+    };
 
     async criar(parsedData) {
         await this.validateNome(parsedData.nome)
@@ -18,7 +18,7 @@ class FornecedorService {
         const data = await this.repository.criar(parsedData);
 
         return data;
-    }
+    };
 
     async atualizar(id, parsedData) {
         await this.ensureSupplierExists(id);
@@ -27,7 +27,7 @@ class FornecedorService {
         const data = await this.repository.atualizar(id, parsedData);
 
         return data;
-    }
+    };
 
     async deletar(id) {
         await this.ensureSupplierExists(id);
@@ -35,7 +35,7 @@ class FornecedorService {
         const data = await this.repository.deletar(id);
 
         return data;
-    }
+    };
 
     // Métodos auxiliares.
 
@@ -49,8 +49,8 @@ class FornecedorService {
                 details: [{ path: 'nome', message: 'Nome já está em uso.' }],
                 customMessage: 'Nome já está em uso.',
             });
-        }
-    }
+        };
+    };
 
     async ensureSupplierExists(id) {
         const fornecedorExistente = await this.repository.buscarPorId(id);
@@ -62,10 +62,10 @@ class FornecedorService {
                 details: [],
                 customMessage: messages.error.resourceNotFound('Fornecedor'),
             });
-        }
+        };
 
         return fornecedorExistente;
-    }
-}
+    };
+};
 
 export default FornecedorService;
