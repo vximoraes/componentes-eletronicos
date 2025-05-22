@@ -55,7 +55,7 @@ class LocalizacaoRepository {
     async listar(req) {
         const id = req.params.id || null;
 
-        // Se um ID for fornecido, retorna o usuário enriquecido com estatísticas.
+        // Se um ID for fornecido, retorna a localização enriquecida com estatísticas.
         if (id) {
             const data = await this.model.findById(id)
 
@@ -102,7 +102,7 @@ class LocalizacaoRepository {
 
         const resultado = await this.model.paginate(filtros, options);
 
-        // Enriquecer cada usuário com estatísticas utilizando o length dos arrays.
+        // Enriquecer cada localização com estatísticas utilizando o length dos arrays.
         resultado.docs = resultado.docs.map(doc => {
             const localizacaoObj = typeof doc.toObject === 'function' ? doc.toObject() : doc;
 
