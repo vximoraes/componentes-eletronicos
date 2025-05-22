@@ -2,18 +2,11 @@
 
 ## Tarefas
 
-### Rotas
-
-#### Implementar rotas, controllers, services e repositories:
-    - Usuário (Vinícius)
-    - Categoria & Localização (Vinícius)
-    - Componente (Vinícius)
-    - Notificação (Geovanna)
-
-### Testes
-
-#### Implementar testes unitários:
-
-    - Controllers, services, repositories:
-        - Usuário (Vinícius)
-        - Notificação (Geovanna)
+### Implementar rotas, controllers, services e repositories (Geovanna, Vinícius):
+    - Usuário
+    - Notificação
+    - Categoria 
+    - Localização
+    - Componente 
+    - Fornecedor
+    - Movimentação
