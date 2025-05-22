@@ -7,6 +7,7 @@ import usuarios from './usuarioRoutes.js';
 import categorias from './categoriaRoutes.js'
 import localizacoes from './localizacaoRoutes.js'
 import componentes from './componenteRoutes.js'
+import fornecedores from './fornecedorRoutes.js'
 
 import dotenv from "dotenv";
 
@@ -32,6 +33,7 @@ const routes = (app) => {
         categorias,
         localizacoes,
         componentes,
+        fornecedores,
     );
 
     app.use((req, res) => {
