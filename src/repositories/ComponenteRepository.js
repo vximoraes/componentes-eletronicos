@@ -7,7 +7,7 @@ class ComponenteRepository {
         componenteModel = ComponenteModel, 
     } = {}) {
         this.model = componenteModel;
-    }
+    };
 
     // Buscar componente por nome ou um ID diferente.
 
@@ -16,7 +16,7 @@ class ComponenteRepository {
         
         const componente = await query;
 
-        if (!user) {
+        if (!componente) {
             throw new CustomError({
                 statusCode: 404,
                 errorType: 'resourceNotFound',
@@ -24,7 +24,7 @@ class ComponenteRepository {
                 details: [],
                 customMessage: messages.error.resourceNotFound('Componente')
             });
-        }
+        };
         
         return componente;
     }
@@ -34,9 +34,11 @@ class ComponenteRepository {
 
         if (idIgnorado) {
             filtro._id = { $ne: idIgnorado }
-        }
+        };
 
-        const documento = await this.model.findOne(filtro);
+        const documento = await this.model.findOne(filtro)
+            .populate('localizacao')
+            .populate('categoria');
 
         return documento;
     }
@@ -49,6 +51,8 @@ class ComponenteRepository {
         // Se um ID for fornecido, retorna o usuário enriquecido com estatísticas.
         if (id) {
             const data = await this.model.findById(id)
+                .populate('localizacao')
+                .populate('categoria');
 
             if (!data) {
                 throw new CustomError({
@@ -58,11 +62,11 @@ class ComponenteRepository {
                     details: [],
                     customMessage: messages.error.resourceNotFound('Componente')
                 });
-            }
+            };
 
             const dataWithStats = {
                 ...data.toObject()
-            }
+            };
 
             return dataWithStats;
         }
@@ -74,10 +78,10 @@ class ComponenteRepository {
             .comNome(nome || '')
             .comQuantidade(quantidade || '')
             .comEstoqueMinimo(estoque_minimo || '')
-            .comAtivo(ativo || '')
+            .comAtivo(ativo || '');
 
-        await filterBuilder.comLocalizacao(localizacao || '')
-        await filterBuilder.comCategoria(categoria || '')
+        await filterBuilder.comLocalizacao(localizacao || '');
+        await filterBuilder.comCategoria(categoria || '');
 
         if (typeof filterBuilder.build !== 'function') {
             throw new CustomError({
@@ -113,12 +117,27 @@ class ComponenteRepository {
         });
 
         return resultado;
-    }
+    };
 
     async criar(dadosComponente) {
         const componente = new this.model(dadosComponente);
         return await componente.save();
-    }
-}
+    };
+
+    async atualizar(id, parsedData) {
+        const componente = await this.model.findByIdAndUpdate(id, parsedData, { new: true }).exec();
+        if (!componente) {
+            throw new CustomError({
+                statusCode: 404,
+                errorType: 'resourceNotFound',
+                field: 'Componente',
+                details: [],
+                customMessage: messages.error.resourceNotFound('Componente')
+            });
+        };
+
+        return componente;
+    };
+};
 
 export default ComponenteRepository;
