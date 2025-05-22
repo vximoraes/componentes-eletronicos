@@ -12,7 +12,7 @@ export default async function movimentacaoSeed() {
     for (let i = 0; i < 10; i++) {
         const tipo = fakeMappings.Movimentacao.tipo.apply();
         const componenteRandom = componenteList[Math.floor(Math.random() * componenteList.length)];
-        const fornecedorRandom = tipo === "Entrada" ? fornecedorList[Math.floor(Math.random() * fornecedorList.length)] : null;
+        const fornecedorRandom = tipo === "entrada" ? fornecedorList[Math.floor(Math.random() * fornecedorList.length)] : null;
 
         const movimentacao = {
             tipo,

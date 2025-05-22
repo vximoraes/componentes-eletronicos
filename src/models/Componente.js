@@ -7,6 +7,7 @@ class Componente {
             nome: {
                 type: String,
                 index: true,
+                unique: true,
                 required: true
             },
             quantidade: {

@@ -4,13 +4,13 @@ import { CommonResponse, CustomError, HttpStatusCodes, errorHandler, messages, S
 class CategoriaService {
     constructor() {
         this.repository = new CategoriaRepository();
-    }
+    };
 
     async listar(req) {
         const data = await this.repository.listar(req);
 
         return data;
-    }
+    };
 
     async criar(parsedData) {
         await this.validateNome(parsedData.nome)
@@ -18,7 +18,7 @@ class CategoriaService {
         const data = await this.repository.criar(parsedData);
 
         return data;
-    }
+    };
 
     async atualizar(id, parsedData) {
         await this.ensureCategoryExists(id);
@@ -27,7 +27,7 @@ class CategoriaService {
         const data = await this.repository.atualizar(id, parsedData);
 
         return data;
-    }
+    };
 
     async deletar(id) {
         await this.ensureCategoryExists(id);
@@ -35,7 +35,7 @@ class CategoriaService {
         const data = await this.repository.deletar(id);
 
         return data;
-    }
+    };
 
     // Métodos auxiliares.
 
@@ -49,8 +49,8 @@ class CategoriaService {
                 details: [{ path: 'nome', message: 'Nome já está em uso.' }],
                 customMessage: 'Nome já está em uso.',
             });
-        }
-    }
+        };
+    };
 
     async ensureCategoryExists(id) {
         const categoriaExistente = await this.repository.buscarPorId(id);
@@ -62,10 +62,10 @@ class CategoriaService {
                 details: [],
                 customMessage: messages.error.resourceNotFound('Categoria'),
             });
-        }
+        };
 
         return categoriaExistente;
-    }
-}
+    };
+};
 
 export default CategoriaService;

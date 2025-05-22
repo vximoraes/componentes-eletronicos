@@ -22,7 +22,7 @@ class ComponenteController {
         const data = await this.service.listar(req);
 
         return CommonResponse.success(res, data);
-    }
+    };
 
     async criar(req, res) {
         const parsedData = ComponenteSchema.parse(req.body);

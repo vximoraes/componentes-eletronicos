@@ -7,6 +7,7 @@ class ComponenteOrcamento {
             nome: {
                 type: String,
                 index: true,
+                unique: true,
                 required: true
             },
             fornecedor: {

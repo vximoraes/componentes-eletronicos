@@ -7,6 +7,7 @@ class Localizacao {
             nome: {
                 type: String,
                 index: true,
+                unique: true,
                 required: true
             },
         });
