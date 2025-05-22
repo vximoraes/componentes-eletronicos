@@ -12,6 +12,7 @@ class AuthRepository {
     }
 
     // Armazenar accesstoken e refreshtoken no banco de dados.
+    
     async armazenarTokens(id, accesstoken, refreshtoken) {
         const documento = await this.model.findById(id);
         if (!documento) {

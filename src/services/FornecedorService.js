@@ -1,9 +1,9 @@
-import ComponenteRepository from '../repositories/ComponenteRepository.js';
+import FornecedorRepository from '../repositories/FornecedorRepository.js';
 import { CommonResponse, CustomError, HttpStatusCodes, errorHandler, messages, StatusService, asyncWrapper } from '../utils/helpers/index.js';
 
-class ComponenteService {
+class FornecedorService {
     constructor() {
-        this.repository = new ComponenteRepository();
+        this.repository = new FornecedorRepository();
     }
 
     async listar(req) {
@@ -21,7 +21,7 @@ class ComponenteService {
     }
 
     async atualizar(id, parsedData) {
-        await this.ensureComponentExists(id);
+        await this.ensureSupplierExists(id);
         await this.validateNome(parsedData.nome)
 
         const data = await this.repository.atualizar(id, parsedData);
@@ -30,7 +30,7 @@ class ComponenteService {
     }
 
     async deletar(id) {
-        await this.ensureComponentExists(id);
+        await this.ensureSupplierExists(id);
 
         const data = await this.repository.deletar(id);
 
@@ -40,8 +40,8 @@ class ComponenteService {
     // Métodos auxiliares.
 
     async validateNome(nome, id = null) {
-        const componenteExistente = await this.repository.buscarPorNome(nome, id);
-        if (componenteExistente) {
+        const fornecedorExistente = await this.repository.buscarPorNome(nome, id);
+        if (fornecedorExistente) {
             throw new CustomError({
                 statusCode: HttpStatusCodes.BAD_REQUEST.code,
                 errorType: 'validationError',
@@ -52,20 +52,20 @@ class ComponenteService {
         }
     }
 
-    async ensureComponentExists(id) {
-        const componenteExistente = await this.repository.buscarPorId(id);
-        if (!componenteExistente) {
+    async ensureSupplierExists(id) {
+        const fornecedorExistente = await this.repository.buscarPorId(id);
+        if (!fornecedorExistente) {
             throw new CustomError({
                 statusCode: 404,
                 errorType: 'resourceNotFound',
-                field: 'Componente',
+                field: 'Fornecedor',
                 details: [],
-                customMessage: messages.error.resourceNotFound('Componente'),
+                customMessage: messages.error.resourceNotFound('Fornecedor'),
             });
         }
 
-        return componenteExistente;
+        return fornecedorExistente;
     }
 }
 
-export default ComponenteService;
+export default FornecedorService;

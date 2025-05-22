@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-const LocalizacaoSchema = z.object({
+const FornecedorSchema = z.object({
     nome: z
         .string()
         .min(1, 'Campo nome é obrigatório.'),
@@ -9,7 +9,7 @@ const LocalizacaoSchema = z.object({
         .default(true),
 });
 
-const LocalizacaoUpdateSchema = LocalizacaoSchema
+const FornecedorUpdateSchema = FornecedorSchema
     .partial();
 
-export { LocalizacaoSchema, LocalizacaoUpdateSchema };
+export { FornecedorSchema, FornecedorUpdateSchema };

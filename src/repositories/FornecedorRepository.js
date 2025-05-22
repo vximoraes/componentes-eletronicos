@@ -1,24 +1,24 @@
-import CategoriaFilterBuilder from './filters/CategoriaFilterBuilder.js';
-import CategoriaModel from '../models/Categoria.js';
-import ComponenteModel from '../models/Componente.js';
+import FornecedorFilterBuilder from './filters/FornecedorFilterBuilder.js';
+import FornecedorModel from '../models/Fornecedor.js';
+import MovimentacaoModel from '../models/Movimentacao.js';
 import { CommonResponse, CustomError, HttpStatusCodes, errorHandler, messages, StatusService, asyncWrapper } from '../utils/helpers/index.js';
 
-class CategoriaRepository {
+class FornecedorRepository {
     constructor({
-        categoriaModel = CategoriaModel,
+        fornecedorModel = FornecedorModel,
     } = {}) {
-        this.model = categoriaModel;
+        this.model = fornecedorModel;
     };
 
-    async criar(dadosCategoria) {
-        const categoria = new this.model(dadosCategoria);
-        return await categoria.save();
+    async criar(dadosFornecedor) {
+        const fornecedor = new this.model(dadosFornecedor);
+        return await fornecedor.save();
     };
 
     async listar(req) {
         const id = req.params.id || null;
 
-        // Se um ID for fornecido, retorna a categoria enriquecida com estatísticas.
+        // Se um ID for fornecido, retorna o fornecedor enriquecido com estatísticas.
         if (id) {
             const data = await this.model.findById(id);
 
@@ -26,9 +26,9 @@ class CategoriaRepository {
                 throw new CustomError({
                     statusCode: 404,
                     errorType: 'resourceNotFound',
-                    field: 'Categoria',
+                    field: 'Fornecedor',
                     details: [],
-                    customMessage: messages.error.resourceNotFound('Categoria')
+                    customMessage: messages.error.resourceNotFound('Fornecedor')
                 });
             };
 
@@ -42,16 +42,16 @@ class CategoriaRepository {
         const { nome, page = 1 } = req.query;
         const limite = Math.min(parseInt(req.query.limite, 10) || 10, 100);
 
-        const filterBuilder = new CategoriaFilterBuilder()
+        const filterBuilder = new FornecedorFilterBuilder()
             .comNome(nome || '');
 
         if (typeof filterBuilder.build !== 'function') {
             throw new CustomError({
                 statusCode: 500,
                 errorType: 'internalServerError',
-                field: 'Categoria',
+                field: 'Fornecedor',
                 details: [],
-                customMessage: messages.error.internalServerError('Categoria')
+                customMessage: messages.error.internalServerError('Fornecedor')
             });
         };
 
@@ -65,12 +65,12 @@ class CategoriaRepository {
 
         const resultado = await this.model.paginate(filtros, options);
 
-        // Enriquecer cada categoria com estatísticas utilizando o length dos arrays.
+        // Enriquecer cada fornecedor com estatísticas utilizando o length dos arrays.
         resultado.docs = resultado.docs.map(doc => {
-            const categoriaObj = typeof doc.toObject === 'function' ? doc.toObject() : doc;
+            const fornecedorObj = typeof doc.toObject === 'function' ? doc.toObject() : doc;
 
             return {
-                ...categoriaObj,
+                ...fornecedorObj,
             };
         });
 
@@ -78,34 +78,34 @@ class CategoriaRepository {
     };
 
     async atualizar(id, parsedData) {
-        const categoria = await this.model.findByIdAndUpdate(id, parsedData, { new: true }).exec();
-        if (!categoria) {
+        const fornecedor = await this.model.findByIdAndUpdate(id, parsedData, { new: true }).exec();
+        if (!fornecedor) {
             throw new CustomError({
                 statusCode: 404,
                 errorType: 'resourceNotFound',
-                field: 'Categoria',
+                field: 'Fornecedor',
                 details: [],
-                customMessage: messages.error.resourceNotFound('Categoria')
+                customMessage: messages.error.resourceNotFound('Fornecedor')
             });
         };
 
-        return categoria;
+        return fornecedor;
     };
 
     async deletar(id) {
-        const existeComponente = await ComponenteModel.exists({ categoria: id });
-        if (existeComponente) {
+        const existeMovimentacao = await MovimentacaoModel.exists({ fornecedor: id });
+        if (existeMovimentacao) {
             throw new CustomError({
                 statusCode: 400,
                 errorType: 'resourceInUse',
-                field: 'Categoria',
+                field: 'Fornecedor',
                 details: [],
-                customMessage: 'Não é possível deletar: categoria está vinculada a componentes.'
+                customMessage: 'Não é possível deletar: fornecedor está vinculado a movimentações.'
             });
         };
 
-        const categoria = await this.model.findByIdAndDelete(id);
-        return categoria;
+        const fornecedor = await this.model.findByIdAndDelete(id);
+        return fornecedor;
     };
 
     // Métodos auxiliares.
@@ -129,21 +129,20 @@ class CategoriaRepository {
         //     query = query.select('+refreshtoken +accesstoken');
         // };
 
-        const categoria = await query;
+        const fornecedor = await query;
 
-        if (!categoria) {
+        if (!fornecedor) {
             throw new CustomError({
                 statusCode: 404,
                 errorType: 'resourceNotFound',
-                field: 'Categoria',
+                field: 'Fornecedor',
                 details: [],
-                customMessage: messages.error.resourceNotFound('Categoria')
+                customMessage: messages.error.resourceNotFound('Fornecedor')
             });
         };
 
-        return categoria;
+        return fornecedor;
     };
-
 };
 
-export default CategoriaRepository;
+export default FornecedorRepository;
