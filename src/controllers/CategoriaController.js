@@ -6,23 +6,7 @@ import { CommonResponse, CustomError, HttpStatusCodes, errorHandler, messages, S
 class CategoriaController {
     constructor() {
         this.service = new CategoriaService();
-    }
-
-    async listar(req, res) {
-        const { id } = req.params || {};
-        if (id) {
-            CategoriaIdSchema.parse(id);
-        }
-
-        const query = req.query || {};
-        if (Object.keys(query).length !== 0) {
-            await CategoriaQuerySchema.parseAsync(query);
-        }
-
-        const data = await this.service.listar(req);
-
-        return CommonResponse.success(res, data);
-    }
+    };
 
     async criar(req, res) {
         const parsedData = CategoriaSchema.parse(req.body);
@@ -31,7 +15,23 @@ class CategoriaController {
         let categoriaLimpa = data.toObject();
 
         return CommonResponse.created(res, categoriaLimpa);
-    }
+    };
+
+    async listar(req, res) {
+        const { id } = req.params || {};
+        if (id) {
+            CategoriaIdSchema.parse(id);
+        };
+
+        const query = req.query || {};
+        if (Object.keys(query).length !== 0) {
+            await CategoriaQuerySchema.parseAsync(query);
+        };
+
+        const data = await this.service.listar(req);
+
+        return CommonResponse.success(res, data);
+    };
 
     async atualizar(req, res) {
         const { id } = req.params;
@@ -41,7 +41,7 @@ class CategoriaController {
         const data = await this.service.atualizar(id, parsedData);
 
         return CommonResponse.success(res, data, 200, 'Categoria atualizada com sucesso.');
-    }
+    };
 
     async deletar(req, res) {
         const { id } = req.params || {};
@@ -50,7 +50,7 @@ class CategoriaController {
         const data = await this.service.deletar(id);
 
         return CommonResponse.success(res, data, 200, 'Categoria excluída com sucesso.');
-    }
-}
+    };
+};
 
 export default CategoriaController;

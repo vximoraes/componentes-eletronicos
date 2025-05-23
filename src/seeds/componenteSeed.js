@@ -1,17 +1,17 @@
 import { fakeMappings } from "./globalFakeMapping.js";
 import Componente from "../models/Componente.js";
-import Categoria from "../models/Categoria.js"
-import Localizacao from "../models/Localizacao.js"
+import Categoria from "../models/Categoria.js";
+import Localizacao from "../models/Localizacao.js";
 
 export default async function componenteSeed() {
-    const categoriaList = await Categoria.find({})
-    const localizacaoList = await Localizacao.find({})
+    const categoriaList = await Categoria.find({});
+    const localizacaoList = await Localizacao.find({});
 
     await Componente.deleteMany({});
 
     for (let i = 0; i < 10; i++) {
-        const categoriaRandom = categoriaList[Math.floor(Math.random() * categoriaList.length)]
-        const localizacaoRandom = localizacaoList[Math.floor(Math.random() * localizacaoList.length)]
+        const categoriaRandom = categoriaList[Math.floor(Math.random() * categoriaList.length)];
+        const localizacaoRandom = localizacaoList[Math.floor(Math.random() * localizacaoList.length)];
 
         const componente = {
             nome: fakeMappings.Componente.nome.apply(),
@@ -26,5 +26,5 @@ export default async function componenteSeed() {
         };
 
         await Componente.create(componente);
-    }
-}
+    };
+};

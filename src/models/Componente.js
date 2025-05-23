@@ -38,17 +38,17 @@ class Componente {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: "categorias", required: true
             },
-            ativo: { 
-                type: Boolean, 
-                default: 
-                false 
+            ativo: {
+                type: Boolean,
+                default:
+                    false
             },
         });
 
         componenteSchema.plugin(mongoosePaginate);
 
         this.model = mongoose.model("componentes", componenteSchema);
-    }
-}
+    };
+};
 
 export default new Componente().model;

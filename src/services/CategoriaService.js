@@ -6,16 +6,16 @@ class CategoriaService {
         this.repository = new CategoriaRepository();
     };
 
-    async listar(req) {
-        const data = await this.repository.listar(req);
-
-        return data;
-    };
-
     async criar(parsedData) {
         await this.validateNome(parsedData.nome)
 
         const data = await this.repository.criar(parsedData);
+
+        return data;
+    };
+
+    async listar(req) {
+        const data = await this.repository.listar(req);
 
         return data;
     };

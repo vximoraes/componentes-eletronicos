@@ -1,6 +1,5 @@
 import { fakeMappings } from './globalFakeMapping.js';
 import ComponenteOrcamento from '../models/ComponenteOrcamento.js';
-import Orcamento from '../models/Orcamento.js';
 
 export default async function componenteOrcamentoSeed() {
     await ComponenteOrcamento.deleteMany({});
@@ -15,5 +14,5 @@ export default async function componenteOrcamentoSeed() {
         };
 
         await ComponenteOrcamento.create(componente);
-    }
-}
+    };
+};

@@ -12,7 +12,10 @@ class ComponenteRepository {
 
     async criar(dadosComponente) {
         const componente = new this.model(dadosComponente);
-        return await componente.save();
+        const componenteSalvo = await componente.save();
+        return await this.model.findById(componenteSalvo._id)
+            .populate('localizacao')
+            .populate('categoria')
     };
 
     async listar(req) {
@@ -90,7 +93,10 @@ class ComponenteRepository {
     };
 
     async atualizar(id, parsedData) {
-        const componente = await this.model.findByIdAndUpdate(id, parsedData, { new: true }).exec();
+        const componente = await this.model.findByIdAndUpdate(id, parsedData, { new: true })
+            .populate('localizacao')
+            .populate('categoria')
+            .lean();
         if (!componente) {
             throw new CustomError({
                 statusCode: 404,
@@ -116,7 +122,21 @@ class ComponenteRepository {
             });
         };
 
-        const componente = await this.model.findByIdAndDelete(id);
+        const componente = await this.model.findById(id)
+            .populate('localizacao')
+            .populate('categoria');
+
+        if (!componente) {
+            throw new CustomError({
+                statusCode: 404,
+                errorType: 'resourceNotFound',
+                field: 'Componente',
+                details: [],
+                customMessage: messages.error.resourceNotFound('Componente')
+            });
+        }
+
+        await this.model.findByIdAndDelete(id);
         return componente;
     };
 

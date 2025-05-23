@@ -15,7 +15,7 @@ class Fornecedor {
         fornecedorSchema.plugin(mongoosePaginate);
 
         this.model = mongoose.model("fornecedores", fornecedorSchema);
-    }
-}
+    };
+};
 
 export default new Fornecedor().model;

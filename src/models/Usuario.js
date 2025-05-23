@@ -19,10 +19,10 @@ class Usuario {
                 select: false,
                 required: true
             },
-            ativo: { 
-                type: Boolean, 
-                default: 
-                false 
+            ativo: {
+                type: Boolean,
+                default:
+                    false
             },
             // tokenUnico: { // Token único para recuperação de senha.
             //     type: String, 
@@ -41,7 +41,7 @@ class Usuario {
         usuarioSchema.plugin(mongoosePaginate);
 
         this.model = mongoose.model("usuarios", usuarioSchema);
-    }
-}
+    };
+};
 
 export default new Usuario().model;

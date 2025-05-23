@@ -10,5 +10,5 @@ export default async function categoriaSeed() {
         };
 
         await Categoria.create(categoria);
-    }
-}
+    };
+};

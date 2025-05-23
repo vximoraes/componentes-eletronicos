@@ -8,6 +8,15 @@ class ComponenteController {
         this.service = new ComponenteService();
     };
 
+    async criar(req, res) {
+        const parsedData = ComponenteSchema.parse(req.body);
+        let data = await this.service.criar(parsedData);
+
+        let componenteLimpo = data.toObject();
+
+        return CommonResponse.created(res, componenteLimpo);
+    };
+
     async listar(req, res) {
         const { id } = req.params || {};
         if (id) {
@@ -24,15 +33,6 @@ class ComponenteController {
         return CommonResponse.success(res, data);
     };
 
-    async criar(req, res) {
-        const parsedData = ComponenteSchema.parse(req.body);
-        let data = await this.service.criar(parsedData);
-
-        let componenteLimpo = data.toObject();
-
-        return CommonResponse.created(res, componenteLimpo);
-    };
-
     async atualizar(req, res) {
         const { id } = req.params;
         ComponenteIdSchema.parse(id);
@@ -40,7 +40,7 @@ class ComponenteController {
         const parsedData = ComponenteUpdateSchema.parse(req.body);
         const data = await this.service.atualizar(id, parsedData);
 
-        return CommonResponse.success(res, data, 200, 'Componente atualizado com sucesso.');
+        return CommonResponse.success(res, data, 200, 'Componente atualizado com sucesso. Porém, a quantidade só pode ser alterada por movimentação.');
     };
 
     async deletar(req, res) {

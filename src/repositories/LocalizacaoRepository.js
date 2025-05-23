@@ -78,7 +78,7 @@ class LocalizacaoRepository {
     };
 
     async atualizar(id, parsedData) {
-        const localizacao = await this.model.findByIdAndUpdate(id, parsedData, { new: true }).exec();
+        const localizacao = await this.model.findByIdAndUpdate(id, parsedData, { new: true }).lean();
         if (!localizacao) {
             throw new CustomError({
                 statusCode: 404,

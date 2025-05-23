@@ -31,4 +31,4 @@ try {
 } finally {
     mongoose.connection.close();
     process.exit(0);
-}
+};

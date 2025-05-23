@@ -78,7 +78,7 @@ class FornecedorRepository {
     };
 
     async atualizar(id, parsedData) {
-        const fornecedor = await this.model.findByIdAndUpdate(id, parsedData, { new: true }).exec();
+        const fornecedor = await this.model.findByIdAndUpdate(id, parsedData, { new: true }).lean();
         if (!fornecedor) {
             throw new CustomError({
                 statusCode: 404,

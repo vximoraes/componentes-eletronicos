@@ -17,11 +17,11 @@ dotenv.config();
 const routes = (app) => {
     if (process.env.DEBUGLOG) {
         app.use(logRoutes);
-    }
+    };
+    
     app.get("/", (req, res) => {
         res.redirect("/docs");
-    }
-    );
+    });
 
     // const swaggerDocs = swaggerJsDoc(getSwaggerOptions());
     // app.use(swaggerUI.serve);

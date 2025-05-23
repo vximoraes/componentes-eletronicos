@@ -6,12 +6,6 @@ class ComponenteService {
         this.repository = new ComponenteRepository();
     };
 
-    async listar(req) {
-        const data = await this.repository.listar(req);
-
-        return data;
-    };
-
     async criar(parsedData) {
         await this.validateNome(parsedData.nome)
 
@@ -20,9 +14,17 @@ class ComponenteService {
         return data;
     };
 
+    async listar(req) {
+        const data = await this.repository.listar(req);
+
+        return data;
+    };
+
     async atualizar(id, parsedData) {
         await this.ensureComponentExists(id);
         await this.validateNome(parsedData.nome)
+
+        delete parsedData.quantidade;
 
         const data = await this.repository.atualizar(id, parsedData);
 
