@@ -4,11 +4,6 @@
 
 *versão 1.0*
 
-## Histórico das alterações 
-
-   Data    | Versão |    Descrição   | Autor(a)
------------|--------|----------------|-----------------
-
 ## 1 - Introdução
 
 O presente sistema tem como objetivo informatizar a gestão de uma biblioteca, oferecendo funcionalidades que abrangem o cadastro de livros, controle de empréstimos e devoluções, gerenciamento de usuários (alunos, funcionários e administradores), e aplicação de regras específicas como limite de empréstimos e cálculo de multas por atraso.
