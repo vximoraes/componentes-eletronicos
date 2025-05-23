@@ -9,10 +9,10 @@ class AuthRepository {
     } = {}) {
         this.model = usuarioModel;
         this.rotaModel = rotaModel;
-    }
+    };
 
     // Armazenar accesstoken e refreshtoken no banco de dados.
-    
+
     async armazenarTokens(id, accesstoken, refreshtoken) {
         const documento = await this.model.findById(id);
         if (!documento) {
@@ -23,12 +23,12 @@ class AuthRepository {
                 details: [],
                 customMessage: messages.error.resourceNotFound('Usuário')
             });
-        }
+        };
         documento.accesstoken = accesstoken;
         documento.refreshtoken = refreshtoken;
         const data = await documento.save();
         return data;
-    }
+    };
 
     // Atualizar usuário removendo accesstoken e refreshtoken.
 
@@ -49,9 +49,9 @@ class AuthRepository {
                 details: [],
                 customMessage: messages.error.resourceNotFound('Usuário')
             });
-        }
+        };
         return usuario;
-    }
-}
+    };
+};
 
 export default AuthRepository;

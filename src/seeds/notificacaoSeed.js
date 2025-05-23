@@ -4,7 +4,7 @@ import Usuario from '../models/Usuario.js';
 
 export default async function notificacaoSeed() {
     const usuarios = await Usuario.find({});
-    
+
     await Notificacao.deleteMany({});
 
     for (let i = 0; i < 10; i++) {
@@ -17,5 +17,5 @@ export default async function notificacaoSeed() {
             usuario: usuarioRandom._id
         };
         await Notificacao.create(notificacao);
-    }
-}
+    };
+};

@@ -8,6 +8,15 @@ class MovimentacaoController {
         this.service = new MovimentacaoService();
     };
 
+    async criar(req, res) {
+        const parsedData = MovimentacaoSchema.parse(req.body);
+        let data = await this.service.criar(parsedData);
+
+        let movimentacaoLimpa = data.toObject();
+
+        return CommonResponse.created(res, movimentacaoLimpa);
+    };
+
     async listar(req, res) {
         const { id } = req.params || {};
         if (id) {
@@ -22,15 +31,6 @@ class MovimentacaoController {
         const data = await this.service.listar(req);
 
         return CommonResponse.success(res, data);
-    };
-
-    async criar(req, res) {
-        const parsedData = MovimentacaoSchema.parse(req.body);
-        let data = await this.service.criar(parsedData);
-
-        let movimentacaoLimpa = data.toObject();
-
-        return CommonResponse.created(res, movimentacaoLimpa);
     };
 };
 

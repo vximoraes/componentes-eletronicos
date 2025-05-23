@@ -8,6 +8,15 @@ class ComponenteController {
         this.service = new ComponenteService();
     };
 
+    async criar(req, res) {
+        const parsedData = ComponenteSchema.parse(req.body);
+        let data = await this.service.criar(parsedData);
+
+        let componenteLimpo = data.toObject();
+
+        return CommonResponse.created(res, componenteLimpo);
+    };
+
     async listar(req, res) {
         const { id } = req.params || {};
         if (id) {
@@ -22,15 +31,6 @@ class ComponenteController {
         const data = await this.service.listar(req);
 
         return CommonResponse.success(res, data);
-    };
-
-    async criar(req, res) {
-        const parsedData = ComponenteSchema.parse(req.body);
-        let data = await this.service.criar(parsedData);
-
-        let componenteLimpo = data.toObject();
-
-        return CommonResponse.created(res, componenteLimpo);
     };
 
     async atualizar(req, res) {

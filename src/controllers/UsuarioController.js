@@ -8,6 +8,16 @@ class UsuarioController {
         this.service = new UsuarioService();
     };
 
+    async criar(req, res) {
+        const parsedData = UsuarioSchema.parse(req.body);
+        let data = await this.service.criar(parsedData);
+
+        let usuarioLimpo = data.toObject();
+        delete usuarioLimpo.senha;
+
+        return CommonResponse.created(res, usuarioLimpo);
+    };
+
     async listar(req, res) {
         const { id } = req.params || {};
         if (id) {
@@ -22,16 +32,6 @@ class UsuarioController {
         const data = await this.service.listar(req);
 
         return CommonResponse.success(res, data);
-    };
-
-    async criar(req, res) {
-        const parsedData = UsuarioSchema.parse(req.body);
-        let data = await this.service.criar(parsedData);
-
-        let usuarioLimpo = data.toObject();
-        delete usuarioLimpo.senha;
-
-        return CommonResponse.created(res, usuarioLimpo);
     };
 
     async atualizar(req, res) {
@@ -55,6 +55,6 @@ class UsuarioController {
 
         return CommonResponse.success(res, data, 200, 'Usuário excluído com sucesso.');
     };
-}
+};
 
 export default UsuarioController;

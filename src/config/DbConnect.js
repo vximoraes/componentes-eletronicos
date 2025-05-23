@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import { URL } from 'url';
 import logger from '../utils/logger.js';
 
-dotenv.config(); 
+dotenv.config();
 
 class DbConnect {
     static async conectar() {
@@ -73,7 +73,7 @@ class DbConnect {
             if (process.env.NODE_ENV !== 'test') {
                 SendMail.enviaEmailErrorDbConnect(error, new URL(import.meta.url).pathname, new Date());
             }
-            throw error; 
+            throw error;
         }
     }
 
@@ -86,7 +86,7 @@ class DbConnect {
             if (process.env.NODE_ENV !== 'test') {
                 SendMail.enviaEmailErrorDbConnect(error, new URL(import.meta.url).pathname, new Date());
             }
-            throw error; 
+            throw error;
         }
     }
 }

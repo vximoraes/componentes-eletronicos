@@ -34,7 +34,7 @@ class Movimentacao {
         movimentacaoSchema.plugin(mongoosePaginate);
 
         this.model = mongoose.model("movimentacoes", movimentacaoSchema);
-    }
-}
+    };
+};
 
 export default new Movimentacao().model;

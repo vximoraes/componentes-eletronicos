@@ -10,5 +10,5 @@ export default async function fornecedorSeed() {
         };
 
         await Fornecedor.create(fornecedor);
-    }
-}
+    };
+};

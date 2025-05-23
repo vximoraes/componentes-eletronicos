@@ -28,7 +28,7 @@ class Notificacao {
         notificacaoSchema.plugin(mongoosePaginate);
 
         this.model = mongoose.model("notificacoes", notificacaoSchema);
-    }
-}
+    };
+};
 
 export default new Notificacao().model;

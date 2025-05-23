@@ -10,9 +10,9 @@ class MovimentacaoRepository {
     };
 
     async criar(dadosMovimentacao) {
-        const componente = new this.model(dadosMovimentacao);
-        const componenteSalvo = await componente.save();
-        return await this.model.findById(componenteSalvo._id)
+        const movimentacao = new this.model(dadosMovimentacao);
+        const movimentacaoSalva = await movimentacao.save();
+        return await this.model.findById(movimentacaoSalva._id)
             .populate('componente')
             .populate('fornecedor');
     };

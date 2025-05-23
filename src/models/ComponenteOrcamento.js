@@ -31,7 +31,7 @@ class ComponenteOrcamento {
         componenteOrcamentoSchema.plugin(mongoosePaginate);
 
         this.model = mongoose.model("componente_orcamentos", componenteOrcamentoSchema);
-    }
-}
+    };
+};
 
 export default new ComponenteOrcamento().model;

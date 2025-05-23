@@ -15,7 +15,7 @@ class Categoria {
         categoriaSchema.plugin(mongoosePaginate);
 
         this.model = mongoose.model("categorias", categoriaSchema);
-    }
-}
+    };
+};
 
 export default new Categoria().model;

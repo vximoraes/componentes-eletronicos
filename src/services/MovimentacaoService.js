@@ -8,12 +8,6 @@ class MovimentacaoService {
         this.repository = new MovimentacaoRepository();
     };
 
-    async listar(req) {
-        const data = await this.repository.listar(req);
-
-        return data;
-    };
-
     async criar(parsedData) {
         // Buscar o componente relacionado.
         const componente = await Componente.findById(parsedData.componente);
@@ -75,6 +69,12 @@ class MovimentacaoService {
         await componente.save();
 
         const data = await this.repository.criar(parsedData);
+        return data;
+    };
+
+    async listar(req) {
+        const data = await this.repository.listar(req);
+
         return data;
     };
 };

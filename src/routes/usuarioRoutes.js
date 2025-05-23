@@ -6,7 +6,7 @@ import { asyncWrapper } from '../utils/helpers/index.js';
 
 const router = express.Router();
 
-const usuarioController = new UsuarioController(); 
+const usuarioController = new UsuarioController();
 
 router
     .get("/usuarios", /*AuthMiddleware, authPermission,*/ asyncWrapper(usuarioController.listar.bind(usuarioController)))
