@@ -90,7 +90,10 @@ class ComponenteRepository {
     };
 
     async atualizar(id, parsedData) {
-        const componente = await this.model.findByIdAndUpdate(id, parsedData, { new: true }).exec();
+        const componente = await this.model.findByIdAndUpdate(id, parsedData, { new: true })
+            .populate('localizacao')
+            .populate('categoria')
+            .lean();
         if (!componente) {
             throw new CustomError({
                 statusCode: 404,

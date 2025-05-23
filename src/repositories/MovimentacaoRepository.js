@@ -11,8 +11,8 @@ class MovimentacaoRepository {
 
     async criar(dadosMovimentacao) {
         const componente = new this.model(dadosMovimentacao);
-        const saved = await componente.save();
-        return await this.model.findById(saved._id)
+        const componenteSalvo = await componente.save();
+        return await this.model.findById(componenteSalvo._id)
             .populate('componente')
             .populate('fornecedor');
     };

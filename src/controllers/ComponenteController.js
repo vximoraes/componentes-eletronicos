@@ -40,7 +40,7 @@ class ComponenteController {
         const parsedData = ComponenteUpdateSchema.parse(req.body);
         const data = await this.service.atualizar(id, parsedData);
 
-        return CommonResponse.success(res, data, 200, 'Componente atualizado com sucesso.');
+        return CommonResponse.success(res, data, 200, 'Componente atualizado com sucesso. Porém, a quantidade só pode ser alterada por movimentação.');
     };
 
     async deletar(req, res) {

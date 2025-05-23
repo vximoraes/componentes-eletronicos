@@ -24,6 +24,8 @@ class ComponenteService {
         await this.ensureComponentExists(id);
         await this.validateNome(parsedData.nome)
 
+        delete parsedData.quantidade;
+
         const data = await this.repository.atualizar(id, parsedData);
 
         return data;

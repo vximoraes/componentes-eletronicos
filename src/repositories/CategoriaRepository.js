@@ -78,7 +78,7 @@ class CategoriaRepository {
     };
 
     async atualizar(id, parsedData) {
-        const categoria = await this.model.findByIdAndUpdate(id, parsedData, { new: true }).exec();
+        const categoria = await this.model.findByIdAndUpdate(id, parsedData, { new: true }).lean();
         if (!categoria) {
             throw new CustomError({
                 statusCode: 404,

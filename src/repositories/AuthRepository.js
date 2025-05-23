@@ -38,7 +38,7 @@ class AuthRepository {
             accesstoken: null,
             refreshtoken: null
         };
-        const usuario = await this.model.findByIdAndUpdate(id, parsedData, { new: true }).exec();
+        const usuario = await this.model.findByIdAndUpdate(id, parsedData, { new: true }).lean();
 
         // Validar se o usuário atualizado foi retornado.
         if (!usuario) {

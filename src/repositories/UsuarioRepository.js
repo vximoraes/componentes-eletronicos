@@ -80,7 +80,7 @@ class UsuarioRepository {
     };
 
     async atualizar(id, parsedData) {
-        const usuario = await this.model.findByIdAndUpdate(id, parsedData, { new: true }).exec();
+        const usuario = await this.model.findByIdAndUpdate(id, parsedData, { new: true }).lean();
         if (!usuario) {
             throw new CustomError({
                 statusCode: 404,
