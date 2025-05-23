@@ -9,6 +9,14 @@ class MovimentacaoRepository {
         this.model = movimentacaoModel;
     };
 
+    async criar(dadosMovimentacao) {
+        const componente = new this.model(dadosMovimentacao);
+        const saved = await componente.save();
+        return await this.model.findById(saved._id)
+            .populate('componente')
+            .populate('fornecedor');
+    };
+
     async listar(req) {
         const id = req.params.id || null;
 
