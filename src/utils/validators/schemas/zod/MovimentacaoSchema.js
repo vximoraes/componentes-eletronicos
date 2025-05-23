@@ -10,14 +10,10 @@ const MovimentacaoSchema = z.object({
         }),
     data_hora: z
         .string()
-        .optional()
-        .refine((val) => !val || /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}(:\d{2})?$/.test(val), {
-            message: "Data/hora deve estar no formato YYYY-MM-DD HH:mm ou YYYY-MM-DD HH:mm:ss",
+        .refine((val) => val === undefined, {
+            message: 'O campo data/hora não pode ser informado. Ele é preenchido automaticamente com a data/hora atual.',
         })
-        .transform((val) => (val ? new Date(val.replace(' ', 'T')) : undefined))
-        .refine((val) => val === undefined || (val instanceof Date && !isNaN(val)), {
-            message: "Data/hora deve ser uma data válida",
-        }),
+        .optional(),
     quantidade: z
         .string()
         .optional()
@@ -28,7 +24,8 @@ const MovimentacaoSchema = z.object({
     componente:
         objectIdSchema,
     fornecedor: 
-        objectIdSchema,
+        objectIdSchema
+        .optional(),
 });
 
 const MovimentacaoUpdateSchema = MovimentacaoSchema.partial();
