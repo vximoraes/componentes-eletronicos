@@ -23,6 +23,15 @@ class MovimentacaoController {
 
         return CommonResponse.success(res, data);
     };
+
+    async criar(req, res) {
+        const parsedData = MovimentacaoSchema.parse(req.body);
+        let data = await this.service.criar(parsedData);
+
+        let movimentacaoLimpa = data.toObject();
+
+        return CommonResponse.created(res, movimentacaoLimpa);
+    };
 };
 
 export default MovimentacaoController;
