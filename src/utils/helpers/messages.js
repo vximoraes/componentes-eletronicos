@@ -18,8 +18,8 @@ const messages = {
     // Mensagens de Erro.
     error: {
         default: "Ocorreu um erro ao processar a solicitação.",
-        serverError: "Erro interno do servidor. Tente novamente mais tarde.",
-        validationError: "Erro de validação. Verifique os dados fornecidos e tente novamente.",
+        serverError: (resource) => resource ? `Erro interno do servidor ao processar ${resource}.` : "Erro interno do servidor. Tente novamente mais tarde.",
+        validationError: (field) => field ? `Erro de validação no campo ${field}.` : "Erro de validação. Verifique os dados fornecidos e tente novamente.",
         invalidRequest: "Requisição inválida. Verifique os parâmetros fornecidos.",
         unauthorizedAccess: "Acesso não autorizado. Faça login para continuar.",
         invalidURL: "URL inválida. Verifique a URL fornecida.",
@@ -29,7 +29,9 @@ const messages = {
         invalidApiKey: "Chave de API inválida.",
         operationCanceled: "Operação cancelada pelo usuário.",
         internalServerError: (resource) => `Erro interno no servidor ao processar ${resource}.`,
-        unauthorized: (resource) => `Erro de autorização: ${resource}.`,
+        unauthorized: (resource) => resource ? `Acesso não autorizado: ${resource}.` : "Acesso não autorizado. Faça login para continuar.",
+        badRequest: (field) => field ? `Requisição inválida: ${field}` : "Requisição inválida. Verifique os parâmetros fornecidos.",
+        forbidden: (action) => action ? `Permissão negada para ${action}.` : "Permissão negada.",
         resourceConflict: (resource, conflictField) => `Conflito de recurso em ${resource} contém ${conflictField}.`,
         pageIsNotAvailable: (page) => `A página ${page} não está disponível.`,
         pageNotContainsData: (page) => `A página ${page} não contém dados.`,
@@ -37,7 +39,7 @@ const messages = {
         resourceInUse: (fieldName) => `Recurso em uso em ${fieldName}.`,
         authenticationError: (fieldName) => `Erro de autenticação em ${fieldName}.`,
         permissionError: (fieldName) => `Erro de permissão em ${fieldName}.`,
-        resourceNotFound: (fieldName) => `Recurso não encontrado em ${fieldName}.`,
+        resourceNotFound: (fieldName) => `${fieldName} não encontrado(a).`,
     },
 
     // Mensagens de Validação.

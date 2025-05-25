@@ -12,7 +12,8 @@ class Componente {
             },
             quantidade: {
                 type: Number,
-                required: true
+                required: false,
+                default: 0
             },
             estoque_minimo: {
                 type: Number,
@@ -40,8 +41,7 @@ class Componente {
             },
             ativo: {
                 type: Boolean,
-                default:
-                    false
+                default: true
             },
         });
 

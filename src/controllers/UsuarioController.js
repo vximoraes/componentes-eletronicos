@@ -41,8 +41,7 @@ class UsuarioController {
         const parsedData = UsuarioUpdateSchema.parse(req.body);
         const data = await this.service.atualizar(id, parsedData);
 
-        let usuarioLimpo = data.toObject();
-        delete usuarioLimpo.senha;
+        delete data.senha;
 
         return CommonResponse.success(res, data, 200, 'Usuário atualizado com sucesso. Porém, o e-mail é ignorado em tentativas de atualização, pois é operação proibida.');
     };
