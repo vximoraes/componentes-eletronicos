@@ -8,12 +8,6 @@ const ComponenteSchema = z.object({
             message: "Nome não pode ser vazio",
         })
         .transform((val) => val?.trim()),
-    quantidade: z
-        .string()
-        .transform((val) => (val ? parseInt(val) : undefined))
-        .refine((val) => val === undefined || Number.isInteger(val), {
-            message: "Quantidade deve ser um número inteiro",
-        }),
     estoque_minimo: z
         .string()
         .transform((val) => (val ? parseInt(val) : undefined))
