@@ -1,45 +1,49 @@
+import NotificacaoModel from '../../models/Notificacao.js';
+import NotificacaoRepository from '../NotificacaoRepository.js';
+
 class NotificacaoFilterBuilder {
-    
     constructor() {
-      this.filtros = {};
+        this.filtros = {};
+        this.notificacaoRepository = new NotificacaoRepository();
+        this.notificacaoModel = NotificacaoModel;
     }
-  
-    porUsuario(usuarioId) {
-      if (usuarioId) {
-        this.filtros.usuario = usuarioId;
-      }
-      return this;
+
+    comUsuario(usuarioId) {
+        if (usuarioId) {
+            this.filtros.usuario = usuarioId;
+        }
+        return this;
     }
-  
-    porDataInicial(dataInicial) {
-      if (dataInicial) {
-        if (!this.filtros.data_hora) this.filtros.data_hora = {};
-        this.filtros.data_hora.$gte = new Date(dataInicial);
-      }
-      return this;
+
+    comDataInicial(dataInicial) {
+        if (dataInicial) {
+            if (!this.filtros.dataCriacao) this.filtros.dataCriacao = {};
+            this.filtros.dataCriacao.$gte = new Date(dataInicial);
+        }
+        return this;
     }
-  
-    porDataFinal(dataFinal) {
-      if (dataFinal) {
-        if (!this.filtros.data_hora) this.filtros.data_hora = {};
-        this.filtros.data_hora.$lte = new Date(dataFinal);
-      }
-      return this;
+
+    comDataFinal(dataFinal) {
+        if (dataFinal) {
+            if (!this.filtros.dataCriacao) this.filtros.dataCriacao = {};
+            this.filtros.dataCriacao.$lte = new Date(dataFinal);
+        }
+        return this;
     }
-  
-    porVisualizacao(visualizada) {
-      if (visualizada === "true") {
-        this.filtros.visualizacao = { $ne: null };
-      } else if (visualizada === "false") {
-        this.filtros.visualizacao = null;
-      }
-      return this;
+
+    comLida(lida = 'true') {
+        if (lida === 'true') {
+            this.filtros.lida = true;
+        } 
+        if (lida === 'false') {
+            this.filtros.lida = false;
+        }
+        return this;
     }
-  
+
     build() {
-      return this.filtros;
+        return this.filtros;
     }
-  }
-  
+}
+
 export default NotificacaoFilterBuilder;
-  

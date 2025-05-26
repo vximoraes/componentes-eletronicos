@@ -3,7 +3,7 @@ import NotificacaoRepository from "../repositories/NotificacaoRepository.js";
 class NotificacaoService {
 
   constructor() {
-     this.notificacaoRepository = new NotificacaoRepository;
+     this.repository = new NotificacaoRepository;
     }
 
     async listarTodas(req) {
