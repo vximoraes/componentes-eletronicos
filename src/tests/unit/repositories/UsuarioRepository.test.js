@@ -60,7 +60,6 @@ describe('UsuarioRepository', () => {
                     comNome: jest.fn().mockReturnThis(),
                     comEmail: jest.fn().mockReturnThis(),
                     comAtivo: jest.fn().mockReturnThis(),
-                    // build está ausente propositalmente
                 }));
             });
             const { default: UsuarioRepositoryMocked } = await import('../../../repositories/UsuarioRepository.js');
