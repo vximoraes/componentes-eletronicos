@@ -47,7 +47,6 @@ describe('Modelo de Componente', () => {
 
     it('não deve criar componente sem campos obrigatórios', async () => {
         const componenteData = {
-            // nome ausente
             estoque_minimo: 10,
             valor_unitario: 0.05,
             localizacao: new mongoose.Types.ObjectId(),
