@@ -127,6 +127,37 @@ describe('Messages Helper', () => {
         test('deve retornar mensagem de erro de validação com campo', () => {
             expect(messages.error.validationError('email')).toBe('Erro de validação no campo email.');
         });
+
+        test('deve retornar mensagem de erro de permissão', () => {
+            const fieldName = 'Usuário';
+            expect(messages.error.permissionError(fieldName)).toBe(`Erro de permissão em ${fieldName}.`);
+        });
+
+        test('deve retornar mensagem de conflito de recurso', () => {
+            const resource = 'Usuário';
+            const conflictField = 'email';
+            expect(messages.error.resourceConflict(resource, conflictField)).toBe(`Conflito de recurso em ${resource} contém ${conflictField}.`);
+        });
+
+        test('deve retornar mensagem de erro de autenticação', () => {
+            const fieldName = 'Usuário';
+            expect(messages.error.authenticationError(fieldName)).toBe(`Erro de autenticação em ${fieldName}.`);
+        });
+
+        test('deve retornar mensagem de acesso não autorizado com e sem recurso', () => {
+            expect(messages.error.unauthorized('Usuário')).toBe('Acesso não autorizado: Usuário.');
+            expect(messages.error.unauthorized()).toBe('Acesso não autorizado. Faça login para continuar.');
+        });
+        
+        test('deve retornar mensagem de permissão negada com e sem ação', () => {
+            expect(messages.error.forbidden('exclusão')).toBe('Permissão negada para exclusão.');
+            expect(messages.error.forbidden()).toBe('Permissão negada.');
+        });
+
+        test('deve retornar mensagem de badRequest com e sem campo', () => {
+            expect(messages.error.badRequest('campoTeste')).toBe('Requisição inválida: campoTeste');
+            expect(messages.error.badRequest()).toBe('Requisição inválida. Verifique os parâmetros fornecidos.');
+        });
     });
 
     describe('Validation Messages', () => {
