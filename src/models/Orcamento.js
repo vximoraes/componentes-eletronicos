@@ -27,12 +27,12 @@ class Orcamento {
                     type: mongoose.Schema.Types.ObjectId,
                     ref: "componente_orcamentos"
                 }]
-        })
+        });
 
         orcamentoSchema.plugin(mongoosePaginate);
 
         this.model = mongoose.model("orcamentos", orcamentoSchema);
-    }
-}
+    };
+};
 
 export default new Orcamento().model

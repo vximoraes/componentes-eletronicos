@@ -7,6 +7,7 @@ class Categoria {
             nome: {
                 type: String,
                 index: true,
+                unique: true,
                 required: true
             },
         });
@@ -14,7 +15,7 @@ class Categoria {
         categoriaSchema.plugin(mongoosePaginate);
 
         this.model = mongoose.model("categorias", categoriaSchema);
-    }
-}
+    };
+};
 
 export default new Categoria().model;

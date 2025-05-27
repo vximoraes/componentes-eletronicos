@@ -26,10 +26,10 @@ async function loadModels() {
             // Usa o nome do arquivo (sem extensão) como identificador.
             const modelName = path.basename(file, '.js');
             models.push({ model, name: modelName });
-        }
-    }
+        };
+    };
 
     return models;
-}
+};
 
 export default loadModels;

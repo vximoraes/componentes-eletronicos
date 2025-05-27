@@ -2,38 +2,23 @@
 
 ## Tarefas
 
-### Rotas
+### Fazer plano de teste (Geovanna, Vinícius):
+    - Usuário
+    - Notificação
+    - Categoria 
+    - Localização
+    - Componente 
+    - Fornecedor
+    - Movimentação
 
-#### Implementar rotas do sistema:
-    - Componentes (Vinícius)
-        - POST /componentes
-        - GET /componentes
-        - GET /componentes/:id
-        - GET /componentes/filtros
-        - PATCH /componentes/:id
-        - DELETE /componentes/:id
-    - Movimentações (Geovanna)
-        - POST /movimentacoes
-        - GET /movimentacoes
-        - GET /movimentacoes/:id
+### Implementar testes unitários (Geovanna, Vinícius):
+        - Usuário
+        - Notificação
+        - Categoria
+        - Localização
+        - Componente
+        - Fornecedor
+        - Movimentação 
 
-### Testes
-
-#### Implementar testes unitários:
-
-    - Rotas
-        - Componentes (Vinícius)
-            - POST /componentes
-            - GET /componentes
-            - GET /componentes/:id
-            - GET /componentes/filtros
-            - PATCH /componentes/:id
-            - DELETE /componentes/:id
-        - Movimentações (Geovanna)
-            - POST /movimentacoes
-            - GET /movimentacoes
-            - GET /movimentacoes/:id
-
-### Documentação
-
-    - Organizar documentação das rotas
+### Documentação (Vinícius):
+    - Organizar documentação do projeto

@@ -7,6 +7,7 @@ class Fornecedor {
             nome: {
                 type: String,
                 index: true,
+                unique: true,
                 required: true
             },
         });
@@ -14,7 +15,7 @@ class Fornecedor {
         fornecedorSchema.plugin(mongoosePaginate);
 
         this.model = mongoose.model("fornecedores", fornecedorSchema);
-    }
-}
+    };
+};
 
 export default new Fornecedor().model;

@@ -2,21 +2,17 @@
 
 ## Tarefas
 
-### Figma
+### Fazer novo protótipo do Figma (Amanda, Geovanna, Vinícius):
+    - Fazer telas de login e cadastro 
+    - Fazer tela de perfil 
+    - Fazer tela de componentes 
+    - Fazer tela de relatórios 
+    - Fazer tela de orçamentos 
+    - Fazer fluxo/funcionalidades do protótipo 
 
-- Fazer novo protótipo do Figma
-    - Fazer telas de login e cadastro (Amanda)
-    - Fazer tela de perfil (Geovanna)
-    - Fazer tela de componentes (Vinícius)
-    - Fazer tela de relatórios (Geovanna)
-    - Fazer tela de orçamentos (Amanda)
-    - Fazer fluxo/funcionalidades do protótipo (Vinícius)
+### Banco de Dados (Amanda, Geovanna, Vinícius):
+    - Modelar banco de dados MongoDB
 
-### Banco de Dados
-
-- Modelar banco de dados MongoDB (Amanda, Geovanna, Vinícius)
-
-### Documentação das rotas
-
-- Revisar requisitos e adaptar as rotas a regra de negócio (Amanda, Geovanna, Vinícius)
-- Documentar rotas (Amanda, Geovanna, Vinícius)
+### Documentação das rotas (Amanda, Geovanna, Vinícius):
+    - Revisar requisitos e adaptar as rotas a regra de negócio
+    - Documentar rotas

@@ -6,13 +6,7 @@ import { CommonResponse, CustomError, HttpStatusCodes, errorHandler, messages, S
 class UsuarioService {
     constructor() {
         this.repository = new UsuarioRepository();
-    }
-
-    async listar(req) {
-        const data = await this.repository.listar(req);
-
-        return data;
-    }
+    };
 
     async criar(parsedData) {
         await this.validateEmail(parsedData.email);
@@ -20,12 +14,18 @@ class UsuarioService {
         if (parsedData.senha) {
             const saltRounds = 10;
             parsedData.senha = await bcrypt.hash(parsedData.senha, saltRounds);
-        }
+        };
 
         const data = await this.repository.criar(parsedData);
 
         return data;
-    }
+    };
+
+    async listar(req) {
+        const data = await this.repository.listar(req);
+
+        return data;
+    };
 
     async atualizar(id, parsedData) {
         delete parsedData.senha;
@@ -36,7 +36,7 @@ class UsuarioService {
         const data = await this.repository.atualizar(id, parsedData);
 
         return data;
-    }
+    };
 
     async deletar(id) {
         await this.ensureUserExists(id);
@@ -44,7 +44,7 @@ class UsuarioService {
         const data = await this.repository.deletar(id);
 
         return data;
-    }
+    };
 
     // Métodos auxiliares.
 
@@ -58,8 +58,8 @@ class UsuarioService {
                 details: [{ path: 'email', message: 'Email já está em uso.' }],
                 customMessage: 'Email já está em uso.',
             });
-        }
-    }
+        };
+    };
 
     async ensureUserExists(id) {
         const usuarioExistente = await this.repository.buscarPorId(id);
@@ -71,10 +71,10 @@ class UsuarioService {
                 details: [],
                 customMessage: messages.error.resourceNotFound('Usuário'),
             });
-        }
+        };
 
         return usuarioExistente;
-    }
-}
+    };
+};
 
 export default UsuarioService;

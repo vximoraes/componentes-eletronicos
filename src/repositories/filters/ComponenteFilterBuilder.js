@@ -10,31 +10,31 @@ class ComponenteFilterBuilder {
         this.filtros = {};
         this.componenteRepository = new ComponenteRepository();
         this.componenteModel = ComponenteModel;
-    }
+    };
 
     comNome(nome) {
         if (nome) {
             this.filtros.nome = { $regex: nome, $options: 'i' };
-        }
+        };
         return this;
-    }
+    };
 
     comQuantidade(quantidade) {
         if (quantidade !== undefined && quantidade !== null && quantidade !== '') {
             const num = Number(quantidade);
             if (!isNaN(num)) {
                 this.filtros.quantidade = num;
-            }
-        }
+            };
+        };
         return this;
-    }
+    };
 
     comEstoqueMinimo(estoque_minimo) {
         if (estoque_minimo === 'true') {
             this.filtros.$expr = { $lt: ["$quantidade", "$estoque_minimo"] };
-        }
+        };
         return this;
-    }
+    };
 
     async comLocalizacao(localizacao) {
         if (localizacao) {
@@ -45,7 +45,7 @@ class ComponenteFilterBuilder {
                 if (!localizacaoEncontrada) {
                     // Caso não exista, força a busca “vazia”.
                     this.filtros.localizacao = { $in: [] };
-                }
+                };
             } else {
                 // Se for string.
                 const localizacaoEncontrada = await Localizacao.findOne({
@@ -56,11 +56,11 @@ class ComponenteFilterBuilder {
                 } else {
                     // Força a busca “vazia”.
                     this.filtros.localizacao = { $in: [] };
-                }
-            }
-        }
+                };
+            };
+        };
         return this;
-    }
+    };
 
     async comCategoria(categoria) {
         if (categoria) {
@@ -71,7 +71,7 @@ class ComponenteFilterBuilder {
                 if (!categoriaEncontrada) {
                     // Caso não exista, força a busca “vazia”.
                     this.filtros.categoria = { $in: [] };
-                }
+                };
             } else {
                 // Se for string.
                 const categoriaEncontrada = await Categoria.findOne({
@@ -82,25 +82,25 @@ class ComponenteFilterBuilder {
                 } else {
                     // Força a busca “vazia”.
                     this.filtros.categoria = { $in: [] };
-                }
-            }
-        }
+                };
+            };
+        };
         return this;
-    }
+    };
 
     comAtivo(ativo = 'true') {
         if (ativo === 'true') {
             this.filtros.ativo = true;
-        }
+        };
         if (ativo === 'false') {
             this.filtros.ativo = false;
-        }
+        };
         return this;
-    }
+    };
 
     build() {
         return this.filtros;
-    }
-}
+    };
+};
 
 export default ComponenteFilterBuilder;

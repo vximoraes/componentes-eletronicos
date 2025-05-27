@@ -1,7 +1,7 @@
 import fakebr from 'faker-br';
 import mongoose from 'mongoose';
 import { v4 as uuid } from 'uuid';
-import TokenUtil from '../utils/TokenUtil.js';
+// import TokenUtil from '../utils/TokenUtil.js';
 import loadModels from './loadModels.js';
 
 export const fakeMappings = {
@@ -72,7 +72,7 @@ export const fakeMappings = {
     },
 
     Movimentacao: {
-        tipos: ["Entrada", "Saída"],
+        tipos: ["entrada", "saida"],
         tipo: () => fakebr.helpers.randomize(fakeMappings.Movimentacao.tipos),
         data_hora: () => new Date().toISOString(),
         quantidade: () => fakebr.random.number({ min: 1, max: 10 }),
@@ -123,11 +123,11 @@ export async function getGlobalFakeMapping() {
                 ...globalMapping,
                 ...fakeMappings[name],
             };
-        }
+        };
     });
 
     return globalMapping;
-}
+};
 
 // Função auxiliar para extrair os nomes dos campos de um schema, considerando apenas os níveis superiores (campos aninhados são verificados pela parte antes do ponto).
 
@@ -141,7 +141,7 @@ function getSchemaFieldNames(schema) {
     });
 
     return Array.from(fieldNames);
-}
+};
 
 // Valida se o mapping fornecido cobre todos os campos do model.
 // Retorna um array com os nomes dos campos que estiverem faltando.
@@ -156,10 +156,10 @@ function validateModelMapping(model, modelName, mapping) {
         );
     } else {
         console.log(`Model ${modelName} possui mapeamento para todos os campos.`);
-    }
+    };
 
     return missing;
-}
+};
 
 // Executa a validação para os models fornecidos, utilizando o mapping específico de cada um.
 
@@ -176,7 +176,7 @@ async function validateAllMappings() {
         const missing = validateModelMapping(model, name, mapping);
         if (missing.length > 0) {
             totalMissing[name] = missing;
-        }
+        };
     });
 
     if (Object.keys(totalMissing).length === 0) {
@@ -185,8 +185,8 @@ async function validateAllMappings() {
     } else {
         console.warn('Faltam mapeamentos para os seguintes models:', totalMissing);
         return false;
-    }
-}
+    };
+};
 
 // Executa a validação antes de prosseguir com o seeding ou outras operações.
 
@@ -197,11 +197,11 @@ validateAllMappings()
             // Prossegue com o seeding ou outras operações.
         } else {
             throw new Error('globalFakeMapping não possui todos os mapeamentos necessários.');
-        }
+        };
     })
     .catch((error) => {
         console.error(error);
         process.exit(1);
-    });
+    })
 
 export default getGlobalFakeMapping;

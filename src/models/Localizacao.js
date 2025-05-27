@@ -7,6 +7,7 @@ class Localizacao {
             nome: {
                 type: String,
                 index: true,
+                unique: true,
                 required: true
             },
         });
@@ -14,7 +15,7 @@ class Localizacao {
         localizacaoSchema.plugin(mongoosePaginate);
 
         this.model = mongoose.model("localizacoes", localizacaoSchema);
-    }
-}
+    };
+};
 
 export default new Localizacao().model;

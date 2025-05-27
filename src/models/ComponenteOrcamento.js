@@ -7,6 +7,7 @@ class ComponenteOrcamento {
             nome: {
                 type: String,
                 index: true,
+                unique: true,
                 required: true
             },
             fornecedor: {
@@ -30,7 +31,7 @@ class ComponenteOrcamento {
         componenteOrcamentoSchema.plugin(mongoosePaginate);
 
         this.model = mongoose.model("componente_orcamentos", componenteOrcamentoSchema);
-    }
-}
+    };
+};
 
 export default new ComponenteOrcamento().model;

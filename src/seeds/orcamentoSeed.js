@@ -7,7 +7,7 @@ export default async function orcamentoSeed() {
 
     const componentes = await ComponenteOrcamento.find({});
     const componentesIds = componentes.map(c => c._id);
-    
+
     for (let i = 0; i < 5; i++) {
         const orcamento = {
             nome: fakeMappings.Orcamento.nome.apply(),
@@ -16,7 +16,7 @@ export default async function orcamentoSeed() {
             valor: fakeMappings.Orcamento.valor.apply(),
             componentes: componentesIds.splice(0, 3)
         };
-        
+
         await Orcamento.create(orcamento);
-    }
-}
+    };
+};

@@ -11,22 +11,22 @@ class AuthService {
         this.TokenUtil = injectedTokenUtil || tokenUtil;
         this.usuarioRepository = usuarioRepository || new UsuarioRepository();
         this.repository = authRepository || new AuthRepository();
-    }
+    };
 
     async carregatokens(id, token) {
         const data = await this.usuarioRepository.buscarPorId(id, { includeTokens: true });
         return { data };
-    }
+    };
 
     async revoke(id) {
         const data = await this.repository.removeToken(id);
         return { data };
-    }
+    };
 
     async logout(id, token) {
         const data = await this.repository.removeToken(id);
         return { data };
-    }
+    };
 
     async login(body) {
         console.log('Estou no logar em AuthService');
@@ -41,7 +41,7 @@ class AuthService {
                 details: [],
                 customMessage: messages.error.unauthorized('Senha ou Email')
             });
-        }
+        };
 
         // Validar a senha.
         const senhaValida = await bcrypt.compare(body.senha, userEncontrado.senha);
@@ -53,7 +53,7 @@ class AuthService {
                 details: [],
                 customMessage: messages.error.unauthorized('Senha ou Email')
             });
-        }
+        };
 
         // Gerar novo access token utilizando a instância injetada.
         const accesstoken = await this.TokenUtil.generateAccessToken(userEncontrado._id);
@@ -77,12 +77,12 @@ class AuthService {
                         details: [],
                         customMessage: messages.error.unauthorized('falha na geração do token')
                     });
-                }
-            }
+                };
+            };
         } else {
             // Se o refresh token não existe, gera um novo.
             refreshtoken = await this.TokenUtil.generateRefreshToken(userEncontrado._id);
-        }
+        };
 
         console.log("refresh token gerado", refreshtoken);
 
@@ -96,7 +96,7 @@ class AuthService {
 
         // Retornar o usuário com os tokens.
         return { user: { accesstoken, refreshtoken, ...userObjeto } };
-    }
+    };
 
 
     async recuperaSenha(body) {
@@ -110,10 +110,10 @@ class AuthService {
                 details: [],
                 customMessage: HttpStatusCodes.NOT_FOUND.message
             });
-        }
+        };
 
         return { message: "Solicitação de recuperação de senha recebida, um email será enviado com as instruções para recuperação de senha" };
-    }
+    };
 
     async refresh(id, token) {
         const userEncontrado = await this.usuarioRepository.buscarPorId(id, { includeTokens: true });
@@ -125,7 +125,7 @@ class AuthService {
                 details: [],
                 customMessage: HttpStatusCodes.NOT_FOUND.message
             });
-        }
+        };
 
         console.log("refresh token no banco", userEncontrado.refreshtoken);
         console.log("refresh token recebido", token);
@@ -141,7 +141,7 @@ class AuthService {
             });
         } else {
             console.log('Token válido');
-        }
+        };
 
         // Gerar novo access token utilizando a instância injetada.
         const accesstoken = await this.TokenUtil.generateAccessToken(id);
@@ -154,7 +154,7 @@ class AuthService {
             refreshtoken = await this.TokenUtil.generateRefreshToken(id);
         } else {
             refreshtoken = userEncontrado.refreshtoken;
-        }
+        };
 
         await this.repository.armazenarTokens(id, accesstoken, refreshtoken);
 
@@ -170,7 +170,7 @@ class AuthService {
         };
 
         return { user: userComTokens };
-    }
-}
+    };
+};
 
 export default AuthService;

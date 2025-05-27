@@ -7,11 +7,13 @@ class Componente {
             nome: {
                 type: String,
                 index: true,
+                unique: true,
                 required: true
             },
             quantidade: {
                 type: Number,
-                required: true
+                required: false,
+                default: 0
             },
             estoque_minimo: {
                 type: Number,
@@ -37,17 +39,16 @@ class Componente {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: "categorias", required: true
             },
-            ativo: { 
-                type: Boolean, 
-                default: 
-                false 
+            ativo: {
+                type: Boolean,
+                default: true
             },
         });
 
         componenteSchema.plugin(mongoosePaginate);
 
         this.model = mongoose.model("componentes", componenteSchema);
-    }
-}
+    };
+};
 
 export default new Componente().model;

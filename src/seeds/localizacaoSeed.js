@@ -10,5 +10,5 @@ export default async function localizacaoSeed() {
         };
 
         await Localizacao.create(localizacao);
-    }
-}
+    };
+};

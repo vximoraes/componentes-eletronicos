@@ -8,7 +8,7 @@ class Movimentacao {
                 type: String,
                 index: true,
                 required: true,
-                enum: { values: ["Entrada", "Saída"] },
+                enum: { values: ["entrada", "saida"] },
             },
             data_hora: {
                 type: Date,
@@ -21,12 +21,12 @@ class Movimentacao {
             },
             componente: {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: "componente",
+                ref: "componentes", // corrigido para bater com o nome do modelo
                 required: true,
             },
             fornecedor: {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: "fornecedor",
+                ref: "fornecedores", // corrigido para bater com o nome do modelo
                 required: false,
             },
         });
@@ -34,7 +34,7 @@ class Movimentacao {
         movimentacaoSchema.plugin(mongoosePaginate);
 
         this.model = mongoose.model("movimentacoes", movimentacaoSchema);
-    }
-}
+    };
+};
 
 export default new Movimentacao().model;

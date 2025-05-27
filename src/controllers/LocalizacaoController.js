@@ -6,23 +6,7 @@ import { CommonResponse, CustomError, HttpStatusCodes, errorHandler, messages, S
 class LocalizacaoController {
     constructor() {
         this.service = new LocalizacaoService();
-    }
-
-    async listar(req, res) {
-        const { id } = req.params || {};
-        if (id) {
-            LocalizacaoIdSchema.parse(id);
-        }
-
-        const query = req.query || {};
-        if (Object.keys(query).length !== 0) {
-            await LocalizacaoQuerySchema.parseAsync(query);
-        }
-
-        const data = await this.service.listar(req);
-
-        return CommonResponse.success(res, data);
-    }
+    };
 
     async criar(req, res) {
         const parsedData = LocalizacaoSchema.parse(req.body);
@@ -31,7 +15,23 @@ class LocalizacaoController {
         let localizacaoLimpa = data.toObject();
 
         return CommonResponse.created(res, localizacaoLimpa);
-    }
+    };
+
+    async listar(req, res) {
+        const { id } = req.params || {};
+        if (id) {
+            LocalizacaoIdSchema.parse(id);
+        };
+
+        const query = req.query || {};
+        if (Object.keys(query).length !== 0) {
+            await LocalizacaoQuerySchema.parseAsync(query);
+        };
+
+        const data = await this.service.listar(req);
+
+        return CommonResponse.success(res, data);
+    };
 
     async atualizar(req, res) {
         const { id } = req.params;
@@ -41,7 +41,7 @@ class LocalizacaoController {
         const data = await this.service.atualizar(id, parsedData);
 
         return CommonResponse.success(res, data, 200, 'Localização atualizada com sucesso.');
-    }
+    };
 
     async deletar(req, res) {
         const { id } = req.params || {};
@@ -50,7 +50,7 @@ class LocalizacaoController {
         const data = await this.service.deletar(id);
 
         return CommonResponse.success(res, data, 200, 'Localização excluída com sucesso.');
-    }
-}
+    };
+};
 
 export default LocalizacaoController;
