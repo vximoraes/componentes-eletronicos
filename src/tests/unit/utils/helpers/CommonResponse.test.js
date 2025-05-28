@@ -26,9 +26,7 @@ describe('CommonResponse', () => {
         if (StatusService.getErrorMessage.restore) {
             StatusService.getErrorMessage.restore();
         }
-    });
-
-    describe('success', () => {
+    });    describe('success', () => {
         it('deve retornar uma resposta de sucesso com mensagem padrão', () => {
             const originalGetHttpCodeMessage = StatusService.getHttpCodeMessage;
             StatusService.getHttpCodeMessage = () => 'OK';
@@ -47,6 +45,24 @@ describe('CommonResponse', () => {
             StatusService.getHttpCodeMessage = originalGetHttpCodeMessage;
         });
 
+        it('deve retornar uma resposta de sucesso com data null', () => {
+            const originalGetHttpCodeMessage = StatusService.getHttpCodeMessage;
+            StatusService.getHttpCodeMessage = () => 'OK';
+
+            CommonResponse.success(res, null);
+
+            assert.strictEqual(res.statusCalledWith, 200, 'O status HTTP deve ser 200');
+            assert.deepStrictEqual(res.jsonCalledWith, {
+                error: false,
+                code: 200,
+                message: 'OK',
+                data: null,
+                errors: []
+            }, 'A resposta JSON deve corresponder ao esperado');
+
+            StatusService.getHttpCodeMessage = originalGetHttpCodeMessage;
+        });
+
         it('deve retornar uma resposta de sucesso com mensagem personalizada', () => {
             CommonResponse.success(res, { key: 'value' }, 200, 'Mensagem de Sucesso Personalizada');
 
@@ -59,9 +75,7 @@ describe('CommonResponse', () => {
                 errors: []
             }, 'A resposta JSON deve corresponder ao esperado');
         });
-    });
-
-    describe('error', () => {
+    });    describe('error', () => {
         it('deve retornar uma resposta de erro com mensagem padrão', () => {
             const originalGetErrorMessage = StatusService.getErrorMessage;
             StatusService.getErrorMessage = () => 'Mensagem de Erro Padrão';
@@ -80,6 +94,25 @@ describe('CommonResponse', () => {
             StatusService.getErrorMessage = originalGetErrorMessage;
         });
 
+        it('deve retornar uma resposta de erro com lista de erros personalizada', () => {
+            const originalGetErrorMessage = StatusService.getErrorMessage;
+            StatusService.getErrorMessage = () => 'Mensagem de Erro Padrão';
+            
+            const listaErros = [{ campo: 'nome', mensagem: 'Campo obrigatório' }];
+            CommonResponse.error(res, 400, 'errorType', 'campo', listaErros);
+
+            assert.strictEqual(res.statusCalledWith, 400, 'O status HTTP deve ser 400');
+            assert.deepStrictEqual(res.jsonCalledWith, {
+                error: true,
+                code: 400,
+                message: 'Mensagem de Erro Padrão',
+                data: null,
+                errors: listaErros
+            }, 'A resposta JSON deve corresponder ao esperado');
+
+            StatusService.getErrorMessage = originalGetErrorMessage;
+        });
+
         it('deve retornar uma resposta de erro com mensagem personalizada', () => {
             CommonResponse.error(res, 400, 'errorType', null, [], 'Mensagem de Erro Personalizada');
 
@@ -92,9 +125,7 @@ describe('CommonResponse', () => {
                 errors: []
             }, 'A resposta JSON deve corresponder ao esperado');
         });
-    });
-
-    describe('created', () => {
+    });    describe('created', () => {
         it('deve retornar uma resposta de criação sem mensagem personalizada', () => {
             const originalGetHttpCodeMessage = StatusService.getHttpCodeMessage;
             StatusService.getHttpCodeMessage = () => 'Created';
@@ -107,6 +138,24 @@ describe('CommonResponse', () => {
                 code: 201,
                 message: 'Created',
                 data: { key: 'value' },
+                errors: []
+            }, 'A resposta JSON deve corresponder ao esperado');
+
+            StatusService.getHttpCodeMessage = originalGetHttpCodeMessage;
+        });
+
+        it('deve retornar uma resposta de criação com data null', () => {
+            const originalGetHttpCodeMessage = StatusService.getHttpCodeMessage;
+            StatusService.getHttpCodeMessage = () => 'Created';
+
+            CommonResponse.created(res, null);
+
+            assert.strictEqual(res.statusCalledWith, 201, 'O status HTTP deve ser 201');
+            assert.deepStrictEqual(res.jsonCalledWith, {
+                error: false,
+                code: 201,
+                message: 'Created',
+                data: null,
                 errors: []
             }, 'A resposta JSON deve corresponder ao esperado');
 
@@ -161,6 +210,17 @@ describe('CommonResponse', () => {
     });
 
     describe('Instanciação Direta', () => {
+        it('deve criar uma instância sem parâmetros, usando valores padrão', () => {
+            const response = new CommonResponse();
+            assert.deepStrictEqual(response.toJSON(), {
+                error: false,
+                code: 200,
+                message: '',
+                data: null,
+                errors: []
+            }, 'A instância criada deve corresponder ao objeto esperado com todos os valores padrão');
+        });
+
         it('deve criar uma instância diretamente com parâmetros mínimos', () => {
             const response = new CommonResponse(false, 200, 'OK');
             assert.deepStrictEqual(response.toJSON(), {
