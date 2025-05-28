@@ -15,9 +15,9 @@ class Notificacao {
                 default: Date.now
             },
             visualizacao: {
-                type: Date,
+                type: Boolean,
                 required: false,
-                default: Date.now
+                default: false
             },
             usuario: {
                 type: mongoose.Schema.Types.ObjectId,

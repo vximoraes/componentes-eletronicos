@@ -28,14 +28,15 @@ class NotificacaoRepository {
         return await notificacao.save();
     }
 
-    async listar(req) {
-        const id = req.params.id || null;
+    async listar(req = {}) {
+        const { params = {}, query = {} } = req;
+        const id = params.id || null;
 
         if (id) {
             return await this.buscarPorId(id);
         }
 
-        const { usuario, lida, page = 1, limite = 10 } = req.query;
+        const { usuario, lida, page = 1, limite = 10 } = query;
 
         const filterBuilder = new NotificacaoFilterBuilder()
             .comUsuario(usuario)
