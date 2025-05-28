@@ -5,14 +5,15 @@ export const FornecedorIdSchema = z.string().refine((id) => mongoose.Types.Objec
     message: "ID inválido",
 });
 
-export const FornecedorQuerySchema = z.object({
-    nome: z
+export const FornecedorQuerySchema = z.object({    nome: z
         .string()
         .optional()
-        .refine((val) => !val || val.trim().length > 0, {
-            message: "Nome não pode ser vazio",
+        .transform((val) => {
+            return val === undefined ? undefined : (val.trim() || null);
         })
-        .transform((val) => val?.trim()),
+        .refine((val) => val === undefined || val !== null, {
+            message: "Nome não pode ser vazio",
+        }),
     page: z
         .string()
         .optional()

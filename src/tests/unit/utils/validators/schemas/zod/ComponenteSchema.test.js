@@ -114,6 +114,42 @@ describe('ComponenteSchema', () => {
         };
         expect(() => ComponenteSchema.parse(dadosInvalidos)).toThrow();
     });
+
+    it('deve tratar corretamente valores undefined para estoque_minimo', () => {
+        const dados = {
+            nome: 'Resistor',
+            estoque_minimo: '',
+            valor_unitario: '0.25',
+            localizacao: objectId,
+            categoria: objectId,
+        };
+        const resultado = ComponenteSchema.parse(dados);
+        expect(resultado.estoque_minimo).toBeUndefined();
+    });
+    
+    it('deve tratar corretamente valores undefined para valor_unitario', () => {
+        const dados = {
+            nome: 'Resistor',
+            estoque_minimo: '10',
+            valor_unitario: '',
+            localizacao: objectId,
+            categoria: objectId,
+        };
+        const resultado = ComponenteSchema.parse(dados);
+        expect(resultado.valor_unitario).toBeUndefined();
+    });
+    
+    it('deve remover espaços em branco do nome', () => {
+        const dados = {
+            nome: '  Resistor  ',
+            estoque_minimo: '10',
+            valor_unitario: '0.25',
+            localizacao: objectId,
+            categoria: objectId,
+        };
+        const resultado = ComponenteSchema.parse(dados);
+        expect(resultado.nome).toBe('Resistor');
+    });
 });
 
 describe('ComponenteUpdateSchema', () => {

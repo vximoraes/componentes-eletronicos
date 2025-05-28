@@ -50,6 +50,20 @@ describe('errorHandler', () => {
         );
     });
 
+    it('should handle MongoDB duplicate key error without keyValue', () => {
+        const fakeError = { code: 11000 };
+        errorHandler(fakeError, req, res, next);
+
+        expect(CommonResponse.error).toHaveBeenCalledWith(
+            res,
+            409,
+            'duplicateEntry',
+            undefined,
+            [{ path: undefined, message: 'O valor "duplicado" já está em uso.' }],
+            'Entrada duplicada no campo "undefined".'
+        );
+    });
+
     it('should handle Mongoose ValidationError and return 400 validationError', () => {
         const fakeMongooseError = new mongoose.Error.ValidationError();
         fakeMongooseError.errors = {
@@ -118,23 +132,52 @@ describe('errorHandler', () => {
         );
     });
 
-    it('should handle operational errors', () => {
-        const fakeError = new Error('Operational failure');
+    it('should handle CustomError with tokenExpired type but no custom message', () => {
+        const fakeError = new CustomError({
+            errorType: 'tokenExpired',
+            statusCode: 401
+        });
+        errorHandler(fakeError, req, res, next);
+
+        expect(CommonResponse.error).toHaveBeenCalledWith(
+            res,
+            401,
+            'tokenExpired',
+            null,
+            [{ message: 'Token expirado.' }],
+            'Token expirado. Por favor, faça login novamente.'
+        );
+    });
+
+    it('should handle CustomError with tokenExpired type but no statusCode', () => {
+        const fakeError = new CustomError({
+            errorType: 'tokenExpired',
+            customMessage: 'Token vencido'
+        });
+        errorHandler(fakeError, req, res, next);
+
+        expect(CommonResponse.error).toHaveBeenCalledWith(
+            res,
+            401,
+            'tokenExpired',
+            null,
+            [{ message: 'Token vencido' }],
+            'Token vencido'
+        );
+    });
+
+    it('should handle operational errors with minimal properties', () => {
+        const fakeError = new Error('Basic operational error');
         fakeError.isOperational = true;
-        fakeError.statusCode = 422;
-        fakeError.errorType = 'operationalError';
-        fakeError.details = [{ message: 'Detail info' }];
-        fakeError.customMessage = 'Operacional Falhou';
-        fakeError.field = 'someField';
 
         errorHandler(fakeError, req, res, next);
         expect(CommonResponse.error).toHaveBeenCalledWith(
             res,
-            422,
+            undefined,
             'operationalError',
-            'someField',
-            [{ message: 'Detail info' }],
-            'Operacional Falhou'
+            null,
+            [],
+            'Erro operacional.'
         );
     });
 
@@ -143,12 +186,10 @@ describe('errorHandler', () => {
         process.env.NODE_ENV = 'development';
         errorHandler(fakeError, req, res, next);
 
-        // In development, the error details include message and stack.
         const callArgs = CommonResponse.error.mock.calls[0];
         expect(callArgs[0]).toBe(res);
         expect(callArgs[1]).toBe(500);
         expect(callArgs[2]).toBe('serverError');
-        // We check that details contain the error message and stack.
         expect(callArgs[4][0].message).toBe(fakeError.message);
         expect(callArgs[4][0].stack).toBeDefined();
     });
@@ -223,5 +264,56 @@ describe('errorHandler', () => {
             null,
             [{ message: 'Custom error', stack: undefined }]
         );
+    });
+
+    it('should handle errors in production environment', () => {
+        process.env.NODE_ENV = 'production';
+        const fakeError = new Error('This error happened in production');
+        errorHandler(fakeError, req, res, next);
+
+        const callArgs = CommonResponse.error.mock.calls[0];
+        expect(callArgs[0]).toBe(res);
+        expect(callArgs[1]).toBe(500);
+        expect(callArgs[2]).toBe('serverError');
+        expect(callArgs[4][0].message).toMatch(/Erro interno do servidor. Referência: /);
+        expect(callArgs[4][0].stack).toBeUndefined();
+
+        process.env.NODE_ENV = 'development';
+    });
+
+    it('should include requestId in logging if available', () => {
+        const loggerSpy = jest.spyOn(logger, 'error');
+        const customReq = { path: '/test', requestId: 'custom-req-id' };
+        const fakeError = new Error('Error with custom requestId');
+
+        errorHandler(fakeError, customReq, res, next);
+
+        expect(loggerSpy).toHaveBeenCalledWith(
+            expect.stringMatching(/Erro interno \[ID: /),
+            expect.objectContaining({
+                requestId: 'custom-req-id',
+                message: 'Error with custom requestId'
+            })
+        );
+
+        loggerSpy.mockRestore();
+    });
+
+    it('should handle requestId as N/A if not provided', () => {
+        const loggerSpy = jest.spyOn(logger, 'error');
+        const customReq = { path: '/test' };
+        const fakeError = new Error('Error without requestId');
+
+        errorHandler(fakeError, customReq, res, next);
+
+        expect(loggerSpy).toHaveBeenCalledWith(
+            expect.stringMatching(/Erro interno \[ID: /),
+            expect.objectContaining({
+                requestId: 'N/A',
+                message: 'Error without requestId'
+            })
+        );
+
+        loggerSpy.mockRestore();
     });
 });
