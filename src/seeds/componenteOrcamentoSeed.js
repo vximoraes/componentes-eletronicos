@@ -4,15 +4,15 @@ import ComponenteOrcamento from '../models/ComponenteOrcamento.js';
 export default async function componenteOrcamentoSeed() {
     await ComponenteOrcamento.deleteMany({});
 
-    for (let i = 0; i < 15; i++) {
+    const nomesFixos = fakeMappings.ComponenteOrcamento.nomesFixos;
+    for (let nome of nomesFixos) {
         const componente = {
-            nome: fakeMappings.ComponenteOrcamento.nome.apply(),
+            nome,
             fornecedor: fakeMappings.ComponenteOrcamento.fornecedor.apply(),
             quantidade: fakeMappings.ComponenteOrcamento.quantidade.apply(),
-            valor_unitario: fakeMappings.ComponenteOrcamento.subtotal.apply(),
+            valor_unitario: fakeMappings.ComponenteOrcamento.valor_unitario.apply(),
             subtotal: fakeMappings.ComponenteOrcamento.subtotal.apply(),
         };
-
         await ComponenteOrcamento.create(componente);
     };
 };
