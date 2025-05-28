@@ -46,9 +46,7 @@ describe('CustomError', () => {
 
         if (typeof error.stack !== 'string') throw new Error('Esperado que a pilha seja uma string');
         if (!error.stack.includes('CustomError')) throw new Error('Esperado que a pilha inclua "CustomError"');
-    });
-
-    it('deve criar CustomError mesmo com parâmetros nulos/undefined', () => {
+    });    it('deve criar CustomError mesmo com parâmetros nulos/undefined', () => {
         const error = new CustomError({ statusCode: 500, errorType: undefined, field: undefined, details: undefined, customMessage: undefined });
         if (!(error instanceof CustomError)) throw new Error('Esperado que o erro seja uma instância de CustomError');
         if (error.statusCode !== 500) throw new Error('O código de status não corresponde');
@@ -56,5 +54,20 @@ describe('CustomError', () => {
         if (error.field !== null) throw new Error('Esperado que o campo seja nulo');
         if (JSON.stringify(error.details) !== JSON.stringify([])) throw new Error('Esperado que os detalhes sejam um array vazio');
         if (error.customMessage !== null) throw new Error('Esperado que a mensagem personalizada seja nula');
+    });    it('deve criar CustomError sem nenhum parâmetro, usando valores padrão', () => {
+        const error = new CustomError();
+        if (!(error instanceof CustomError)) throw new Error('Esperado que o erro seja uma instância de CustomError');
+        if (error.message !== 'An error occurred') throw new Error('A mensagem padrão não corresponde');
+        if (error.field !== null) throw new Error('Esperado que o campo seja nulo');
+        if (JSON.stringify(error.details) !== JSON.stringify([])) throw new Error('Esperado que os detalhes sejam um array vazio');
+        if (error.customMessage !== null) throw new Error('Esperado que a mensagem personalizada seja nula');
+    });
+
+    it('deve usar a mensagem padrão quando customMessage não é fornecido', () => {
+        const error = new CustomError({ statusCode: 403, errorType: 'forbidden' });
+        if (!(error instanceof CustomError)) throw new Error('Esperado que o erro seja uma instância de CustomError');
+        if (error.message !== 'An error occurred') throw new Error('A mensagem padrão não corresponde');
+        if (error.statusCode !== 403) throw new Error('O código de status não corresponde');
+        if (error.errorType !== 'forbidden') throw new Error('O tipo de erro não corresponde');
     });
 });

@@ -86,14 +86,30 @@ describe('MovimentacaoService', () => {
             Componente.findById.mockResolvedValue(makeComponente({ quantidade: 2 }));
             await expect(service.criar({ componente: 'c', tipo: 'saida', quantidade: 5 }))
                 .rejects.toThrow(CustomError);
-        });
-
-        it('deve lançar erro inesperado do repository', async () => {
+        });        it('deve lançar erro inesperado do repository', async () => {
             Componente.findById.mockResolvedValue(makeComponente());
             Fornecedor.findById.mockResolvedValue(makeFornecedor());
             repositoryMock.criar.mockRejectedValue(new Error('DB error'));
             await expect(service.criar({ componente: 'c', tipo: 'entrada', quantidade: 1, fornecedor: 'f' }))
                 .rejects.toThrow('DB error');
+        });
+
+        it('deve lidar corretamente com tipo diferente de entrada/saida', async () => {
+            const parsedData = {
+                componente: 'comp1',
+                tipo: 'outro',  // Nem entrada nem saida.
+                quantidade: 5
+            };
+            const componente = makeComponente({ quantidade: 10 });
+            Componente.findById.mockResolvedValue(componente);
+            repositoryMock.criar.mockResolvedValue(makeMovimentacao(parsedData));
+
+            const result = await service.criar({ ...parsedData });
+            
+            expect(result).toMatchObject(parsedData);
+            expect(componente.quantidade).toBe(10); // Quantidade não deve ser alterada.
+            expect(componente.save).toHaveBeenCalled();
+            expect(repositoryMock.criar).toHaveBeenCalled();
         });
     });
 

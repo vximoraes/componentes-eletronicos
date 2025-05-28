@@ -21,9 +21,7 @@ describe('UsuarioService', () => {
         };
         UsuarioRepository.mockImplementation(() => repositoryMock);
         service = new UsuarioService();
-    });
-
-    describe('criar', () => {
+    });    describe('criar', () => {
         it('deve criar usuário com senha criptografada', async () => {
             repositoryMock.buscarPorEmail.mockResolvedValue(null);
             bcrypt.hash.mockResolvedValue('senha_criptografada');
@@ -32,6 +30,27 @@ describe('UsuarioService', () => {
             expect(bcrypt.hash).toHaveBeenCalledWith('123', 10);
             expect(data.senha).toBe('senha_criptografada');
             expect(data.ativo).toBe(false);
+        });        it('deve criar usuário sem senha quando não fornecida', async () => {
+            repositoryMock.buscarPorEmail.mockResolvedValue(null);
+            repositoryMock.criar.mockResolvedValue({ _id: '1', nome: 'Teste', email: 'a@a.com', ativo: false });
+
+            bcrypt.hash.mockClear();
+            
+            const data = await service.criar({ nome: 'Teste', email: 'a@a.com', senha: null });
+            expect(bcrypt.hash).not.toHaveBeenCalled();
+            expect(data).toHaveProperty('_id');
+        });
+
+        it('deve criar usuário quando senha é undefined', async () => {
+            repositoryMock.buscarPorEmail.mockResolvedValue(null);
+            repositoryMock.criar.mockResolvedValue({ _id: '1', nome: 'Teste', email: 'a@a.com', ativo: false });
+            
+            bcrypt.hash.mockClear();
+
+            const userData = { nome: 'Teste', email: 'a@a.com' };
+            const data = await service.criar(userData);
+            expect(bcrypt.hash).not.toHaveBeenCalled();
+            expect(data).toHaveProperty('_id');
         });
 
         it('deve lançar erro se e-mail já existir', async () => {
