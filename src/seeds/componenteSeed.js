@@ -9,12 +9,13 @@ export default async function componenteSeed() {
 
     await Componente.deleteMany({});
 
-    for (let i = 0; i < 10; i++) {
+    const nomesFixos = fakeMappings.Componente.nomesFixos;
+    for (let nome of nomesFixos) {
         const categoriaRandom = categoriaList[Math.floor(Math.random() * categoriaList.length)];
         const localizacaoRandom = localizacaoList[Math.floor(Math.random() * localizacaoList.length)];
 
         const componente = {
-            nome: fakeMappings.Componente.nome.apply(),
+            nome,
             quantidade: fakeMappings.Componente.quantidade.apply(),
             estoque_minimo: fakeMappings.Componente.estoque_minimo.apply(),
             valor_unitario: fakeMappings.Componente.valor_unitario.apply(),
