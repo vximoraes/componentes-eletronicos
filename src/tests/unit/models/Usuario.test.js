@@ -9,6 +9,9 @@ describe('Model de Usuário', () => {
         mongoServer = await MongoMemoryServer.create();
         const uri = mongoServer.getUri();
         await mongoose.connect(uri);
+        
+        // Garantir que o índice único para email seja criado
+        await mongoose.connection.db.collection('usuarios').createIndex({ email: 1 }, { unique: true });
     });
 
     afterAll(async () => {
@@ -43,12 +46,18 @@ describe('Model de Usuário', () => {
         await expect(noEmail.save()).rejects.toThrow();
         const noSenha = new Usuario({ nome: 'A', email: 'a@a.com' });
         await expect(noSenha.save()).rejects.toThrow();
-    });
-
-    it('não deve criar usuário com email duplicado', async () => {
+    });    it('não deve criar usuário com email duplicado', async () => {
         const userData = { nome: 'A', email: 'dup@a.com', senha: '123' };
         await new Usuario(userData).save();
-        await expect(new Usuario(userData).save()).rejects.toThrow();
+        
+        // Espera especificamente por um erro do MongoDB relacionado a duplicação
+        try {
+            await new Usuario(userData).save();
+            fail('Deveria ter lançado um erro de duplicação');
+        } catch (error) {
+            // Verifica se a mensagem contém indicação de erro de duplicação
+            expect(error.message).toMatch(/E11000|duplicate|duplic/i);
+        }
     });
 
     it('deve retornar todos os usuários cadastrados', async () => {
