@@ -24,18 +24,18 @@ class Usuario {
                 default:
                     false
             },
-            // tokenUnico: { // Token único para recuperação de senha.
-            //     type: String, 
-            //     select: false 
-            // }, 
-            // refreshtoken: { // Refresh token para geração de access token de autenticação longa duração 7 dias para invalidação.
-            //     type: String, 
-            //     select: false 
-            // }, 
-            // accesstoken: { // Refresh token para  autenticação curta longa 15 minutos para invalidação.
-            //     type: String, 
-            //     select: false 
-            // }
+            tokenUnico: { // Token único para recuperação de senha.
+                type: String, 
+                select: false 
+            }, 
+            refreshtoken: { // Refresh token para geração de access token de autenticação longa duração 7 dias para invalidação.
+                type: String, 
+                select: false 
+            }, 
+            accesstoken: { // Refresh token para  autenticação curta longa 15 minutos para invalidação.
+                type: String, 
+                select: false 
+            }
         });
 
         usuarioSchema.plugin(mongoosePaginate);

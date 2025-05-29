@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import { v4 as uuid } from 'uuid';
 // import TokenUtil from '../utils/TokenUtil.js';
 import loadModels from './loadModels.js';
+import TokenUtil from '../utils/TokenUtil.js';
 
 export const fakeMappings = {
     common: {
@@ -13,6 +14,15 @@ export const fakeMappings = {
         valor_unitario: () => fakebr.commerce.price(1, 1000, 2),
         categoria: () => new mongoose.Types.ObjectId().toString(),
         localizacao: () => new mongoose.Types.ObjectId().toString(),
+        rota: () => fakebr.lorem.word(10),
+        dominio: () => fakebr.internet.url(),
+        ativo: () => fakebr.random.boolean(),
+        buscar: () => fakebr.random.boolean(),
+        buscar: () => fakebr.random.boolean(),
+        enviar: () => fakebr.random.boolean(),
+        substituir: () => fakebr.random.boolean(),
+        modificar: () => fakebr.random.boolean(),
+        excluir: () => fakebr.random.boolean(),
     },
 
     Usuario: {
@@ -20,9 +30,9 @@ export const fakeMappings = {
         email: () => fakebr.internet.email(),
         senha: () => fakebr.internet.password(),
         ativo: () => fakebr.random.boolean(),
-        // tokenUnico: () => TokenUtil.generateAccessToken(new mongoose.Types.ObjectId().toString()),
-        // refreshtoken: () => TokenUtil.generateRefreshToken(new mongoose.Types.ObjectId().toString()),
-        // accesstoken: () => TokenUtil.generateAccessToken(new mongoose.Types.ObjectId().toString()),
+        tokenUnico: () => TokenUtil.generateAccessToken(new mongoose.Types.ObjectId().toString()),
+        refreshtoken: () => TokenUtil.generateRefreshToken(new mongoose.Types.ObjectId().toString()),
+        accesstoken: () => TokenUtil.generateAccessToken(new mongoose.Types.ObjectId().toString()),
     },
 
     Notificacao: {

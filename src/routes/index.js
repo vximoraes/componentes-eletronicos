@@ -3,6 +3,7 @@ import express from "express";
 // import swaggerUI from "swagger-ui-express";
 // import getSwaggerOptions from "../docs/config/head.js";
 import logRoutes from "../middlewares/LogRoutesMiddleware.js";
+import auth from './authRoutes.js';
 import usuarios from './usuarioRoutes.js';
 import categorias from './categoriaRoutes.js';
 import localizacoes from './localizacaoRoutes.js';
@@ -30,6 +31,7 @@ const routes = (app) => {
     // });
 
     app.use(express.json(),
+        auth,
         usuarios,
         categorias,
         localizacoes,

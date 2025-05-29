@@ -127,9 +127,9 @@ class UsuarioRepository {
     async buscarPorId(id, includeTokens = false) {
         let query = this.model.findById(id);
 
-        // if (includeTokens) {
-        //     query = query.select('+refreshtoken +accesstoken');
-        // }
+        if (includeTokens) {
+            query = query.select('+refreshtoken +accesstoken');
+        }
 
         const user = await query;
 
