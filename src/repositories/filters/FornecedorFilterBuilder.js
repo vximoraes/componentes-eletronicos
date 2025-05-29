@@ -9,7 +9,7 @@ class FornecedorFilterBuilder {
     };
 
     comNome(nome) {
-        if (nome) {
+        if (nome !== undefined && nome !== null) {
             this.filtros.nome = { $regex: nome, $options: 'i' };
         };
         return this;
