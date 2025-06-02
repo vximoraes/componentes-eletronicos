@@ -4,8 +4,8 @@ import NotificacaoRepository from '../NotificacaoRepository.js';
 class NotificacaoFilterBuilder {
     constructor() {
         this.filtros = {};
-        this.notificacaoRepository = new NotificacaoRepository();
-        this.notificacaoModel = NotificacaoModel;
+        //this.notificacaoRepository = new NotificacaoRepository();
+        //this.notificacaoModel = NotificacaoModel;
     }
 
     comUsuario(usuarioId) {
@@ -31,12 +31,9 @@ class NotificacaoFilterBuilder {
         return this;
     }
 
-    comLida(lida = 'true') {
-        if (lida === 'true') {
-            this.filtros.lida = true;
-        } 
-        if (lida === 'false') {
-            this.filtros.lida = false;
+    comVisualizada(visualizada) {
+        if (visualizada !== undefined) {
+         this.filtros.visualizada = visualizada === 'true';
         }
         return this;
     }

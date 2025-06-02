@@ -36,12 +36,17 @@ class NotificacaoRepository {
             return await this.buscarPorId(id);
         }
 
-        const { usuario, lida, page = 1, limite = 10 } = query;
+        const { usuario, visualizada, page = 1, limite = 10 } = query;
 
         const filterBuilder = new NotificacaoFilterBuilder()
-            .comUsuario(usuario)
-            .comLida(lida);
-
+            if (usuario) {
+                filterBuilder.comUsuario(usuario);
+            }
+            
+            if (visualizada !== undefined) {
+                filterBuilder.comVisualizada(visualizada);
+            }
+            
         const filtros = filterBuilder.build();
 
         const options = {
@@ -56,7 +61,7 @@ class NotificacaoRepository {
 
     async marcarComoVisualizada(id) {
         return this._atualizar(id, { 
-            lida: true, 
+            visualizada: true, 
             dataLeitura: new Date() 
         });
     }
@@ -66,7 +71,7 @@ class NotificacaoRepository {
             id, 
             parsedData, 
             { new: true }
-        ).populate('usuario');
+        ).populate('usuarios');
         
         if (!notificacao) {
             throw new CustomError({

@@ -13,7 +13,7 @@ export const NotificacaoQuerySchema = z.object({
             message: "ID de usuário inválido",
         }),
     
-    lida: z
+    visualizada: z
         .string()
         .optional()
         .refine((value) => !value || value === "true" || value === "false", {
