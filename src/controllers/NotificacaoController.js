@@ -37,9 +37,11 @@ class NotificacaoController {
             return CommonResponse.error(res, { message: "Notificação não encontrada" }, HttpStatusCodes.NOT_FOUND);
         }
 
-        const atualizada = await this.service.atualizar(id, { visualizada: true });
+        const atualizada = await this.service.marcarComoVisualizada(id);
         return CommonResponse.success(res, atualizada);
     }
+
+
 }
 
 export default NotificacaoController;

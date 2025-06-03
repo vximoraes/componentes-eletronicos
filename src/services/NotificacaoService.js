@@ -34,6 +34,7 @@ class NotificacaoService {
         const data = await this.repository.marcarComoVisualizada(id);
         return data;
     }
+
 }
 
 export default  NotificacaoService;

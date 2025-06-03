@@ -71,7 +71,7 @@ class NotificacaoRepository {
             id, 
             parsedData, 
             { new: true }
-        ).populate('usuarios');
+        ).populate('usuario');
         
         if (!notificacao) {
             throw new CustomError({

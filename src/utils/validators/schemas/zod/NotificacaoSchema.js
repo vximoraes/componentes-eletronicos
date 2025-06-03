@@ -18,7 +18,10 @@ const NotificacaoSchema = z.object({
     .default(false),
   
   dataLeitura: z
-    .date()
+    /*.date()
+    .optional(),*/
+    .union([z.date(), z.string().datetime()])
+    .transform((val) => (typeof val === "string" ? new Date(val) : val))
     .optional(),
   
   dataExpiracao: z
