@@ -29,7 +29,7 @@ class Logger {
         if (process.env.LOG_ENABLED !== undefined) {
             this.logEnabled = process.env.LOG_ENABLED === 'true';
         } else {
-            console.log('Linha 33: logEnabled padrão true');
+            // console.log('Linha 33: logEnabled padrão true');
             this.logEnabled = true; // Linha 33
         }
 
