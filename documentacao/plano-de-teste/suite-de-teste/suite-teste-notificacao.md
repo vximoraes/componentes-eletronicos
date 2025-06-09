@@ -49,7 +49,7 @@
 | Cadastro com tipos errados            | Deve converter ou lançar erro ao tentar cadastrar notificação com tipos errados       | Cadastrar notificação com tipos errados (ex: mensagem numérica)      | Deve converter ou lançar erro de validação conforme regra                                           |
 | Notificação inexistente               | Deve lançar erro ao tentar buscar ou atualizar notificação inexistente                | Buscar ou atualizar notificação com id inexistente                   | Deve lançar erro 404                                                                                |
 
-# Plano de Teste Rotas (Sprint 6)
+# Plano de Teste Endpoints (Sprint 6)
 
 | Funcionalidade                        | Comportamento Esperado                                                                 | Verificações                                                        | Critérios de Aceite                                                                                 |
 |---------------------------------------|--------------------------------------------------------------------------------------|---------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------|

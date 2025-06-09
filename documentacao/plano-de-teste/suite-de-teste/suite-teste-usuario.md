@@ -55,7 +55,7 @@
 | Buscar por id inexistente    | Deve retornar null ou erro ao buscar usuário por id inexistente                      | Buscar usuário com id não cadastrado                                | Retorna null ou erro apropriado                                                                     |
 | Remoção de usuário inexistente| Deve lançar erro ao tentar remover usuário inexistente                              | Tentar deletar usuário com id inexistente                           | Deve lançar erro 404                                                                                |
 
-# Plano de Teste Rotas (Sprint 6)
+# Plano de Teste Endpoints (Sprint 6)
 
 | Funcionalidade                  | Comportamento Esperado                                                                 | Verificações                                                        | Critérios de Aceite                                                                                 |
 |---------------------------------|--------------------------------------------------------------------------------------|---------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------|

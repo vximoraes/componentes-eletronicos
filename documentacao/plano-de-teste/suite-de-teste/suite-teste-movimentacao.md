@@ -50,7 +50,7 @@
 | Remoção de movimentação inexistente| Deve lançar erro ao tentar remover movimentação inexistente                          | Tentar deletar movimentação com id inexistente                      | Deve lançar erro 404                                                                                |
 | Erro inesperado do banco        | Deve lançar erro se o banco lançar exceção em qualquer operação                       | Simular falha do banco de dados                                    | Deve lançar erro e não comprometer a integridade dos dados                                          |
 
-# Plano de Teste Rotas (Sprint 6)
+# Plano de Teste Endpoints (Sprint 6)
 
 | Funcionalidade                  | Comportamento Esperado                                                                 | Verificações                                                        | Critérios de Aceite                                                                                 |
 |---------------------------------|--------------------------------------------------------------------------------------|---------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------|
