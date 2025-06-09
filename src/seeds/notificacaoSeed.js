@@ -11,9 +11,9 @@ export default async function notificacaoSeed() {
         const usuarioRandom = usuarios[Math.floor(Math.random() * usuarios.length)];
 
         const notificacao = {
-            mensagem: fakeMappings.Notificacao.mensagem.apply(),
-            data_hora: fakeMappings.Notificacao.data_hora.apply(),
-            visualizacao: fakeMappings.Notificacao.visualizacao.apply(),
+            mensagem: fakeMappings.Notificacao.mensagem(),
+            data_hora: fakeMappings.Notificacao.data_hora(),
+            visualizada: fakeMappings.Notificacao.visualizada(),
             usuario: usuarioRandom._id
         };
         await Notificacao.create(notificacao);
