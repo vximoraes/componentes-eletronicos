@@ -12,6 +12,7 @@ router
     .get("/notificacoes", asyncWrapper(notificacaoController.listar.bind(notificacaoController)))
     .get("/notificacoes/:id", asyncWrapper(notificacaoController.buscarPorId.bind(notificacaoController)))
     .post("/notificacoes", asyncWrapper(notificacaoController.criar.bind(notificacaoController)))
-    .patch("/notificacoes/:id/visualizar", asyncWrapper(notificacaoController.marcarComoVisualizada.bind(notificacaoController)));
+    .patch("/notificacoes/:id/visualizar", asyncWrapper(notificacaoController.marcarComoVisualizada.bind(notificacaoController)))
+    .put("/notificacoes/:id/visualizar", asyncWrapper(notificacaoController.marcarComoVisualizada.bind(notificacaoController)));
 
 export default router;

@@ -11,7 +11,6 @@ import fornecedores from './fornecedorRoutes.js';
 import movimentacoes from './movimentacaoRoutes.js';
 import notificacoes from './notificacaoRoutes.js';
 
-
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -20,7 +19,7 @@ const routes = (app) => {
     if (process.env.DEBUGLOG) {
         app.use(logRoutes);
     };
-    
+
     app.get("/", (req, res) => {
         res.redirect("/docs");
     });
