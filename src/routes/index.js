@@ -10,6 +10,7 @@ import componentes from './componenteRoutes.js';
 import fornecedores from './fornecedorRoutes.js';
 import movimentacoes from './movimentacaoRoutes.js';
 import notificacoes from './notificacaoRoutes.js';
+import orcamentos from './orcamentoRoutes.js'
 
 import dotenv from "dotenv";
 
@@ -37,7 +38,8 @@ const routes = (app) => {
         componentes,
         fornecedores,
         movimentacoes,
-        notificacoes
+        notificacoes,
+        orcamentos
     );
 
     app.use((req, res) => {
