@@ -337,6 +337,143 @@
 #### Resultado
 - Categoria removida.
 
+## 8. Notificações
+
+### 8.1 POST /notificacoes
+
+#### Caso de Uso
+- Criar uma nova notificação para um usuário.
+
+#### Regras de Negócio
+- Campos obrigatórios: mensagem, usuario (id).
+- Campo `visualizada`: padrão false.
+- Não permite campos fora do schema.
+- Usuário deve existir.
+
+#### Resultado
+- Notificação criada com sucesso, retornando `_id`, `mensagem`, `visualizada` como `false`, `usuario` e `data_hora`.
+- Em caso de usuário inexistente, retorna erro 400.
+- Em caso de dados inválidos, retorna erro 400.
+
+### 8.2 GET /notificacoes e /notificacoes/:id
+
+#### Caso de Uso
+- Listar notificações ou obter notificação por id.
+
+#### Regras de Negócio
+- Paginação: parâmetros `page` e `limite` opcionais, limite máximo 100.
+- Filtros: usuario, visualizada.
+- Se id não existir, retorna erro 404.
+
+#### Resultado
+- Lista paginada ou notificação específica.
+- Em caso de erro de validação, retorna erro 400.
+
+### 8.3 PATCH/PUT /notificacoes/:id/visualizar
+
+#### Caso de Uso
+- Marcar notificação como visualizada.
+
+#### Regras de Negócio
+- Permite atualização apenas do status de visualização (de `false` para `true`).
+- Se notificação não existir, retorna erro 404.
+
+#### Resultado
+- Notificação marcada como visualizada.
+- Em caso de erro, retorna mensagem específica.
+
+## 9. Orçamentos
+
+### 9.1 POST /orcamentos
+
+#### Caso de Uso
+- Criar novo orçamento.
+
+#### Regras de Negócio
+- Campos obrigatórios: nome, protocolo, descrição, lista de componentes.
+- Para cada componente: nome, fornecedor, quantidade, valor unitário.
+- Calcula subtotal do componente (quantidade × valor unitário) e valor total do orçamento.
+- Não permite campos fora do schema.
+
+#### Resultado
+- Orçamento criado, com cálculo automático dos valores.
+- Em caso de dados inválidos, retorna erro 400.
+
+### 9.2 GET /orcamentos e /orcamentos/:id
+
+#### Caso de Uso
+- Listar orçamentos ou obter orçamento por id.
+
+#### Regras de Negócio
+- Paginação: parâmetros `page` e `limite` opcionais, limite máximo 100.
+- Filtros: nome, protocolo, fornecedor, data.
+- Se id não existir, retorna erro 404.
+
+#### Resultado
+- Lista paginada ou orçamento específico.
+- Em caso de erro de validação, retorna erro 400.
+
+### 9.3 PATCH/PUT /orcamentos/:id
+
+#### Caso de Uso
+- Atualizar orçamento.
+
+#### Regras de Negócio
+- Permite atualização parcial.
+- Não permite alterar protocolo.
+- Se orçamento não existir, retorna erro 404.
+
+#### Resultado
+- Orçamento atualizado.
+
+### 9.4 DELETE /orcamentos/:id
+
+#### Caso de Uso
+- Remover orçamento.
+
+#### Regras de Negócio
+- Se orçamento não existir, retorna erro 404.
+
+#### Resultado
+- Orçamento removido.
+
+## 10. Componentes do Orçamento
+
+### 10.1 GET /orcamentos/:id/componentes
+
+#### Caso de Uso
+- Listar componentes de um orçamento específico.
+
+#### Regras de Negócio
+- Orçamento deve existir.
+- Se orçamento não existir, retorna erro 404.
+
+#### Resultado
+- Lista de componentes do orçamento.
+
+### 10.2 PATCH/PUT /orcamentos/:id/componentes/:componenteId
+
+#### Caso de Uso
+- Atualizar informações de um componente do orçamento.
+
+#### Regras de Negócio
+- Permite atualização parcial dos campos do componente.
+- Se componente ou orçamento não existir, retorna erro 404.
+
+#### Resultado
+- Componente do orçamento atualizado.
+
+### 10.3 DELETE /orcamentos/:id/componentes/:componenteId
+
+#### Caso de Uso
+- Remover componente de um orçamento.
+
+#### Regras de Negócio
+- Se componente ou orçamento não existir, retorna erro 404.
+
+#### Resultado
+- Componente removido do orçamento.
+
 # Considerações Finais
 - Segurança: Em todos os endpoints, a segurança deve ser uma prioridade, com a implementação de mecanismos de autenticação, autorização e registro de logs.
 - Validação e Tratamento de Erros: É fundamental validar as entradas dos usuários e retornar mensagens de erro claras para auxiliar na resolução de problemas.

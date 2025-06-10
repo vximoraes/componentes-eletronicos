@@ -14,21 +14,21 @@ class Notificacao {
                 required: true,
                 default: Date.now
             },
-            visualizacao: {
-                type: Date,
+            visualizada: {
+                type: Boolean,
                 required: false,
-                default: Date.now
+                default: false
             },
             usuario: {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: "usuario", required: true
+                ref: "usuarios", 
+                required: true
             }
         });
 
         notificacaoSchema.plugin(mongoosePaginate);
-
         this.model = mongoose.model("notificacoes", notificacaoSchema);
-    };
-};
+    }
+}
 
 export default new Notificacao().model;

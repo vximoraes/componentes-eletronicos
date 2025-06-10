@@ -10,6 +10,8 @@ import localizacoes from './localizacaoRoutes.js';
 import componentes from './componenteRoutes.js';
 import fornecedores from './fornecedorRoutes.js';
 import movimentacoes from './movimentacaoRoutes.js';
+import notificacoes from './notificacaoRoutes.js';
+import orcamentos from './orcamentoRoutes.js'
 
 import dotenv from "dotenv";
 
@@ -19,7 +21,7 @@ const routes = (app) => {
     if (process.env.DEBUGLOG) {
         app.use(logRoutes);
     };
-    
+
     app.get("/", (req, res) => {
         res.redirect("/docs");
     });
@@ -37,7 +39,9 @@ const routes = (app) => {
         localizacoes,
         componentes,
         fornecedores,
-        movimentacoes
+        movimentacoes,
+        notificacoes,
+        orcamentos
     );
 
     app.use((req, res) => {

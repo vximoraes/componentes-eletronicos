@@ -33,7 +33,8 @@ describe('Modelo de Notificacao', () => {
         expect(saved.mensagem).toBe(notificacaoData.mensagem);
         expect(saved.usuario.toString()).toBe(usuarioId.toString());
         expect(saved.data_hora).toBeInstanceOf(Date);
-        expect(saved.visualizacao).toBeInstanceOf(Date);
+        expect(typeof saved.visualizada).toBe('boolean');
+        expect(saved.visualizada).toBe(false);
     });
 
     it('não deve criar notificacao sem campos obrigatórios', async () => {
@@ -50,7 +51,8 @@ describe('Modelo de Notificacao', () => {
         await notificacao.save();
         const saved = await Notificacao.findById(notificacao._id);
         expect(saved.data_hora).toBeInstanceOf(Date);
-        expect(saved.visualizacao).toBeInstanceOf(Date);
+        expect(typeof saved.visualizada).toBe('boolean');
+        expect(saved.visualizada).toBe(false);
     });
 
     it('deve permitir buscar notificacoes por usuario', async () => {
@@ -88,20 +90,19 @@ describe('Modelo de Notificacao', () => {
             usuario: usuarioId
         });
         await notificacao.save();
-        const novaData = new Date('2025-05-27T12:00:00Z');
-        notificacao.visualizacao = novaData;
+        notificacao.visualizada = true;
         await notificacao.save();
         const updated = await Notificacao.findById(notificacao._id);
-        expect(updated.visualizacao.toISOString()).toBe(novaData.toISOString());
+        expect(updated.visualizada).toBe(true);
     });
 
     it('deve buscar notificacoes não visualizadas (visualizacao igual ao default)', async () => {
         const usuarioId = new mongoose.Types.ObjectId();
         const n1 = new Notificacao({ mensagem: 'Não lida', usuario: usuarioId });
-        const n2 = new Notificacao({ mensagem: 'Lida', usuario: usuarioId, visualizacao: new Date('2025-05-27T12:00:00Z') });
+        const n2 = new Notificacao({ mensagem: 'Lida', usuario: usuarioId, visualizada: true });
         await n1.save();
         await n2.save();
-        const notificacoes = await Notificacao.find({ usuario: usuarioId, mensagem: 'Não lida' });
+        const notificacoes = await Notificacao.find({ usuario: usuarioId, visualizada: false });
         expect(notificacoes.length).toBe(1);
         expect(notificacoes[0].mensagem).toBe('Não lida');
     });

@@ -42,7 +42,7 @@ export const fakeMappings = {
             return `${dispositivo} está com estoque baixo (${quantidade} unidades)`;
         },
         data_hora: () => new Date().toISOString(),
-        visualizacao: () => new Date().toISOString(),
+        visualizada: () => fakebr.random.boolean(),
         usuario: () => new mongoose.Types.ObjectId().toString(),
     },
 

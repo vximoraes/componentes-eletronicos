@@ -22,11 +22,33 @@ class Orcamento {
                 type: Number,
                 required: true
             },
-            componentes:
-                [{
-                    type: mongoose.Schema.Types.ObjectId,
-                    ref: "componente_orcamentos"
-                }]
+            componentes: [
+                {
+                    _id: { type: mongoose.Schema.Types.ObjectId },
+                    nome: {
+                        type: String,
+                        index: true,
+                        unique: true,
+                        required: true
+                    },
+                    fornecedor: {
+                        type: String,
+                        required: true
+                    },
+                    quantidade: {
+                        type: Number,
+                        required: true
+                    },
+                    valor_unitario: {
+                        type: Number,
+                        required: true
+                    },
+                    subtotal: {
+                        type: Number,
+                        required: true
+                    },
+                }
+            ]
         });
 
         orcamentoSchema.plugin(mongoosePaginate);
@@ -35,4 +57,4 @@ class Orcamento {
     };
 };
 
-export default new Orcamento().model
+export default new Orcamento().model;
