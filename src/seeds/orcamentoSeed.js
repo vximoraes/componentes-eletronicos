@@ -1,22 +1,19 @@
 import { fakeMappings } from './globalFakeMapping.js';
 import Orcamento from '../models/Orcamento.js';
-import ComponenteOrcamento from '../models/ComponenteOrcamento.js';
 
 export default async function orcamentoSeed() {
     await Orcamento.deleteMany({});
 
-    const componentes = await ComponenteOrcamento.find({});
-    const componentesIds = componentes.map(c => c._id);
-
     for (let i = 0; i < 5; i++) {
+        const componentes = fakeMappings.Orcamento.componentes.apply();
+        const valor = componentes.reduce((acc, comp) => acc + (comp.subtotal || 0), 0);
         const orcamento = {
             nome: fakeMappings.Orcamento.nome.apply(),
             protocolo: fakeMappings.Orcamento.protocolo.apply(),
             descricao: fakeMappings.Orcamento.descricao.apply(),
-            valor: fakeMappings.Orcamento.valor.apply(),
-            componentes: componentesIds.splice(0, 3)
+            valor: Number(valor.toFixed(2)),
+            componentes
         };
-
         await Orcamento.create(orcamento);
-    };
+    }
 };

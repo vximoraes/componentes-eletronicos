@@ -18,7 +18,6 @@ export const fakeMappings = {
         dominio: () => fakebr.internet.url(),
         ativo: () => fakebr.random.boolean(),
         buscar: () => fakebr.random.boolean(),
-        buscar: () => fakebr.random.boolean(),
         enviar: () => fakebr.random.boolean(),
         substituir: () => fakebr.random.boolean(),
         modificar: () => fakebr.random.boolean(),
@@ -99,12 +98,17 @@ export const fakeMappings = {
             "Módulo Wifi ESP8266",
             "Kit Jumpers 120 peças"
         ],
-        nome: () => fakebr.helpers.randomize(fakeMappings.ComponenteOrcamento.nomesFixos),
+        nome: () => fakebr.helpers.randomize(fakeMappings.Componente.nomesFixos),
         fornecedor: () => fakebr.company.companyName(),
-        quantidade: () => fakebr.random.number({ min: 1, max: 100 }),
+        quantidade: () => fakebr.random.number({ min: 0, max: 100 }),
+        estoque_minimo: () => fakebr.random.number({ min: 1, max: 20 }),
         valor_unitario: () => fakebr.commerce.price(1, 1000, 2),
         subtotal: () => fakebr.commerce.price(1, 1000, 2),
-        orca_id: () => new mongoose.Types.ObjectId().toString(),
+        descricao: () => fakebr.lorem.sentence(),
+        imagem: () => fakebr.image.imageUrl(),
+        categoria: () => new mongoose.Types.ObjectId().toString(),
+        localizacao: () => new mongoose.Types.ObjectId().toString(),
+        ativo: () => fakebr.random.boolean(),
     },
 
     Orcamento: {
@@ -113,10 +117,25 @@ export const fakeMappings = {
         nome: () => `Projeto ${fakeMappings.Orcamento.adjetivoNome()} - ${fakeMappings.Orcamento.produtoNome()}`,
         protocolo: () => uuid(),
         descricao: () => fakebr.lorem.sentence(),
-        valor: () => fakebr.commerce.price(100, 10000, 2),
-        componentes: () => Array.from({ length: fakebr.random.number({ min: 1, max: 5 }) }, () => ({
-            ...fakeMappings.ComponenteOrcamento,
-        })),
+        componentes: () => {
+            const nomesFixos = fakeMappings.ComponenteOrcamento.nomesFixos;
+            const quantidade = fakebr.random.number({ min: 1, max: nomesFixos.length });
+            const nomesSelecionados = fakebr.helpers.shuffle(nomesFixos).slice(0, quantidade);
+            return nomesSelecionados.map(nome => {
+                const quantidade = fakebr.random.number({ min: 1, max: 100 });
+                const valor_unitario = Number(fakebr.commerce.price(1, 1000, 2));
+                const subtotal = Number((quantidade * valor_unitario).toFixed(2));
+                return {
+                    _id: new mongoose.Types.ObjectId(),
+                    nome,
+                    fornecedor: fakebr.company.companyName(),
+                    quantidade,
+                    valor_unitario,
+                    subtotal,
+                };
+            });
+        },
+        valor: () => 0, 
     },
 };
 
