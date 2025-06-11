@@ -9,3 +9,6 @@
 ### Implementar testes unitários (Geovanna, Vinícius):
     - Componente Orçamento
     - Orçamento
+
+### Implementar autenticação
+    - Rota auth
