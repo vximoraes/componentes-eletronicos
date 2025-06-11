@@ -6,7 +6,6 @@
     - Fazer telas de login e cadastro 
     - Fazer tela de perfil 
     - Fazer tela de componentes 
-    - Fazer tela de relatórios 
     - Fazer tela de orçamentos 
     - Fazer fluxo/funcionalidades do protótipo 
 
