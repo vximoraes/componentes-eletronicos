@@ -48,6 +48,5 @@
     - Componentes
 - [ ] Documentação das rota implementadas (incluindo regras de negócio {Lembre-se de colocar no gitlab em formato MarkDown}) 
 - [ ] Executar o Docker e docker-compose e explicar
-- [ ] Plano de Teste do projeto com cenários de teste implementados (explicar o fluxo principal associando a regra de negócio aos testes)
 - [ ] Teste unitário e de endpoint das funcionalidades implementadas (Explicação do teste do fluxo principal, demonstrar a cobertura de testes unitários)
 - [ ] Apresentação prática do produto (SWAGGER)
