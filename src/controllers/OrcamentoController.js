@@ -64,16 +64,16 @@ class OrcamentoController {
 
         const parsedData = OrcamentoUpdateSchema.parse(req.body);
         const orcamentoAtualizado = await this.service.atualizar(id, parsedData);
-        
-        return CommonResponse.success(res, orcamentoAtualizado, 200, 'Orçamento atualizado com sucesso.');
-    }
 
-    // async deletar(req, res) {
-    //     const { id } = req.params || {};
-    //     ComponenteIdSchema.parse(id);
-    //     const data = await this.service.deletar(id);
-    //     return CommonResponse.success(res, data, 200, 'Componente excluído com sucesso.');
-    // }
+        return CommonResponse.success(res, orcamentoAtualizado, 200, 'Orçamento atualizado com sucesso.');
+    };
+
+    async deletar(req, res) {
+        const { id } = req.params || {};
+        OrcamentoIdSchema.parse(id);
+        const data = await this.service.deletar(id);
+        return CommonResponse.success(res, data, 200, 'Orçamento excluído com sucesso.');
+    };
 
     // Manipular componentes.
 
@@ -93,21 +93,21 @@ class OrcamentoController {
         };
         const orcamentoAtualizado = await this.service.adicionarComponente(orcamentoId, novoComponente);
         return CommonResponse.success(res, orcamentoAtualizado, 200, 'Componente adicionado com sucesso.');
-    }
+    };
 
     async atualizarComponente(req, res) {
         const { orcamentoId, id } = req.params;
         const componenteData = req.body;
         if (!componenteData || Object.keys(componenteData).length === 0) {
             return CommonResponse.error(res, 400, 'validationError', 'componente', [{ message: 'Nenhum campo enviado para atualização.' }]);
-        }
+        };
         const parsedComponente = ComponenteOrcamentoUpdateSchema.parse(componenteData);
 
         // Buscar valores antigos para garantir subtotal correto
         const oldComponente = await this.service.getComponenteById(orcamentoId, id);
         if (!oldComponente) {
             return CommonResponse.error(res, 404, 'resourceNotFound', 'componente', [{ message: 'Componente não encontrado.' }]);
-        }
+        };
 
         // Atualiza apenas os campos enviados
         const componenteAtualizado = {
@@ -129,13 +129,13 @@ class OrcamentoController {
 
         const orcamentoAtualizado = await this.service.atualizarComponente(orcamentoId, id, componenteAtualizado);
         return CommonResponse.success(res, orcamentoAtualizado, 200, 'Componente atualizado com sucesso.');
-    }
+    };
 
     async removerComponente(req, res) {
         const { orcamentoId, id } = req.params;
         const orcamentoAtualizado = await this.service.removerComponente(orcamentoId, id);
         return CommonResponse.success(res, orcamentoAtualizado, 200, 'Componente removido com sucesso.');
-    }
+    };
 };
 
 export default OrcamentoController;

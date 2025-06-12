@@ -13,7 +13,7 @@ router
     .get("/orcamentos/:id", /*AuthMiddleware, authPermission,*/ asyncWrapper(orcamentoController.listar.bind(orcamentoController)))
     .post("/orcamentos", /*AuthMiddleware, authPermission,*/ asyncWrapper(orcamentoController.criar.bind(orcamentoController)))
     .patch("/orcamentos/:id", /*AuthMiddleware, authPermission,*/ asyncWrapper(orcamentoController.atualizar.bind(orcamentoController)))
-    // .delete("/orcamentos/:id", /*AuthMiddleware, authPermission,*/ asyncWrapper(orcamentoController.deletar.bind(orcamentoController)))
+    .delete("/orcamentos/:id", /*AuthMiddleware, authPermission,*/ asyncWrapper(orcamentoController.deletar.bind(orcamentoController)))
     .post("/orcamentos/:orcamentoId/componentes", asyncWrapper(orcamentoController.adicionarComponente.bind(orcamentoController)))
     .patch("/orcamentos/:orcamentoId/componentes/:id", asyncWrapper(orcamentoController.atualizarComponente.bind(orcamentoController)))
     .delete("/orcamentos/:orcamentoId/componentes/:id", asyncWrapper(orcamentoController.removerComponente.bind(orcamentoController)))

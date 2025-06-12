@@ -29,27 +29,27 @@ class OrcamentoService {
         return data;
     };
 
-    // async deletar(id) {
-    //     await this.ensureComponentExists(id);
+    async deletar(id) {
+        await this.ensureBudgetExists(id);
 
-    //     const data = await this.repository.deletar(id);
+        const data = await this.repository.deletar(id);
 
-    //     return data;
-    // };
+        return data;
+    };
 
     // Manipular componentes.
 
     async adicionarComponente(orcamentoId, novoComponente) {
         return await this.repository.adicionarComponente(orcamentoId, novoComponente);
-    }
+    };
 
     async atualizarComponente(orcamentoId, componenteId, componenteAtualizado) {
         return await this.repository.atualizarComponente(orcamentoId, componenteId, componenteAtualizado);
-    }
+    };
 
     async removerComponente(orcamentoId, componenteId) {
         return await this.repository.removerComponente(orcamentoId, componenteId);
-    }
+    };
 
     async getComponenteById(orcamentoId, componenteId) {
         const orcamento = await this.repository.buscarPorId(orcamentoId);
@@ -59,7 +59,7 @@ class OrcamentoService {
         const comp = componentes.find(c => c && c._id && c._id.toString() === componenteId);
 
         return comp || null;
-    }
+    };
 
     // Métodos auxiliares.
 
