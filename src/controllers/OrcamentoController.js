@@ -72,7 +72,7 @@ class OrcamentoController {
     //     const data = await this.service.deletar(id);
     //     return CommonResponse.success(res, data, 200, 'Componente excluído com sucesso.');
     // }
-    
+
     // Manipular componentes.
 
     async adicionarComponente(req, res) {
@@ -93,7 +93,6 @@ class OrcamentoController {
         return CommonResponse.success(res, orcamentoAtualizado, 200, 'Componente adicionado com sucesso.');
     }
 
-    // Atualiza um componente do orçamento
     async atualizarComponente(req, res) {
         const { orcamentoId, id } = req.params;
         const componenteData = req.body;
@@ -130,7 +129,6 @@ class OrcamentoController {
         return CommonResponse.success(res, orcamentoAtualizado, 200, 'Componente atualizado com sucesso.');
     }
 
-    // Remove componente do orçamento
     async removerComponente(req, res) {
         const { orcamentoId, id } = req.params;
         const orcamentoAtualizado = await this.service.removerComponente(orcamentoId, id);

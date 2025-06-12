@@ -57,7 +57,10 @@ class OrcamentoService {
     async getComponenteById(orcamentoId, componenteId) {
         const orcamento = await this.repository.buscarPorId(orcamentoId);
         if (!orcamento) return null;
-        const comp = orcamento.componentes.find(c => c._id.toString() === componenteId);
+
+        const componentes = Array.isArray(orcamento.componentes) ? orcamento.componentes : [];
+        const comp = componentes.find(c => c && c._id && c._id.toString() === componenteId);
+
         return comp || null;
     }
 

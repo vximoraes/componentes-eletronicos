@@ -140,10 +140,15 @@ class OrcamentoRepository {
     async atualizarComponente(orcamentoId, componenteId, componenteAtualizado) {
         const orcamento = await this.model.findById(orcamentoId);
         if (!orcamento) throw new Error('Orçamento não encontrado');
-        const idx = orcamento.componentes.findIndex(c => c._id.toString() === componenteId);
+
+        const componentes = Array.isArray(orcamento.componentes) ? orcamento.componentes : [];
+        const idx = componentes.findIndex(c => c && c._id && c._id.toString() === componenteId);
         if (idx === -1) throw new Error('Componente não encontrado');
-        orcamento.componentes[idx] = { ...orcamento.componentes[idx].toObject(), ...componenteAtualizado };
-        orcamento.valor = orcamento.componentes.reduce((acc, comp) => acc + comp.subtotal, 0);
+        
+        // Atualiza o componente mantendo a estrutura
+        componentes[idx] = { ...((typeof componentes[idx].toObject === 'function') ? componentes[idx].toObject() : componentes[idx]), ...componenteAtualizado };
+        orcamento.componentes = componentes;
+        orcamento.valor = componentes.reduce((acc, comp) => acc + comp.subtotal, 0);
         await orcamento.save();
         return orcamento;
     }
