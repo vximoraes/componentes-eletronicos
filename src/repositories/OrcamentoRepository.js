@@ -93,35 +93,21 @@ class OrcamentoRepository {
         return orcamento;
     };
 
-    // async deletar(id) {
-    //     const existeMovimentacao = await MovimentacaoModel.exists({ componente: id });
-    //     if (existeMovimentacao) {
-    //         throw new CustomError({
-    //             statusCode: 400,
-    //             errorType: 'resourceInUse',
-    //             field: 'Componente',
-    //             details: [],
-    //             customMessage: 'Não é possível deletar: componente está vinculado a movimentações.'
-    //         });
-    //     };
+    async deletar(id) {
+        const orcamento = await this.model.findById(id)
+        if (!orcamento) {
+            throw new CustomError({
+                statusCode: 404,
+                errorType: 'resourceNotFound',
+                field: 'Orçamento',
+                details: [],
+                customMessage: messages.error.resourceNotFound('Orçamento')
+            });
+        }
 
-    //     const componente = await this.model.findById(id)
-    //         .populate('localizacao')
-    //         .populate('categoria');
-
-    //     if (!componente) {
-    //         throw new CustomError({
-    //             statusCode: 404,
-    //             errorType: 'resourceNotFound',
-    //             field: 'Componente',
-    //             details: [],
-    //             customMessage: messages.error.resourceNotFound('Componente')
-    //         });
-    //     }
-
-    //     await this.model.findByIdAndDelete(id);
-    //     return componente;
-    // };
+        await this.model.findByIdAndDelete(id);
+        return orcamento;
+    };
 
     // Manipular componentes.
 
@@ -140,7 +126,7 @@ class OrcamentoRepository {
         await orcamento.save();
 
         return orcamento;
-    }
+    };
 
     async atualizarComponente(orcamentoId, componenteId, componenteAtualizado) {
         const orcamento = await this.model.findById(orcamentoId);
@@ -168,7 +154,7 @@ class OrcamentoRepository {
         await orcamento.save();
 
         return orcamento;
-    }
+    };
 
     async removerComponente(orcamentoId, componenteId) {
         const orcamento = await this.model.findById(orcamentoId);
@@ -185,7 +171,7 @@ class OrcamentoRepository {
         await orcamento.save();
 
         return orcamento;
-    }
+    };
 
     // Métodos auxiliares.
 
