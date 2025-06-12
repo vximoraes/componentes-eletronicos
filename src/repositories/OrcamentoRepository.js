@@ -9,13 +9,11 @@ class OrcamentoRepository {
         this.model = orcamentoModel;
     };
 
-    // async criar(dadosComponente) {
-    //     const componente = new this.model(dadosComponente);
-    //     const componenteSalvo = await componente.save();
-    //     return await this.model.findById(componenteSalvo._id)
-    //         .populate('localizacao')
-    //         .populate('categoria')
-    // };
+    async criar(dadosOrcamento) {
+        const orcamento = new this.model(dadosOrcamento);
+        const orcamentoSalvo = await orcamento.save();
+        return await this.model.findById(orcamentoSalvo._id)
+    };
 
     async listar(req) {
         const id = req.params.id || null;
@@ -128,6 +126,37 @@ class OrcamentoRepository {
     //     return componente;
     // };
 
+    // Manipular componentes.
+
+    async adicionarComponente(orcamentoId, novoComponente) {
+        const orcamento = await this.model.findById(orcamentoId);
+        if (!orcamento) throw new Error('Orçamento não encontrado');
+        orcamento.componentes.push(novoComponente);
+        orcamento.valor = orcamento.componentes.reduce((acc, comp) => acc + comp.subtotal, 0);
+        await orcamento.save();
+        return orcamento;
+    }
+
+    async atualizarComponente(orcamentoId, componenteId, componenteAtualizado) {
+        const orcamento = await this.model.findById(orcamentoId);
+        if (!orcamento) throw new Error('Orçamento não encontrado');
+        const idx = orcamento.componentes.findIndex(c => c._id.toString() === componenteId);
+        if (idx === -1) throw new Error('Componente não encontrado');
+        orcamento.componentes[idx] = { ...orcamento.componentes[idx].toObject(), ...componenteAtualizado };
+        orcamento.valor = orcamento.componentes.reduce((acc, comp) => acc + comp.subtotal, 0);
+        await orcamento.save();
+        return orcamento;
+    }
+
+    async removerComponente(orcamentoId, componenteId) {
+        const orcamento = await this.model.findById(orcamentoId);
+        if (!orcamento) throw new Error('Orçamento não encontrado');
+        orcamento.componentes = orcamento.componentes.filter(c => c._id.toString() !== componenteId);
+        orcamento.valor = orcamento.componentes.reduce((acc, comp) => acc + comp.subtotal, 0);
+        await orcamento.save();
+        return orcamento;
+    }
+
     // Métodos auxiliares.
 
     async buscarPorId(id, includeTokens = false) {
@@ -148,16 +177,14 @@ class OrcamentoRepository {
         return orcamento;
     };
 
-    async buscarPorNome(nome, idIgnorado) {
-        const filtro = { nome };
+    async buscarPorProtocolo(protocolo, idIgnorado) {
+        const filtro = { protocolo };
 
         if (idIgnorado) {
             filtro._id = { $ne: idIgnorado }
         };
 
         const documento = await this.model.findOne(filtro)
-            .populate('localizacao')
-            .populate('categoria');
 
         return documento;
     };

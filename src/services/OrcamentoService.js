@@ -7,15 +7,13 @@ class OrcamentoService {
         this.repository = new OrcamentoRepository();
     };
 
-    // async criar(parsedData) {
-    //     await this.validateNome(parsedData.nome);
-    //     await this.validateLocalizacao(parsedData.localizacao);
-    //     await this.validateCategoria(parsedData.categoria);
+    async criar(parsedData) {
+        await this.validateProtocolo(parsedData.protocolo);
 
-    //     const data = await this.repository.criar(parsedData);
+        const data = await this.repository.criar(parsedData);
 
-    //     return data;
-    // };
+        return data;
+    };
 
     async listar(req) {
         const data = await this.repository.listar(req);
@@ -42,16 +40,37 @@ class OrcamentoService {
     //     return data;
     // };
 
+    // Manipular componentes.
+
+    async adicionarComponente(orcamentoId, novoComponente) {
+        return await this.repository.adicionarComponente(orcamentoId, novoComponente);
+    }
+
+    async atualizarComponente(orcamentoId, componenteId, componenteAtualizado) {
+        return await this.repository.atualizarComponente(orcamentoId, componenteId, componenteAtualizado);
+    }
+
+    async removerComponente(orcamentoId, componenteId) {
+        return await this.repository.removerComponente(orcamentoId, componenteId);
+    }
+
+    async getComponenteById(orcamentoId, componenteId) {
+        const orcamento = await this.repository.buscarPorId(orcamentoId);
+        if (!orcamento) return null;
+        const comp = orcamento.componentes.find(c => c._id.toString() === componenteId);
+        return comp || null;
+    }
+
     // Métodos auxiliares.
 
-    async validateNome(nome, id = null) {
-        const orcamentoExistente = await this.repository.buscarPorNome(nome, id);
+    async validateProtocolo(protocolo, id = null) {
+        const orcamentoExistente = await this.repository.buscarPorProtocolo(protocolo, id);
         if (orcamentoExistente) {
             throw new CustomError({
                 statusCode: HttpStatusCodes.BAD_REQUEST.code,
                 errorType: 'validationError',
-                field: 'nome',
-                details: [{ path: 'nome', message: 'Nome já está em uso.' }],
+                field: 'protocolo',
+                details: [{ path: 'protocolo', message: 'Protocolo já está em uso.' }],
                 customMessage: 'Nome já está em uso.',
             });
         };
