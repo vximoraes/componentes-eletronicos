@@ -21,16 +21,13 @@ class OrcamentoService {
         return data;
     };
 
-    // async atualizar(id, parsedData) {
-    //     await this.ensureComponentExists(id);
-    //     await this.validateNome(parsedData.nome)
+    async atualizar(id, parsedData) {
+        await this.ensureBudgetExists(id);
 
-    //     delete parsedData.quantidade;
+        const data = await this.repository.atualizar(id, parsedData);
 
-    //     const data = await this.repository.atualizar(id, parsedData);
-
-    //     return data;
-    // };
+        return data;
+    };
 
     // async deletar(id) {
     //     await this.ensureComponentExists(id);

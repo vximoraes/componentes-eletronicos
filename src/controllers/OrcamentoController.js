@@ -59,12 +59,14 @@ class OrcamentoController {
         return CommonResponse.success(res, data);
     };
 
-    // async atualizar(req, res) {
-    //     const { id } = req.params;
-    //     const parsedData = OrcamentoUpdateSchema.parse(req.body);
-    //     const orcamentoAtualizado = await this.service.atualizar(id, parsedData);
-    //     return CommonResponse.success(res, orcamentoAtualizado, 200, 'Orçamento atualizado com sucesso.');
-    // }
+    async atualizar(req, res) {
+        const { id } = req.params;
+
+        const parsedData = OrcamentoUpdateSchema.parse(req.body);
+        const orcamentoAtualizado = await this.service.atualizar(id, parsedData);
+        
+        return CommonResponse.success(res, orcamentoAtualizado, 200, 'Orçamento atualizado com sucesso.');
+    }
 
     // async deletar(req, res) {
     //     const { id } = req.params || {};
