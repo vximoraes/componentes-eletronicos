@@ -6,8 +6,11 @@ import compression from "compression";
 import errorHandler from './utils/helpers/errorHandler.js';
 import logger from './utils/logger.js';
 import CommonResponse from './utils/helpers/CommonResponse.js';
+import DbConnect from "./config/DbConnect.js";
 
 const app = express();
+
+await DbConnect.conectar();
 
 app.use(helmet());
 app.use(cors());
