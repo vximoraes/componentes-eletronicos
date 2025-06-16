@@ -5,6 +5,7 @@ import { LoginSchema } from '../utils/validators/schemas/zod/LoginSchema.js';
 import { UsuarioSchema, UsuarioUpdateSchema } from '../utils/validators/schemas/zod/UsuarioSchema.js';
 import { UsuarioIdSchema } from '../utils/validators/schemas/zod/querys/UsuarioQuerySchema.js';
 import { RequestAuthorizationSchema } from '../utils/validators/schemas/zod/querys/RequestAuthorizationSchema.js';
+import { EmailSchema } from '../utils/validators/schemas/zod/EmailSchema.js';
 
 import AuthService from '../services/AuthService.js';
 
@@ -33,12 +34,9 @@ class AuthController {
     recuperaSenha = async (req, res) => {
         console.log('Estou no logar em RecuperaSenhaController, enviando req para RecuperaSenhaService');
 
-        // 1º validação estrutural - validar os campos passados por body
-        const body = req.body || {};
-
         // Validar apenas o email
-        const validatedBody = UsuarioUpdateSchema.parse(req.body);
-        const data = await this.service.recuperaSenha(req, validatedBody);
+        const validatedBody = EmailSchema.parse(req.body);
+        const data = await this.service.recuperaSenha(validatedBody);
         return CommonResponse.success(res, data);
     }
 
