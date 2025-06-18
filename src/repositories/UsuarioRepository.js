@@ -168,6 +168,25 @@ class UsuarioRepository {
     async buscarPorCodigoRecuperacao(codigo) {
         return await this.model.findOne({ codigo_recupera_senha: codigo });
     }
+
+    async removeToken(id) {
+        const usuarioExistente = await this.model.findById(id);
+        if (!usuarioExistente) {
+            throw new CustomError({
+                statusCode: 404,
+                errorType: 'resourceNotFound',
+                field: 'Usuário',
+                details: [],
+                customMessage: messages.error.resourceNotFound('Usuário')
+            });
+        }
+
+        usuarioExistente.accesstoken = null;
+        usuarioExistente.refreshtoken = null;
+        
+        await usuarioExistente.save();
+        return usuarioExistente;
+    };
 };
 
 export default UsuarioRepository;
