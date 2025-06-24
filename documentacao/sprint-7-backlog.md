@@ -2,6 +2,10 @@
 
 ## Tarefas
 
+### Implementar testes unitários (Geovanna, Vinícius):
+    - Componente Orçamento
+    - Orçamento
+
 ### Implementar testes de endpoints (Geovanna, Vinícius):
     - Usuário
     - Notificação
