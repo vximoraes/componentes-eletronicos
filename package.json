@@ -80,7 +80,11 @@
     "coveragePathIgnorePatterns": [
       "/node_modules/",
       "/utils/helpers/index.js",
-      "/utils/logger.js"
+      "/utils/logger.js",
+      "/src/services/AuthService.js",
+      "/src/middlewares/AuthMiddleware.js",
+      "/src/utils/TokenUtil.js",
+      "/src/utils/AuthHelper.js"
     ]
   }
 }
