@@ -32,8 +32,6 @@ class AuthController {
      *  Metodo para recuperar a senha do usuário
      */
     recuperaSenha = async (req, res) => {
-        console.log('Estou no logar em RecuperaSenhaController, enviando req para RecuperaSenhaService');
-
         // Validar apenas o email
         const validatedBody = EmailSchema.parse(req.body);
         const data = await this.service.recuperaSenha(validatedBody);
@@ -52,8 +50,6 @@ class AuthController {
         *      e “zera” o campo `codigo_recupera_senha`.
         */
     async atualizarSenhaToken(req, res, next) {
-        console.log('Estou no atualizarSenha em AuthController, enviando req para AuthService');
-
         const tokenRecuperacao = req.query.token || req.params.token || null; // token de recuperação passado na URL
         const senha = req.body.senha || null; // nova senha passada no body
 
@@ -84,8 +80,6 @@ class AuthController {
     }
 
     async atualizarSenhaCodigo(req, res, next) {
-        console.log('Estou no atualizarSenha em AuthController, enviando req para AuthService');
-
         const codigo_recupera_senha = req.body.codigo_recupera_senha || null; // código de recuperação passado no body
         const senha = req.body.senha || null; // nova senha passada no body
 

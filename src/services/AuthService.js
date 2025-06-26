@@ -31,8 +31,6 @@ class AuthService {
     }
 
     async login(body) {
-        console.log('Estou no logar em AuthService');
-
         // Buscar o usuário pelo email
         const userEncontrado = await this.repository.buscarPorEmail(body.email);
         if (!userEncontrado) {
@@ -72,7 +70,6 @@ class AuthService {
         // Buscar o usuário com os tokens já armazenados
         const userComTokens = await this.repository.buscarPorId(userEncontrado._id, true);
         let refreshtoken = userComTokens.refreshtoken;
-        console.log("refresh token no banco", refreshtoken);
 
         if (refreshtoken) {
             try {
@@ -95,8 +92,6 @@ class AuthService {
             refreshtoken = await this.TokenUtil.generateRefreshToken(userEncontrado._id);
         }
 
-        console.log("refresh token gerado", refreshtoken);
-
         // Armazenar os tokens atualizados
         await this.repository.armazenarTokens(userEncontrado._id, accesstoken, refreshtoken);
 
@@ -112,8 +107,6 @@ class AuthService {
 
     // RecuperaSenhaService.js
     async recuperaSenha(body) {
-        console.log('Estou em RecuperaSenhaService');
-
         console.log('Dados recebidos para recuperação de senha:', body);
         // ───────────────────────────────────────────────
         // Passo 1 – Buscar usuário pelo e-mail informado
