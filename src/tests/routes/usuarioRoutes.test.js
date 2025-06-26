@@ -31,7 +31,7 @@ describe("Usuários", () => {
             .post('/login')
             .send({ email: 'admin@admin.com', senha: senhaAdmin });
         token = loginRes.body?.data?.user?.accesstoken;
-        if (!token) throw new Error('Token JWT não retornado pelo login: ' + JSON.stringify(loginRes.body));
+        expect(token).toBeTruthy();
     });
 
     it("Deve cadastrar um usuário válido (POST)", async () => {

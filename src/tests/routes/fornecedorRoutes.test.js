@@ -9,7 +9,6 @@ dotenv.config();
 const PORT = process.env.PORT || 3000;
 const BASE_URL = `http://localhost:${PORT}`;
 
-
 describe("Fornecedores", () => {
     let token;
     let fornecedorId;
@@ -33,7 +32,7 @@ describe("Fornecedores", () => {
             .post('/login')
             .send({ email: 'admin@admin.com', senha: senhaAdmin });
         token = loginRes.body?.data?.user?.accesstoken;
-        if (!token) throw new Error('Token JWT não retornado pelo login: ' + JSON.stringify(loginRes.body));
+        expect(token).toBeTruthy();
     });
 
     it("Deve retornar os fornecedores no GET - Caso de Sucesso", async () => {
