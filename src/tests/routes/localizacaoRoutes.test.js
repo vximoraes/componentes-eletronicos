@@ -9,7 +9,6 @@ const PORT = process.env.PORT || 3000;
 const BASE_URL = `http://localhost:${PORT}`;
 
 let token;
-const TIMEOUT = 20000;
 
 const criarLocalizacaoValida = async (override = {}) => {
     const unique = Date.now() + '-' + Math.floor(Math.random() * 10000);
@@ -45,7 +44,7 @@ describe('Rotas de Localização', () => {
             .send({ email: 'admin@admin.com', senha: senhaAdmin });
         token = loginRes.body?.data?.user?.accesstoken;
         expect(token).toBeTruthy();
-    }, TIMEOUT);
+    });
 
     describe('POST /localizacoes', () => {
         it('deve cadastrar localização válida', async () => {
@@ -54,11 +53,11 @@ describe('Rotas de Localização', () => {
             expect([200, 201]).toContain(res.status);
             expect(res.body.data).toHaveProperty('_id');
             localizacaoId = res.body.data._id;
-        }, TIMEOUT);
+        });
         it('deve falhar ao cadastrar sem nome', async () => {
             const res = await request(BASE_URL).post('/localizacoes').set('Authorization', `Bearer ${token}`).send({});
             expect([400, 422]).toContain(res.status);
-        }, TIMEOUT);
+        });
         it('deve falhar ao cadastrar com nome já existente', async () => {
             const dados = await criarLocalizacaoValida();
             // Cadastra uma vez
@@ -66,7 +65,7 @@ describe('Rotas de Localização', () => {
             // Tenta cadastrar novamente
             const res = await request(BASE_URL).post('/localizacoes').set('Authorization', `Bearer ${token}`).send(dados);
             expect([400, 409, 422]).toContain(res.status);
-        }, TIMEOUT);
+        });
     });
 
     describe('GET /localizacoes', () => {
@@ -80,7 +79,7 @@ describe('Rotas de Localização', () => {
                 else if (Array.isArray(res.body.data?.results)) lista = res.body.data.results;
             }
             expect(Array.isArray(lista)).toBe(true);
-        }, TIMEOUT);
+        });
     });
 
     describe('GET /localizacoes/:id', () => {
@@ -91,12 +90,12 @@ describe('Rotas de Localização', () => {
             const res = await request(BASE_URL).get(`/localizacoes/${id}`).set('Authorization', `Bearer ${token}`);
             expect([200, 201]).toContain(res.status);
             expect(res.body.data).toHaveProperty('_id', id);
-        }, TIMEOUT);
+        });
         it('deve retornar 404 para localização inexistente', async () => {
             const id = new mongoose.Types.ObjectId();
             const res = await request(BASE_URL).get(`/localizacoes/${id}`).set('Authorization', `Bearer ${token}`);
             expect(res.status).toBe(404);
-        }, TIMEOUT);
+        });
     });
 
     describe('PATCH /localizacoes/:id', () => {
@@ -108,7 +107,7 @@ describe('Rotas de Localização', () => {
             const res = await request(BASE_URL).patch(`/localizacoes/${id}`).set('Authorization', `Bearer ${token}`).send({ nome: novoNome });
             expect([200, 201]).toContain(res.status);
             expect(res.body.data.nome).toBe(novoNome);
-        }, TIMEOUT);
+        });
         it('deve falhar ao atualizar para nome já existente', async () => {
             const dados1 = await criarLocalizacaoValida();
             const dados2 = await criarLocalizacaoValida();
@@ -116,12 +115,12 @@ describe('Rotas de Localização', () => {
             const loc2 = await request(BASE_URL).post('/localizacoes').set('Authorization', `Bearer ${token}`).send(dados2);
             const res = await request(BASE_URL).patch(`/localizacoes/${loc2.body.data._id}`).set('Authorization', `Bearer ${token}`).send({ nome: dados1.nome });
             expect([400, 409, 422]).toContain(res.status);
-        }, TIMEOUT);
+        });
         it('deve retornar 404 ao atualizar localização inexistente', async () => {
             const id = new mongoose.Types.ObjectId();
             const res = await request(BASE_URL).patch(`/localizacoes/${id}`).set('Authorization', `Bearer ${token}`).send({ nome: 'Qualquer' });
             expect(res.status).toBe(404);
-        }, TIMEOUT);
+        });
     });
 
     describe('DELETE /localizacoes/:id', () => {
@@ -131,11 +130,11 @@ describe('Rotas de Localização', () => {
             const id = locRes.body.data._id;
             const res = await request(BASE_URL).delete(`/localizacoes/${id}`).set('Authorization', `Bearer ${token}`);
             expect([200, 201, 204]).toContain(res.status);
-        }, TIMEOUT);
+        });
         it('deve retornar 404 ao remover localização inexistente', async () => {
             const id = new mongoose.Types.ObjectId();
             const res = await request(BASE_URL).delete(`/localizacoes/${id}`).set('Authorization', `Bearer ${token}`);
             expect(res.status).toBe(404);
-        }, TIMEOUT);
+        });
     });
 });

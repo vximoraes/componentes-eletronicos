@@ -32,7 +32,7 @@ describe("Orçamentos", () => {
             .post('/login')
             .send({ email: 'admin@admin.com', senha: senhaAdmin });
         token = loginRes.body?.data?.user?.accesstoken;
-        if (!token) throw new Error('Token JWT não retornado pelo login: ' + JSON.stringify(loginRes.body));
+        expect(token).toBeTruthy();
     });
 
     it("Não deve cadastrar orçamento sem campos obrigatórios (400)", async () => {
@@ -56,14 +56,10 @@ describe("Orçamentos", () => {
             protocolo,
             componente_orcamento: [componente]
         };
-        require('fs').writeFileSync('/tmp/payload-orcamento.json', JSON.stringify(obj, null, 2));
         const res = await request(BASE_URL)
             .post("/orcamentos")
             .set("Authorization", `Bearer ${token}`)
             .send(obj);
-        if (res.status !== 201) {
-            require('fs').writeFileSync('/tmp/erro-orcamento.txt', `Status: ${res.status}\nBody: ${JSON.stringify(res.body)}\nText: ${res.text}`);
-        }
         expect(res.status).toBe(201);
         orcamentoId = res.body.data._id;
         expect(res.body.data).toHaveProperty("_id");
@@ -157,7 +153,7 @@ describe("Orçamentos", () => {
     });
 
     it("Deve atualizar componente do orçamento", async () => {
-        if (!componenteId) throw new Error('componenteId não definido. Verifique se o teste de adição passou.');
+        expect(componenteId).toBeDefined();
         const res = await request(BASE_URL)
             .patch(`/orcamentos/${orcamentoId}/componentes/${componenteId}`)
             .set("Authorization", `Bearer ${token}`)
