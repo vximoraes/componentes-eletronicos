@@ -25,6 +25,7 @@
     "mongodb": "^6.15.0",
     "mongoose": "^8.13.2",
     "mongoose-paginate-v2": "^1.9.0",
+    "mongoose-schema-jsonschema": "^3.0.2",
     "node-fetch": "^2.7.0",
     "path": "^0.12.7",
     "swagger-jsdoc": "^6.2.8",
