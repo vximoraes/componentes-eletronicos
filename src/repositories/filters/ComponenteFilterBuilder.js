@@ -17,7 +17,7 @@ class ComponenteFilterBuilder {
             this.filtros.nome = { $regex: nome, $options: 'i' };
         };
         return this;
-    };
+    }; 
 
     comQuantidade(quantidade) {
         if (quantidade !== undefined && quantidade !== null && quantidade !== '') {
@@ -27,7 +27,7 @@ class ComponenteFilterBuilder {
             };
         };
         return this;
-    };
+    }; 
 
     comEstoqueMinimo(estoque_minimo) {
         if (estoque_minimo === 'true') {

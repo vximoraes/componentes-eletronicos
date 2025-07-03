@@ -1,5 +1,7 @@
+import nodemon from 'nodemon';
 import NotificacaoModel from '../../models/Notificacao.js';
 import NotificacaoRepository from '../NotificacaoRepository.js';
+import Fornecedor from '../../models/Fornecedor.js';
 
 class NotificacaoFilterBuilder {
     constructor() {

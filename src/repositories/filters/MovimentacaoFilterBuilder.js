@@ -35,7 +35,7 @@ class MovimentacaoFilterBuilder {
                 this.filtros.quantidade = num;
             };
         };
-        return this;
+        return this; 
     };
 
     async comComponente(componente) {
@@ -86,7 +86,7 @@ class MovimentacaoFilterBuilder {
                     this.filtros.fornecedor = { $in: [] };
                 };
             };
-        };
+        }; 
         return this;
     };
 
