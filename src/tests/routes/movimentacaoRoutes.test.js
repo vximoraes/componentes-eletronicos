@@ -75,7 +75,7 @@ describe('Rotas de Movimentação', () => {
             // Se o servidor não estiver rodando, o teste falhará naturalmente
         }
         // Cria usuário admin e faz login
-        const senhaAdmin = 'Admin1234!';
+        const senhaAdmin = 'Senha@123';
         try {
             await request(BASE_URL)
                 .post('/usuarios')

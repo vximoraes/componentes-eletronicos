@@ -50,7 +50,7 @@ describe('Rotas de Componente', () => {
         try {
             await request(BASE_URL).get('/');
         } catch (err) {}
-        const senhaAdmin = 'Admin1234!';
+        const senhaAdmin = 'Senha@123';
         try {
             await request(BASE_URL)
                 .post('/usuarios')
