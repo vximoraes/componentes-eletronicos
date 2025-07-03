@@ -33,7 +33,7 @@ describe('Rotas de Notificação', () => {
 
     beforeAll(async () => {
         // Garante usuário admin e login
-        const senhaAdmin = 'Admin1234!';
+        const senhaAdmin = 'Senha@123';
         try {
             await request(BASE_URL)
                 .post('/usuarios')

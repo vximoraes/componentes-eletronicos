@@ -15,7 +15,7 @@ describe("Usuários", () => {
     let usuarioId2;
 
     beforeAll(async () => {
-        const senhaAdmin = 'Admin1234!';
+        const senhaAdmin = 'Senha@123';
         process.env.JWT_SECRET = process.env.JWT_SECRET_ACCESS_TOKEN || 'sua_chave_secreta_access';
         try {
             await request(BASE_URL)

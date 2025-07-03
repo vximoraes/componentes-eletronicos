@@ -5,6 +5,8 @@ import componentesSchemas from "../schemas/componenteSchema.js";
 import fornecedoresSchemas from "../schemas/fornecedorSchema.js";
 import localizacoesSchemas from "../schemas/localizacaoSchema.js";
 import movimentacoesSchemas from "../schemas/movimentacaoSchema.js";
+import notificacoesSchemas from "../schemas/notificacaoSchema.js";
+import orcamentosSchemas from "../schemas/orcamentoSchema.js";
 import usuariosPaths from "../paths/usuarios.js";
 import authPaths from "../paths/auth.js";
 import categoriasPaths from "../paths/categoria.js";
@@ -12,6 +14,8 @@ import componentesPaths from "../paths/componente.js";
 import fornecedoresPaths from "../paths/fornecedor.js";
 import localizacoesPaths from "../paths/localizacao.js";
 import movimentacoesPaths from "../paths/movimentacao.js";
+import notificacoesPaths from "../paths/notificacao.js";
+import orcamentosPaths from "../paths/orcamento.js";
 
 // Função para definir as URLs do servidor dependendo do ambiente
 const getServersInCorrectOrder = () => {
@@ -84,6 +88,8 @@ const getSwaggerOptions = () => {
                 ...fornecedoresPaths,
                 ...localizacoesPaths,
                 ...movimentacoesPaths,
+                ...notificacoesPaths,
+                ...orcamentosPaths,
             },
             components: {
                 securitySchemes: {
@@ -101,6 +107,8 @@ const getSwaggerOptions = () => {
                     ...fornecedoresSchemas,
                     ...localizacoesSchemas,
                     ...movimentacoesSchemas,
+                    ...notificacoesSchemas,
+                    ...orcamentosSchemas,
                 }
             },
             security: [{

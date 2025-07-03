@@ -28,7 +28,7 @@ describe('Rotas de Localização', () => {
             await request(BASE_URL).get('/');
         } catch (err) {}
         // Cria usuário admin e faz login
-        const senhaAdmin = 'Admin1234!';
+        const senhaAdmin = 'Senha@123';
         try {
             await request(BASE_URL)
                 .post('/usuarios')
