@@ -19,6 +19,3 @@
 
 ### Implementar Docker
     - Dockerfile & Docker Compose
-
-### Implementar Swagger
-    - Documentação geral do projeto
