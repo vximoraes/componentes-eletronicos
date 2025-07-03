@@ -1,6 +1,7 @@
 import authSchemas from "../schemas/authSchema.js";
 import usuariosSchemas from "../schemas/usuariosSchema.js";
 import usuariosPaths from "../paths/usuarios.js";
+import authPaths from "../paths/auth.js";
 
 // Função para definir as URLs do servidor dependendo do ambiente
 const getServersInCorrectOrder = () => {
@@ -66,6 +67,7 @@ const getSwaggerOptions = () => {
                 }
             ],
             paths: {
+                ...authPaths,
                 ...usuariosPaths,
             },
             components: {

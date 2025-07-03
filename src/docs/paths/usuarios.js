@@ -68,7 +68,16 @@ const usuariosRoutes = {
             security: [{ bearerAuth: [] }],
             parameters: generateParameters(usuariosSchemas.UsuarioFiltro),
             responses: {
-                200: commonResponses[200](usuariosSchemas.UsuarioListagem),
+                200: {
+                    description: "Lista de usuários retornada com sucesso",
+                    content: {
+                        "application/json": {
+                            schema: {
+                                $ref: "#/components/schemas/UsuarioListagem"
+                            }
+                        }
+                    }
+                },
                 400: commonResponses[400](),
                 401: commonResponses[401](),
                 404: commonResponses[404](),
