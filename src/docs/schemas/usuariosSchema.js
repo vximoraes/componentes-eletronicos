@@ -19,8 +19,29 @@ const usuariosSchemas = {
         }
     },
     UsuarioListagem: {
+        type: "object",
+        properties: {
+            data: {
+                type: "array",
+                items: {
+                    $ref: "#/components/schemas/UsuarioItem"
+                }
+            },
+            totalDocs: { type: "number", example: 100 },
+            limit: { type: "number", example: 10 },
+            totalPages: { type: "number", example: 10 },
+            page: { type: "number", example: 1 },
+            pagingCounter: { type: "number", example: 1 },
+            hasPrevPage: { type: "boolean", example: false },
+            hasNextPage: { type: "boolean", example: true },
+            prevPage: { type: "number", nullable: true, example: null },
+            nextPage: { type: "number", example: 2 }
+        },
+        description: "Schema para listagem paginada de usuários"
+    },
+    UsuarioItem: {
         ...deepCopy(usuarioJsonSchema),
-        description: "Schema para listagem de usuários"
+        description: "Schema para item de usuário na listagem"
     },
     UsuarioDetalhes: {
         ...deepCopy(usuarioJsonSchema),
@@ -48,7 +69,7 @@ const usuariosSchemas = {
 };
 
 const removalMapping = {
-    UsuarioListagem: ['accesstoken', 'refreshtoken', 'tokenUnico', 'senha'],
+    UsuarioItem: ['accesstoken', 'refreshtoken', 'tokenUnico', 'senha'],
     UsuarioDetalhes: ['accesstoken', 'tokenUnico', 'refreshtoken', 'senha'],
     UsuarioPost: ['accesstoken', 'refreshtoken', 'tokenUnico', 'createdAt', 'updatedAt', '__v', '_id'],
     UsuarioPutPatch: ['accesstoken', 'refreshtoken', 'tokenUnico', 'senha', 'email', 'createdAt', 'updatedAt', '__v', '_id'],
@@ -64,7 +85,7 @@ Object.entries(removalMapping).forEach(([schemaKey, fields]) => {
 
 const usuarioMongooseSchema = Usuario.schema;
 
-usuariosSchemas.UsuarioListagem.example = await generateExample(usuariosSchemas.UsuarioListagem, null, usuarioMongooseSchema);
+usuariosSchemas.UsuarioItem.example = await generateExample(usuariosSchemas.UsuarioItem, null, usuarioMongooseSchema);
 usuariosSchemas.UsuarioDetalhes.example = await generateExample(usuariosSchemas.UsuarioDetalhes, null, usuarioMongooseSchema);
 usuariosSchemas.UsuarioPost.example = await generateExample(usuariosSchemas.UsuarioPost, null, usuarioMongooseSchema);
 usuariosSchemas.UsuarioPutPatch.example = await generateExample(usuariosSchemas.UsuarioPutPatch, null, usuarioMongooseSchema);
