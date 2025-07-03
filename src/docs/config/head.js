@@ -1,9 +1,11 @@
 import authSchemas from "../schemas/authSchema.js";
 import usuariosSchemas from "../schemas/usuariosSchema.js";
 import categoriasSchemas from "../schemas/categoriaSchema.js";
+import componentesSchemas from "../schemas/componenteSchema.js";
 import usuariosPaths from "../paths/usuarios.js";
 import authPaths from "../paths/auth.js";
 import categoriasPaths from "../paths/categoria.js";
+import componentesPaths from "../paths/componente.js";
 
 // Função para definir as URLs do servidor dependendo do ambiente
 const getServersInCorrectOrder = () => {
@@ -72,6 +74,7 @@ const getSwaggerOptions = () => {
                 ...authPaths,
                 ...usuariosPaths,
                 ...categoriasPaths,
+                ...componentesPaths,
             },
             components: {
                 securitySchemes: {
@@ -85,6 +88,7 @@ const getSwaggerOptions = () => {
                     ...authSchemas,
                     ...usuariosSchemas,
                     ...categoriasSchemas,
+                    ...componentesSchemas,
                 }
             },
             security: [{
