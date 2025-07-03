@@ -7,7 +7,7 @@
   "type": "module",
   "main": "src/app.js",
   "scripts": {
-    "dev": "clear && node server.js",
+    "dev": "clear && nodemon server.js",
     "seed": "clear && node src/seeds/seeds.js",
     "start": "clear && node server.js",
     "test": "clear && jest --coverage --detectOpenHandles"
