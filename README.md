@@ -53,7 +53,7 @@ Back-end para gerenciamento de estoque de componentes eletrônicos.
 
 ### Clonando o Repositório
 ```bash
-git clone <url-do-repositorio>
+git clone https://gitlab.fslab.dev/f-brica-de-software-ii-2025-1/componentes-eletronicos.git
 cd componentes-eletronicos
 ```
 
