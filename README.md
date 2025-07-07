@@ -1,4 +1,4 @@
-# 📦 Sistema de Gestão de Componentes Eletrônicos
+# ⚙️ Sistema de Gestão de Componentes Eletrônicos
 
 Back-end para gerenciamento de estoque de componentes eletrônicos.
 
