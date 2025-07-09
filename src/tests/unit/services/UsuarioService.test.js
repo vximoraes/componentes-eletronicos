@@ -1,16 +1,21 @@
 import UsuarioService from '../../../services/UsuarioService.js';
 import UsuarioRepository from '../../../repositories/UsuarioRepository.js';
+import GrupoRepository from '../../../repositories/GrupoRepository.js';
 import bcrypt from 'bcrypt';
 
 jest.mock('../../../repositories/UsuarioRepository.js');
+jest.mock('../../../repositories/GrupoRepository.js');
 jest.mock('bcrypt');
 
 describe('UsuarioService', () => {
     let service;
     let repositoryMock;
+    let grupoRepositoryMock;
 
     beforeEach(() => {
         UsuarioRepository.mockClear();
+        GrupoRepository.mockClear();
+        
         repositoryMock = {
             criar: jest.fn(),
             listar: jest.fn(),
@@ -19,19 +24,33 @@ describe('UsuarioService', () => {
             buscarPorEmail: jest.fn(),
             buscarPorId: jest.fn(),
         };
+        
+        grupoRepositoryMock = {
+            buscarPorNome: jest.fn(),
+        };
+        
         UsuarioRepository.mockImplementation(() => repositoryMock);
+        GrupoRepository.mockImplementation(() => grupoRepositoryMock);
         service = new UsuarioService();
-    });    describe('criar', () => {
+    });
+
+    describe('criar', () => {
         it('deve criar usuário com senha criptografada', async () => {
             repositoryMock.buscarPorEmail.mockResolvedValue(null);
+            grupoRepositoryMock.buscarPorNome.mockResolvedValue(null);
             bcrypt.hash.mockResolvedValue('senha_criptografada');
             repositoryMock.criar.mockResolvedValue({ _id: '1', nome: 'Teste', email: 'a@a.com', senha: 'senha_criptografada', ativo: false });
+            
             const data = await service.criar({ nome: 'Teste', email: 'a@a.com', senha: '123' });
+            
             expect(bcrypt.hash).toHaveBeenCalledWith('123', 10);
             expect(data.senha).toBe('senha_criptografada');
             expect(data.ativo).toBe(false);
-        });        it('deve criar usuário sem senha quando não fornecida', async () => {
+        });
+
+        it('deve criar usuário sem senha quando não fornecida', async () => {
             repositoryMock.buscarPorEmail.mockResolvedValue(null);
+            grupoRepositoryMock.buscarPorNome.mockResolvedValue(null);
             repositoryMock.criar.mockResolvedValue({ _id: '1', nome: 'Teste', email: 'a@a.com', ativo: false });
 
             bcrypt.hash.mockClear();
@@ -43,6 +62,7 @@ describe('UsuarioService', () => {
 
         it('deve criar usuário quando senha é undefined', async () => {
             repositoryMock.buscarPorEmail.mockResolvedValue(null);
+            grupoRepositoryMock.buscarPorNome.mockResolvedValue(null);
             repositoryMock.criar.mockResolvedValue({ _id: '1', nome: 'Teste', email: 'a@a.com', ativo: false });
             
             bcrypt.hash.mockClear();
@@ -55,12 +75,14 @@ describe('UsuarioService', () => {
 
         it('deve lançar erro se e-mail já existir', async () => {
             repositoryMock.buscarPorEmail.mockResolvedValue({ _id: '1', email: 'a@a.com' });
+            grupoRepositoryMock.buscarPorNome.mockResolvedValue(null);
             await expect(service.criar({ nome: 'Teste', email: 'a@a.com', senha: '123' }))
                 .rejects.toThrow('Email já está em uso.');
         });
 
         it('deve lançar erro se bcrypt falhar', async () => {
             repositoryMock.buscarPorEmail.mockResolvedValue(null);
+            grupoRepositoryMock.buscarPorNome.mockResolvedValue(null);
             bcrypt.hash.mockRejectedValue(new Error('bcrypt error'));
             await expect(service.criar({ nome: 'Teste', email: 'a@a.com', senha: '123' }))
                 .rejects.toThrow('bcrypt error');
@@ -133,6 +155,7 @@ describe('UsuarioService', () => {
     describe('unicidade de e-mail', () => {
         it('deve impedir cadastro de dois usuários com o mesmo e-mail', async () => {
             repositoryMock.buscarPorEmail.mockResolvedValueOnce(null).mockResolvedValueOnce({ _id: '1', email: 'a@a.com' });
+            grupoRepositoryMock.buscarPorNome.mockResolvedValue(null);
             bcrypt.hash.mockResolvedValue('senha_criptografada');
             repositoryMock.criar.mockResolvedValue({ _id: '1', nome: 'Teste', email: 'a@a.com', senha: 'senha_criptografada', ativo: false });
             await service.criar({ nome: 'Teste', email: 'a@a.com', senha: '123' });
