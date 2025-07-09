@@ -42,7 +42,8 @@ class DbConnect {
             mongoose.connection.on('error', (err) => {
                 logger.error(`Mongoose erro: ${err}`);
                 if (process.env.NODE_ENV !== 'test') {
-                    SendMail.enviaEmailErrorDbConnect(err, new URL(import.meta.url).pathname, new Date());
+                    // TODO: Implementar envio de email de erro
+                    // SendMail.enviaEmailErrorDbConnect(err, new URL(import.meta.url).pathname, new Date());
                 }
             });
 
@@ -71,7 +72,8 @@ class DbConnect {
         } catch (error) {
             logger.error(`Erro na conexão com o banco de dados em ${new Date().toISOString()}: ${error.message}`);
             if (process.env.NODE_ENV !== 'test') {
-                SendMail.enviaEmailErrorDbConnect(error, new URL(import.meta.url).pathname, new Date());
+                // TODO: Implementar envio de email de erro
+                // SendMail.enviaEmailErrorDbConnect(error, new URL(import.meta.url).pathname, new Date());
             }
             throw error;
         }
@@ -84,7 +86,8 @@ class DbConnect {
         } catch (error) {
             logger.error(`Erro ao desconectar do banco de dados em ${new Date().toISOString()}: ${error.message}`);
             if (process.env.NODE_ENV !== 'test') {
-                SendMail.enviaEmailErrorDbConnect(error, new URL(import.meta.url).pathname, new Date());
+                // TODO: Implementar envio de email de erro
+                // SendMail.enviaEmailErrorDbConnect(error, new URL(import.meta.url).pathname, new Date());
             }
             throw error;
         }
