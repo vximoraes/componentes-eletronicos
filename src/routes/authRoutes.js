@@ -1,6 +1,7 @@
 import express from "express";
 import AuthController from '../controllers/AuthController.js';
 import UsuarioController from "../controllers/UsuarioController.js";
+import AuthMiddleware from '../middlewares/AuthMiddleware.js';
 import { asyncWrapper } from '../utils/helpers/index.js';
 
 const router = express.Router();
@@ -15,6 +16,6 @@ router
     .post("/logout", asyncWrapper(authController.logout.bind(authController)))
     .post("/revoke", asyncWrapper(authController.revoke.bind(authController)))
     .post("/refresh", asyncWrapper(authController.refresh.bind(authController)))
-    .post("/introspect", asyncWrapper(authController.pass.bind(authController))) // Checa se o token é válido
+    .post("/introspect", asyncWrapper(authController.pass.bind(authController))) 
 
 export default router;

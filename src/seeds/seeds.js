@@ -9,6 +9,7 @@ import usuarioSeed from "./usuarioSeed.js";
 import notificacaoSeed from "./notificacaoSeed.js";
 import componenteOrcamentoSeed from "./componenteOrcamentoSeed.js";
 import orcamentoSeed from "./orcamentoSeed.js";
+import rotasSeed from "./rotasSeed.js"
 
 await DbConnect.conectar();
 
@@ -20,7 +21,8 @@ try {
     await componenteSeed();
     await fornecedorSeed();
     await movimentacaoSeed();
-    await usuarioSeed();
+    await rotasSeed();
+    await usuarioSeed(); 
     await notificacaoSeed();
     await componenteOrcamentoSeed();
     await orcamentoSeed();
