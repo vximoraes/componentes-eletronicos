@@ -7,7 +7,7 @@
   "type": "module",
   "main": "src/app.js",
   "scripts": {
-    "dev": "clear && node server.js",
+    "dev": "clear && nodemon server.js",
     "seed": "clear && node src/seeds/seeds.js",
     "start": "clear && node server.js",
     "test": "clear && jest --coverage --detectOpenHandles"
@@ -25,6 +25,8 @@
     "mongodb": "^6.15.0",
     "mongoose": "^8.13.2",
     "mongoose-paginate-v2": "^1.9.0",
+    "mongoose-schema-jsonschema": "^3.0.2",
+    "node-fetch": "^2.7.0",
     "path": "^0.12.7",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
@@ -36,6 +38,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.27.4",
+    "@babel/helper-annotate-as-pure": "^7.27.3",
     "@babel/preset-env": "^7.27.2",
     "@eslint/js": "^9.26.0",
     "@jest/globals": "^30.0.0-beta.3",
@@ -70,7 +73,7 @@
     "testEnvironment": "node",
     "verbose": true,
     "transformIgnorePatterns": [
-      "/node_modules/"
+      "/node_modules/(?!node-fetch)/"
     ],
     "setupFilesAfterEnv": [
       "<rootDir>/jest.setup.js"
@@ -78,7 +81,11 @@
     "coveragePathIgnorePatterns": [
       "/node_modules/",
       "/utils/helpers/index.js",
-      "/utils/logger.js"
+      "/utils/logger.js",
+      "/src/services/AuthService.js",
+      "/src/middlewares/AuthMiddleware.js",
+      "/src/utils/TokenUtil.js",
+      "/src/utils/AuthHelper.js"
     ]
   }
 }

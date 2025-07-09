@@ -2,6 +2,10 @@
 
 ## Tarefas
 
+### Implementar testes unitários (Geovanna, Vinícius):
+    - Componente Orçamento
+    - Orçamento
+
 ### Implementar testes de endpoints (Geovanna, Vinícius):
     - Usuário
     - Notificação
@@ -15,6 +19,3 @@
 
 ### Implementar Docker
     - Dockerfile & Docker Compose
-
-### Implementar Swagger
-    - Documentação geral do projeto

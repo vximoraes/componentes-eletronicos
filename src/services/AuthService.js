@@ -1,27 +1,22 @@
-// /src/services/AuthService.js
-
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { CommonResponse, CustomError, HttpStatusCodes, errorHandler, messages, StatusService, asyncWrapper } from '../utils/helpers/index.js';
 import tokenUtil from '../utils/TokenUtil.js';
 import { v4 as uuid } from 'uuid';
-import SendMail from '../utils/SendMail.js';
-import TokenUtil from '../utils/TokenUtil.js';
 import AuthHelper from '../utils/AuthHelper.js';
+import fetch from 'node-fetch'
 
 import UsuarioRepository from '../repositories/UsuarioRepository.js';
-import AuthRepository from '../repositories/AuthRepository.js';
 
 class AuthService {
-    constructor({ tokenUtil: injectedTokenUtil, usuarioRepository, authRepository } = {}) {
+    constructor({ tokenUtil: injectedTokenUtil } = {}) {
         // Se nada for injetado, usa a instância importada
         this.TokenUtil = injectedTokenUtil || tokenUtil;
-        this.usuarioRepository = usuarioRepository || new UsuarioRepository();
-        this.repository = authRepository || new AuthRepository();
+        this.repository = new UsuarioRepository();
     }
 
     async carregatokens(id, token) {
-        const data = await this.usuarioRepository.buscarPorId(id, { includeTokens: true });
+        const data = await this.repository.buscarPorId(id, { includeTokens: true });
         return { data };
     }
 
@@ -30,16 +25,14 @@ class AuthService {
         return { data };
     }
 
-    async logout(id, token) {
+    async logout(id) {
         const data = await this.repository.removeToken(id);
         return { data };
     }
 
     async login(body) {
-        console.log('Estou no logar em AuthService');
-
         // Buscar o usuário pelo email
-        const userEncontrado = await this.usuarioRepository.buscarPorEmail(body.email);
+        const userEncontrado = await this.repository.buscarPorEmail(body.email);
         if (!userEncontrado) {
 
             /**
@@ -75,9 +68,8 @@ class AuthService {
         const accesstoken = await this.TokenUtil.generateAccessToken(userEncontrado._id);
 
         // Buscar o usuário com os tokens já armazenados
-        const userComTokens = await this.usuarioRepository.buscarPorId(userEncontrado._id, true);
+        const userComTokens = await this.repository.buscarPorId(userEncontrado._id, true);
         let refreshtoken = userComTokens.refreshtoken;
-        console.log("refresh token no banco", refreshtoken);
 
         if (refreshtoken) {
             try {
@@ -100,13 +92,11 @@ class AuthService {
             refreshtoken = await this.TokenUtil.generateRefreshToken(userEncontrado._id);
         }
 
-        console.log("refresh token gerado", refreshtoken);
-
         // Armazenar os tokens atualizados
         await this.repository.armazenarTokens(userEncontrado._id, accesstoken, refreshtoken);
 
         // Buscar novamente o usuário e remover a senha
-        const userLogado = await this.usuarioRepository.buscarPorEmail(body.email);
+        const userLogado = await this.repository.buscarPorEmail(body.email);
         delete userLogado.senha;
         const userObjeto = userLogado.toObject();
 
@@ -116,13 +106,16 @@ class AuthService {
 
 
     // RecuperaSenhaService.js
-    async recuperaSenha(req, body) {
-        console.log('Estou em RecuperaSenhaService');
-
+    async recuperaSenha(body) {
+        console.log('Dados recebidos para recuperação de senha:', body);
         // ───────────────────────────────────────────────
         // Passo 1 – Buscar usuário pelo e-mail informado
         // ───────────────────────────────────────────────
-        const userEncontrado = await this.usuarioRepository.buscarPorEmail(body.email);
+        console.log('E-mail recebido no body:', body.email);
+
+        const userEncontrado = await this.repository.buscarPorEmail(body.email);
+
+        console.log('Usuário encontrado:', userEncontrado);
 
         // Se não encontrar, lança erro 404
         if (!userEncontrado) {
@@ -149,14 +142,14 @@ class AuthService {
         // Passo 3 – Garantir unicidade do código gerado 
         // ───────────────────────────────────────────────
         let codigoExistente =
-            await this.usuarioRepository.buscarPorPorCodigoRecuperacao(codigoRecuperaSenha);
+            await this.repository.buscarPorCodigoRecuperacao(codigoRecuperaSenha);
         console.log('Código existente:', codigoExistente);
 
         while (codigoExistente) {
             console.log('Código já existe, gerando um novo código');
             codigoRecuperaSenha = generateCode();
             codigoExistente =
-                await this.usuarioRepository.buscarPorPorCodigoRecuperacao(codigoRecuperaSenha);
+                await this.repository.buscarPorCodigoRecuperacao(codigoRecuperaSenha);
         }
         console.log('Código gerado:', codigoRecuperaSenha);
 
@@ -171,7 +164,7 @@ class AuthService {
         // Passo 5 – Persistir token + código no usuário
         // ───────────────────────────────────────────────
         const expMs = Date.now() + 60 * 60 * 1000; // 1 hora de expiração
-        const data = await this.usuarioRepository.atualizar(userEncontrado._id, {
+        const data = await this.repository.atualizar(userEncontrado._id, {
             tokenUnico,
             codigo_recupera_senha: codigoRecuperaSenha,
             exp_codigo_recupera_senha: new Date(expMs).toISOString() // Armazenar expiração como string ISO TMZ0 Ex.: 2023-10-01T12:00:00.000Z
@@ -187,11 +180,79 @@ class AuthService {
             });
         }
 
-        // ───────────────────────────────────────────────
-        // Passo 6 – Enviar e-mail com código + link
-        // ───────────────────────────────────────────────
+        /**
+         * Passo 6 – Enviar e-mail com código + link
+         * 
+         * Usar CHAVE MAIL_API_KEI no .env para requisitar o envio de e-mail em https://edurondon.tplinkdns.com/mail/emails/send
+         * Exemplo de corpo do e-mail:
+         * Corpo do e-mail:
+         * {
+            "to": "falecomgilberto@gmail.com",
+            "subject": "Redefinir senha",
+            "template": "password-reset",
+            "data": {
+                "name": "Gilberto",
+                "resetUrl": "https://edurondon.tplinkdns.com?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.yJpZCI6IjY4NDFmNWVhMmQ5YWYxOWVlN2Y1YmY3OCIsImlhdCI6MTc0OTU2OTI1MiwiZXhwIjoxNzQ5NTcyODUyfQ.D_bW22QyKqZ2YL6lv7kRo-_zY54v3esNHsxK7DKeOq0",
+                "expirationMinutes": 30,
+                "year": 2025,
+                "company": "Exemplo Ltda"
+                }
+            }
+         * 
+         */
 
-        //TODO: consumir serviço de envio de e-mail
+        const resetUrl = `https://edurondon.tplinkdns.com/auth/?token=${tokenUnico}`;
+        console.log('URL de redefinição de senha:', resetUrl);
+        const emailData = {
+            to: userEncontrado.email,
+            subject: 'Redefinir senha',
+            template: 'password-reset',
+            data: {
+                name: userEncontrado.nome,
+                resetUrl: resetUrl,
+                expirationMinutes: 60, // Expiração em minutos
+                year: new Date().getFullYear(),
+                company: process.env.COMPANY_NAME || 'Auth'
+            }
+        };
+        console.log('Dados do e-mail:', emailData);
+
+
+        // Criar função para fazer a chamada para enviar o e-mail
+        // Usa a URL base do serviço de e-mail do .env
+        const sendMail = async (emailData) => {
+            const mailApiUrl = process.env.MAIL_API_URL || 'http://localhost:3001';
+            const url = `${mailApiUrl}/emails/send?apiKey=${process.env.MAIL_API_KEY}`;
+            console.log('Enviando e-mail de recuperação de senha para:', emailData.to);
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(emailData)
+                });
+                if (!response.ok) {
+                    throw new Error(`Erro ao enviar e-mail: ${response.status} ${response.statusText}`);
+                }
+                const responseData = await response.json();
+                console.log('E-mail enviado com sucesso:', responseData);
+            } catch (error) {
+                console.error('Erro ao enviar e-mail:', error);
+                throw new CustomError({
+                    statusCode: HttpStatusCodes.INTERNAL_SERVER_ERROR.code,
+                    field: 'E-mail',
+                    details: [],
+                    customMessage: 'Erro ao enviar e-mail de recuperação de senha.'
+                });
+            }
+        };
+
+        console.log('Antes de sendMail');
+        await sendMail(emailData);
+        console.log('Depois de sendMail');;
+
+        console.log('Enviando e-mail de recuperação de senha');
 
         // ───────────────────────────────────────────────
         // Passo 7 – Retornar resposta ao cliente
@@ -225,7 +286,7 @@ class AuthService {
         console.log('Senha hasheada:', senhaHasheada);
 
         // Buscar usuário pelo token unico
-        const usuario = await this.usuarioRepository.buscarPorTokenUnico(tokenRecuperacao);
+        const usuario = await this.repository.buscarPorTokenUnico(tokenRecuperacao);
         if (!usuario) {
             throw new CustomError({
                 statusCode: HttpStatusCodes.NOT_FOUND.code,
@@ -236,7 +297,7 @@ class AuthService {
         }
 
         // 3) Atualiza no repositório (já com hash)
-        const usuarioAtualizado = await this.usuarioRepository.atualizarSenha(usuarioId, senhaHasheada);
+        const usuarioAtualizado = await this.repository.atualizarSenha(usuarioId, senhaHasheada);
         if (!usuarioAtualizado) {
             throw new CustomError({
                 statusCode: HttpStatusCodes.INTERNAL_SERVER_ERROR.code,
@@ -254,7 +315,7 @@ class AuthService {
      */
     async atualizarSenhaCodigo(codigoRecuperaSenha, senhaBody) {
         // 1) Busca usuário pelo código de recuperação
-        const user = await this.usuarioRepository.buscarPorPorCodigoRecuperacao(
+        const user = await this.repository.buscarPorCodigoRecuperacao(
             codigoRecuperaSenha
         );
         if (!user) {
@@ -280,7 +341,7 @@ class AuthService {
         const senhaHasheada = await AuthHelper.hashPassword(senhaBody.senha);
 
         // 4) Atualiza no repositório
-        const atualizado = await this.usuarioRepository.atualizarSenha(
+        const atualizado = await this.repository.atualizarSenha(
             user._id,
             senhaHasheada
         );
@@ -298,7 +359,7 @@ class AuthService {
 
 
     async refresh(id, token) {
-        const userEncontrado = await this.usuarioRepository.buscarPorId(id, { includeTokens: true });
+        const userEncontrado = await this.repository.buscarPorId(id, { includeTokens: true });
 
         if (!userEncontrado) {
             throw new CustomError({
@@ -320,6 +381,7 @@ class AuthService {
             });
         }
 
+
         // Gerar novo access token utilizando a instância injetada
         const accesstoken = await this.TokenUtil.generateAccessToken(id);
 
@@ -338,7 +400,7 @@ class AuthService {
         await this.repository.armazenarTokens(id, accesstoken, refreshtoken);
 
         // monta o objeto de usuário com os tokens para resposta
-        const userLogado = await this.usuarioRepository.buscarPorId(id, { includeTokens: true });
+        const userLogado = await this.repository.buscarPorId(id, { includeTokens: true });
         delete userLogado.senha;
         const userObjeto = userLogado.toObject();
 

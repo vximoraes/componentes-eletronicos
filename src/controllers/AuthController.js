@@ -5,6 +5,7 @@ import { LoginSchema } from '../utils/validators/schemas/zod/LoginSchema.js';
 import { UsuarioSchema, UsuarioUpdateSchema } from '../utils/validators/schemas/zod/UsuarioSchema.js';
 import { UsuarioIdSchema } from '../utils/validators/schemas/zod/querys/UsuarioQuerySchema.js';
 import { RequestAuthorizationSchema } from '../utils/validators/schemas/zod/querys/RequestAuthorizationSchema.js';
+import { EmailSchema } from '../utils/validators/schemas/zod/EmailSchema.js';
 
 import AuthService from '../services/AuthService.js';
 
@@ -31,14 +32,9 @@ class AuthController {
      *  Metodo para recuperar a senha do usuário
      */
     recuperaSenha = async (req, res) => {
-        console.log('Estou no logar em RecuperaSenhaController, enviando req para RecuperaSenhaService');
-
-        // 1º validação estrutural - validar os campos passados por body
-        const body = req.body || {};
-
         // Validar apenas o email
-        const validatedBody = UsuarioUpdateSchema.parse(req.body);
-        const data = await this.service.recuperaSenha(req, validatedBody);
+        const validatedBody = EmailSchema.parse(req.body);
+        const data = await this.service.recuperaSenha(validatedBody);
         return CommonResponse.success(res, data);
     }
 
@@ -54,8 +50,6 @@ class AuthController {
         *      e “zera” o campo `codigo_recupera_senha`.
         */
     async atualizarSenhaToken(req, res, next) {
-        console.log('Estou no atualizarSenha em AuthController, enviando req para AuthService');
-
         const tokenRecuperacao = req.query.token || req.params.token || null; // token de recuperação passado na URL
         const senha = req.body.senha || null; // nova senha passada no body
 
@@ -86,8 +80,6 @@ class AuthController {
     }
 
     async atualizarSenhaCodigo(req, res, next) {
-        console.log('Estou no atualizarSenha em AuthController, enviando req para AuthService');
-
         const codigo_recupera_senha = req.body.codigo_recupera_senha || null; // código de recuperação passado no body
         const senha = req.body.senha || null; // nova senha passada no body
 
@@ -135,25 +127,47 @@ class AuthController {
      * Método para fazer o refresh do token 
      */
     refresh = async (req, res) => {
-        // Extrai do body o token
-        const token = req.body.refresh_token;
+        // Fallback seguro: tenta pegar do body, senão do header Authorization
+        const token = (req.body && req.body.refresh_token) || req.headers.authorization?.split(' ')[1];
 
-        // Verifica se o cabeçalho Authorization está presente
+        // Verifica se o token está presente e não é uma string inválida
         if (!token || token === 'null' || token === 'undefined') {
-            console.log('Cabeçalho Authorization ausente.');
+            console.log('Refresh token ausente ou inválido:', token);
             throw new CustomError({
                 statusCode: HttpStatusCodes.BAD_REQUEST.code,
                 errorType: 'invalidRefresh',
                 field: 'Refresh',
                 details: [],
-                customMessage: 'Refresh token is missing.'
+                customMessage: 'Refresh token não informado.'
             });
         }
 
-        // Verifica e decodifica o token
-        const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET_REFRESH_TOKEN);
+        let decoded;
 
-        // encaminha o token para o serviço
+        try {
+            decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET_REFRESH_TOKEN);
+        } catch (err) {
+            if (err.name === 'TokenExpiredError') {
+                throw new CustomError({
+                    statusCode: HttpStatusCodes.UNAUTHORIZED.code,
+                    errorType: 'tokenExpired',
+                    field: 'Refresh',
+                    details: [],
+                    customMessage: 'Refresh token expirado.'
+                });
+            }
+            if (err.name === 'JsonWebTokenError') {
+                throw new CustomError({
+                    statusCode: HttpStatusCodes.UNAUTHORIZED.code,
+                    errorType: 'invalidToken',
+                    field: 'Refresh',
+                    details: [],
+                    customMessage: 'Refresh token inválido.'
+                });
+            }
+            throw err;
+        }
+
         const data = await this.service.refresh(decoded.id, token);
         return CommonResponse.success(res, data);
     }
@@ -162,20 +176,8 @@ class AuthController {
      * Método para fazer o logout do usuário
      */
     logout = async (req, res) => {
-        // Extrai o cabeçalho Authorization
-        const token = req.body.access_token || req.headers.authorization?.split(' ')[1];
-
-        // Verifica se o body.access_token está presente
-        if (!token) {
-            console.log('Cabeçalho Authorization ausente.');
-            throw new CustomError({
-                statusCode: HttpStatusCodes.BAD_REQUEST.code,
-                errorType: 'invalidLogout',
-                field: 'Logout',
-                details: [],
-                customMessage: 'Access Token passado no corpo da requição é inválido.'
-            });
-        }
+        // Garante que req.body existe e faz fallback seguro
+        const token = (req.body && req.body.access_token) || req.headers.authorization?.split(' ')[1];
 
         // Verifica se o token está presente e não é uma string inválida
         if (!token || token === 'null' || token === 'undefined') {
@@ -203,6 +205,8 @@ class AuthController {
                 customMessage: HttpStatusCodes.INVALID_TOKEN.message
             });
         }
+        // Valida o ID do usuário
+        UsuarioIdSchema.parse(decoded.id);
 
         // Encaminha o token para o serviço de logout
         const data = await this.service.logout(decoded.id, token);

@@ -9,13 +9,11 @@ class OrcamentoRepository {
         this.model = orcamentoModel;
     };
 
-    // async criar(dadosComponente) {
-    //     const componente = new this.model(dadosComponente);
-    //     const componenteSalvo = await componente.save();
-    //     return await this.model.findById(componenteSalvo._id)
-    //         .populate('localizacao')
-    //         .populate('categoria')
-    // };
+    async criar(dadosOrcamento) {
+        const orcamento = new this.model(dadosOrcamento);
+        const orcamentoSalvo = await orcamento.save();
+        return await this.model.findById(orcamentoSalvo._id)
+    };
 
     async listar(req) {
         const id = req.params.id || null;
@@ -80,61 +78,8 @@ class OrcamentoRepository {
         return resultado;
     };
 
-    // async atualizar(id, parsedData) {
-    //     const componente = await this.model.findByIdAndUpdate(id, parsedData, { new: true })
-    //         .populate('localizacao')
-    //         .populate('categoria')
-    //         .lean();
-    //     if (!componente) {
-    //         throw new CustomError({
-    //             statusCode: 404,
-    //             errorType: 'resourceNotFound',
-    //             field: 'Componente',
-    //             details: [],
-    //             customMessage: messages.error.resourceNotFound('Componente')
-    //         });
-    //     };
-
-    //     return componente;
-    // };
-
-    // async deletar(id) {
-    //     const existeMovimentacao = await MovimentacaoModel.exists({ componente: id });
-    //     if (existeMovimentacao) {
-    //         throw new CustomError({
-    //             statusCode: 400,
-    //             errorType: 'resourceInUse',
-    //             field: 'Componente',
-    //             details: [],
-    //             customMessage: 'Não é possível deletar: componente está vinculado a movimentações.'
-    //         });
-    //     };
-
-    //     const componente = await this.model.findById(id)
-    //         .populate('localizacao')
-    //         .populate('categoria');
-
-    //     if (!componente) {
-    //         throw new CustomError({
-    //             statusCode: 404,
-    //             errorType: 'resourceNotFound',
-    //             field: 'Componente',
-    //             details: [],
-    //             customMessage: messages.error.resourceNotFound('Componente')
-    //         });
-    //     }
-
-    //     await this.model.findByIdAndDelete(id);
-    //     return componente;
-    // };
-
-    // Métodos auxiliares.
-
-    async buscarPorId(id, includeTokens = false) {
-        let query = this.model.findById(id);
-
-        const orcamento = await query;
-
+    async atualizar(id, parsedData) {
+        const orcamento = await this.model.findByIdAndUpdate(id, parsedData, { new: true }).lean();
         if (!orcamento) {
             throw new CustomError({
                 statusCode: 404,
@@ -148,16 +93,113 @@ class OrcamentoRepository {
         return orcamento;
     };
 
-    async buscarPorNome(nome, idIgnorado) {
-        const filtro = { nome };
+    async deletar(id) {
+        const orcamento = await this.model.findById(id)
+        if (!orcamento) {
+            throw new CustomError({
+                statusCode: 404,
+                errorType: 'resourceNotFound',
+                field: 'Orçamento',
+                details: [],
+                customMessage: messages.error.resourceNotFound('Orçamento')
+            });
+        }
+
+        await this.model.findByIdAndDelete(id);
+        return orcamento;
+    };
+
+    // Manipular componentes.
+
+    async adicionarComponente(orcamentoId, novoComponente) {
+        const orcamento = await this.model.findById(orcamentoId);
+        if (!orcamento) throw new CustomError({
+            statusCode: 404,
+            errorType: 'resourceNotFound',
+            field: 'Orçamento',
+            details: [],
+            customMessage: messages.error.resourceNotFound('Orçamento')
+        });
+
+        orcamento.componentes.push(novoComponente);
+        orcamento.valor = orcamento.componentes.reduce((acc, comp) => acc + comp.subtotal, 0);
+        await orcamento.save();
+
+        return orcamento;
+    };
+
+    async atualizarComponente(orcamentoId, componenteId, componenteAtualizado) {
+        const orcamento = await this.model.findById(orcamentoId);
+        if (!orcamento) throw new CustomError({
+            statusCode: 404,
+            errorType: 'resourceNotFound',
+            field: 'Orçamento',
+            details: [],
+            customMessage: messages.error.resourceNotFound('Orçamento')
+        });
+
+        const componentes = Array.isArray(orcamento.componentes) ? orcamento.componentes : [];
+        const idx = componentes.findIndex(c => c && c._id && c._id.toString() === componenteId);
+        if (idx === -1) throw new CustomError({
+            statusCode: 404,
+            errorType: 'resourceNotFound',
+            field: 'Componente',
+            details: [],
+            customMessage: 'Componente não encontrado.'
+        });
+
+        componentes[idx] = { ...((typeof componentes[idx].toObject === 'function') ? componentes[idx].toObject() : componentes[idx]), ...componenteAtualizado };
+        orcamento.componentes = componentes;
+        orcamento.valor = componentes.reduce((acc, comp) => acc + comp.subtotal, 0);
+        await orcamento.save();
+
+        return orcamento;
+    };
+
+    async removerComponente(orcamentoId, componenteId) {
+        const orcamento = await this.model.findById(orcamentoId);
+        if (!orcamento) throw new CustomError({
+            statusCode: 404,
+            errorType: 'resourceNotFound',
+            field: 'Orçamento',
+            details: [],
+            customMessage: messages.error.resourceNotFound('Orçamento')
+        });
+
+        orcamento.componentes = orcamento.componentes.filter(c => c._id.toString() !== componenteId);
+        orcamento.valor = orcamento.componentes.reduce((acc, comp) => acc + comp.subtotal, 0);
+        await orcamento.save();
+
+        return orcamento;
+    };
+
+    // Métodos auxiliares.
+
+    async buscarPorId(id, includeTokens = false) {
+        let query = this.model.findById(id);
+
+        const orcamento = await query;
+        if (!orcamento) {
+            throw new CustomError({
+                statusCode: 404,
+                errorType: 'resourceNotFound',
+                field: 'Orçamento',
+                details: [],
+                customMessage: messages.error.resourceNotFound('Orçamento')
+            });
+        };
+
+        return orcamento;
+    };
+
+    async buscarPorProtocolo(protocolo, idIgnorado) {
+        const filtro = { protocolo };
 
         if (idIgnorado) {
             filtro._id = { $ne: idIgnorado }
         };
 
         const documento = await this.model.findOne(filtro)
-            .populate('localizacao')
-            .populate('categoria');
 
         return documento;
     };

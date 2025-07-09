@@ -95,6 +95,12 @@ describe('UsuarioRepository', () => {
             NotificacaoModel.exists = jest.fn().mockResolvedValue(true);
             await expect(repo.deletar('user123')).rejects.toThrow(CustomError);
         });
+        it('deve lançar erro se tentar deletar usuário inexistente', async () => {
+            NotificacaoModel.exists = jest.fn().mockResolvedValue(false);
+            UsuarioModel.findByIdAndDelete = jest.fn().mockResolvedValue(null);
+            const result = await repo.deletar('notfound');
+            expect(result).toBeNull();
+        });
     });
 
     describe('buscarPorEmail', () => {

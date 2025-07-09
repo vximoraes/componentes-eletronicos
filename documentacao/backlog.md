@@ -44,8 +44,8 @@
 
 ## TAREFAS - Milestone 3
 
-- [ ] Requisitos Implementados na API ( Restante que sobrou) 
-    - Componentes
+- [x] Requisitos Implementados na API (restante que sobrou) 
+    - Orçamento
 - [ ] Documentação das rota implementadas (incluindo regras de negócio {Lembre-se de colocar no gitlab em formato MarkDown}) 
 - [ ] Executar o Docker e docker-compose e explicar
 - [ ] Teste unitário e de endpoint das funcionalidades implementadas (Explicação do teste do fluxo principal, demonstrar a cobertura de testes unitários)

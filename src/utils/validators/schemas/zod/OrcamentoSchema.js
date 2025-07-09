@@ -1,5 +1,4 @@
 import { z } from 'zod';
-import objectIdSchema from './ObjectIdSchema.js';
 
 const ComponenteOrcamentoSchema = z.object({
     nome: z
@@ -16,22 +15,15 @@ const ComponenteOrcamentoSchema = z.object({
         .transform((val) => val?.trim()),
     quantidade: z
         .string()
-        .optional()
         .transform((val) => (val ? parseInt(val) : undefined))
-        .refine((val) => val === undefined || Number.isInteger(val), {
-            message: "Quantidade deve ser um número inteiro",
+        .refine((val) => val === undefined || (Number.isInteger(val) && val > 0), {
+            message: "Quantidade deve ser um número inteiro maior que zero",
         }),
     valor_unitario: z
         .string()
         .transform((val) => (val ? parseFloat(val) : undefined))
         .refine((val) => val === undefined || (!isNaN(val) && typeof val === "number"), {
             message: "Valor unitário deve ser um número válido.",
-        }),
-    subtotal: z
-        .string()
-        .transform((val) => (val ? parseFloat(val) : undefined))
-        .refine((val) => val === undefined || (!isNaN(val) && typeof val === "number"), {
-            message: "Subtotal deve ser um número válido.",
         }),
 });
 
@@ -43,25 +35,15 @@ const OrcamentoSchema = z.object({
             message: "Nome não pode ser vazio",
         })
         .transform((val) => val?.trim()),
-    protocolo: z
-        .string()
-        .optional()
-        .refine((val) => !val || val.trim().length > 0, {
-            message: "Protocolo não pode ser vazio",
-        })
-        .transform((val) => val?.trim()),
     descricao: z
         .string()
         .optional(),
-    valor: z
-        .string()
-        .transform((val) => (val ? parseFloat(val) : undefined))
-        .refine((val) => val === undefined || (!isNaN(val) && typeof val === "number"), {
-            message: "Valor deve ser um número válido.",
-        }),
-    componente_orcamento: z.array(ComponenteOrcamentoSchema),
+    componente_orcamento: z
+        .array(ComponenteOrcamentoSchema)
+        .min(1, { message: "Deve haver pelo menos um componente no orçamento." }),
 });
 
-const OrcamentoUpdateSchema = OrcamentoSchema.partial();
+const OrcamentoUpdateSchema = OrcamentoSchema.omit({ componente_orcamento: true }).partial();
+const ComponenteOrcamentoUpdateSchema = ComponenteOrcamentoSchema.partial();
 
-export { OrcamentoSchema, OrcamentoUpdateSchema };
+export { OrcamentoSchema, OrcamentoUpdateSchema, ComponenteOrcamentoSchema, ComponenteOrcamentoUpdateSchema };

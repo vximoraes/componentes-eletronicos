@@ -18,6 +18,15 @@ class UsuarioController {
         return CommonResponse.created(res, usuarioLimpo);
     };
 
+    async criarComSenha(req, res) {
+        const parsedData = UsuarioSchema.parse(req.body);
+        let data = await this.service.criar(parsedData);
+
+        let usuarioLimpo = data.toObject();
+
+        return CommonResponse.created(res, usuarioLimpo);
+    }
+
     async listar(req, res) {
         const { id } = req.params || {};
         if (id) {
