@@ -22,6 +22,18 @@ export const fakeMappings = {
         substituir: () => fakebr.random.boolean(),
         modificar: () => fakebr.random.boolean(),
         excluir: () => fakebr.random.boolean(),
+        permissoes: () => [
+            {
+                rota: fakebr.lorem.word(),
+                dominio: fakebr.internet.url(),
+                ativo: fakebr.random.boolean(),
+                buscar: fakebr.random.boolean(),
+                enviar: fakebr.random.boolean(),
+                substituir: fakebr.random.boolean(),
+                modificar: fakebr.random.boolean(),
+                excluir: fakebr.random.boolean(),
+            },
+        ],
     },
 
     Usuario: {
@@ -135,7 +147,7 @@ export const fakeMappings = {
                 };
             });
         },
-        valor: () => 0, 
+        valor: () => 0,
     },
 };
 

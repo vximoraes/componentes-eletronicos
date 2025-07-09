@@ -84,8 +84,14 @@
       "/utils/logger.js",
       "/src/services/AuthService.js",
       "/src/middlewares/AuthMiddleware.js",
+      "/src/middlewares/AuthPermission.js",
       "/src/utils/TokenUtil.js",
-      "/src/utils/AuthHelper.js"
+      "/src/utils/AuthHelper.js",
+      "/src/services/PermissionService.js",
+      "/src/repositories/GrupoRepository.js",
+      "/src/repositories/filters/GrupoFilterBuilder.js",
+      "/src/models/Grupo.js",
+      "/src/models/Rota.js"
     ]
   }
 }

@@ -1,23 +1,30 @@
 import { z } from "zod";
 import mongoose from 'mongoose';
 
-export const RotaIdSchema = z.string().refine((id) => mongoose.Types.ObjectId.isValid(id), {
+export const GrupoIdSchema = z.string().refine((id) => mongoose.Types.ObjectId.isValid(id), {
     message: "ID inválido",
 });
 
-export const RotaQuerySchema = z.object({
-    rota: z
+export const GrupoQuerySchema = z.object({
+    nome: z
         .string()
         .optional()
         .refine((val) => !val || val.trim().length > 0, {
-            message: "Rota não pode ser vazia",
+            message: "Nome não pode ser vazio",
         })
         .transform((val) => val?.trim()),
-    dominio: z
+    descricao: z
         .string()
         .optional()
         .refine((val) => !val || val.trim().length > 0, {
-            message: "Domínio não pode ser vazio",
+            message: "Descrição não pode ser vazio",
+        })
+        .transform((val) => val?.trim()),
+    ativo: z
+        .string()
+        .optional()
+        .refine((value) => !value || value === "true" || value === "false", {
+            message: "Ativo deve ser 'true' ou 'false'",
         }),
     page: z
         .string()

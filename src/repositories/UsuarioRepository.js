@@ -102,7 +102,7 @@ class UsuarioRepository {
                 errorType: 'resourceInUse',
                 field: 'Usuário',
                 details: [],
-                customMessage: 'Não é possível deletar: usuário está vinculado a movimentações.'
+                customMessage: 'Não é possível deletar: usuário está vinculado a notificações.'
             });
         };
 
