@@ -21,9 +21,8 @@ import orcamentosPaths from "../paths/orcamento.js";
 const getServersInCorrectOrder = () => {
     const PORT = process.env.PORT
     const devUrl = { url: process.env.SWAGGER_DEV_URL || `http://localhost:${PORT}` };
-    const prodUrl1 = { url: process.env.SWAGGER_PROD_URL || "https://api-componentes.exemplo.com" };
 
-    if (process.env.NODE_ENV === "production") return [prodUrl1, devUrl];
+    if (process.env.NODE_ENV === "production") return [devUrl];
     else return [devUrl, prodUrl1];
 };
 
