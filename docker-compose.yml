@@ -4,10 +4,11 @@ services:
     image: mongo:8
     volumes:
       - vol-mongodb:/data/db
+    command: mongod --quiet --logpath /dev/null
     ports:
       - 27017:27017
   api:
-    container_name: componentes-eletronicos-app
+    container_name: componentes-eletronicos
     build: .
     ports:
       - "${PORT}:${PORT}"
