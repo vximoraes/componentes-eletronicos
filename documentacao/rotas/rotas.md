@@ -10,11 +10,101 @@
 #### Regras de Negócio Envolvidas
 - Validação de Credenciais: Verificar se o e-mail e senha correspondem a um usuário cadastrado;
 - Emissão de Token: gerar um JWT.
-  
+
 #### Resultado Esperado
 - Geração de token de autenticação para acesso ao sistema.
 - Retorno do objeto de usuário.
 - Em caso de falha, retornar mensagem de erro específica.
+
+### 1.2 POST /auth/recover
+
+#### Caso de Uso
+- Recuperar senha de usuário esquecida através do e-mail cadastrado.
+
+#### Regras de Negócio Envolvidas
+- Validação de E-mail: Verificar se o e-mail existe na base de dados.
+- Geração de Link/Código: Criar link temporário ou código de recuperação.
+- Envio de E-mail: Enviar instruções de recuperação para o e-mail do usuário.
+
+#### Resultado Esperado
+- Envio bem-sucedido das instruções de recuperação.
+- Retorno de mensagem de confirmação.
+- Em caso de e-mail não encontrado, retornar erro específico.
+
+### 1.3 POST /auth/signup
+
+#### Caso de Uso
+- Realizar cadastro de novo usuário com senha no sistema.
+
+#### Regras de Negócio Envolvidas
+- Validação de Dados: Verificar se todos os campos obrigatórios foram preenchidos.
+- Unicidade de E-mail: Garantir que o e-mail não está em uso.
+- Criptografia de Senha: Aplicar hash na senha antes do armazenamento.
+- Regras de Senha: Validar complexidade da senha.
+
+#### Resultado Esperado
+- Usuário criado com sucesso.
+- Retorno do objeto de usuário (sem senha).
+- Em caso de e-mail duplicado, retornar erro 409.
+- Em caso de dados inválidos, retornar erro 400.
+
+### 1.4 POST /auth/logout
+
+#### Caso de Uso
+- Realizar logout do usuário, invalidando sua sessão ativa.
+
+#### Regras de Negócio Envolvidas
+- Invalidação de Token: Marcar o token atual como inválido.
+- Limpeza de Sessão: Remover dados de sessão do usuário.
+
+#### Resultado Esperado
+- Logout realizado com sucesso.
+- Retorno de confirmação de logout.
+- Token invalidado para futuras requisições.
+
+### 1.5 POST /auth/revoke
+
+#### Caso de Uso
+- Revogar token de acesso do usuário, impedindo seu uso futuro.
+
+#### Regras de Negócio Envolvidas
+- Validação de Token: Verificar se o token é válido e pertence ao usuário.
+- Revogação: Marcar o token como revogado na base de dados.
+
+#### Resultado Esperado
+- Token revogado com sucesso.
+- Retorno de confirmação de revogação.
+- Token não poderá ser utilizado em futuras requisições.
+
+### 1.6 POST /auth/refresh
+
+#### Caso de Uso
+- Gerar novo token de acesso utilizando refresh token válido.
+
+#### Regras de Negócio Envolvidas
+- Validação de Refresh Token: Verificar se o refresh token é válido e não expirado.
+- Geração de Novo Token: Criar novo token de acesso com validade renovada.
+- Manutenção de Sessão: Manter a sessão ativa do usuário.
+
+#### Resultado Esperado
+- Novo token de acesso gerado com sucesso.
+- Retorno do novo token com tempo de expiração.
+- Em caso de refresh token inválido, retornar erro de autenticação.
+
+### 1.7 POST /auth/introspect
+
+#### Caso de Uso
+- Verificar validade e obter informações detalhadas de um token de acesso.
+
+#### Regras de Negócio Envolvidas
+- Validação de Token: Verificar se o token é válido e não expirado.
+- Extração de Dados: Obter informações do payload do token.
+- Verificação de Permissões: Validar se o token possui as permissões necessárias.
+
+#### Resultado Esperado
+- Informações do token retornadas com sucesso.
+- Dados do usuário e permissões associadas.
+- Em caso de token inválido ou expirado, retornar erro específico.
 
 ## 2. Usuário
 
@@ -473,6 +563,140 @@
 
 #### Resultado
 - Componente removido do orçamento.
+
+## 11. Grupos
+
+### 11.1 POST /grupos
+
+#### Caso de Uso
+- Criar novo grupo para organização de usuários ou permissões.
+
+#### Regras de Negócio Envolvidas
+- Campo obrigatório: nome (mínimo 3 caracteres).
+- Nome deve ser único no sistema.
+- Não permite campos além dos definidos no schema.
+- Campo `ativo`: padrão true, pode ser informado.
+
+#### Resultado Esperado
+- Grupo criado com sucesso.
+- Retorno do objeto grupo com `_id`, `nome`, `ativo` e `data_criacao`.
+- Em caso de nome duplicado, retorna erro 409.
+- Em caso de dados inválidos, retorna erro 400.
+
+### 11.2 GET /grupos e /grupos/:id
+
+#### Caso de Uso
+- Listar grupos cadastrados ou obter grupo específico por id.
+
+#### Regras de Negócio Envolvidas
+- Paginação: parâmetros `page` e `limite` opcionais, limite máximo 100.
+- Filtros disponíveis: nome, ativo.
+- Se id não existir na busca específica, retorna erro 404.
+
+#### Resultado Esperado
+- Lista paginada de grupos ou grupo específico.
+- Retorno com informações completas do grupo.
+- Em caso de erro de validação, retorna erro 400.
+
+### 11.3 PATCH/PUT /grupos/:id
+
+#### Caso de Uso
+- Atualizar informações de um grupo existente.
+
+#### Regras de Negócio Envolvidas
+- Permite atualização parcial dos campos.
+- Nome deve continuar sendo único.
+- Se grupo não existir, retorna erro 404.
+- Não permite campos além dos definidos no schema.
+
+#### Resultado Esperado
+- Grupo atualizado com sucesso.
+- Retorno do objeto grupo atualizado.
+- Em caso de nome duplicado, retorna erro 409.
+- Em caso de dados inválidos, retorna erro 400.
+
+### 11.4 DELETE /grupos/:id
+
+#### Caso de Uso
+- Remover grupo do sistema.
+
+#### Regras de Negócio Envolvidas
+- Verificar se grupo não possui relacionamentos ativos.
+- Se grupo não existir, retorna erro 404.
+- Não permite exclusão se houver usuários vinculados.
+
+#### Resultado Esperado
+- Grupo removido com sucesso.
+- Retorno de confirmação da exclusão.
+- Em caso de relacionamentos ativos, retorna erro de integridade.
+
+## 12. Rotas
+
+### 12.1 POST /rotas
+
+#### Caso de Uso
+- Criar nova rota de acesso no sistema para controle de permissões.
+
+#### Regras de Negócio Envolvidas
+- Campo obrigatório: nome (mínimo 3 caracteres).
+- Nome deve ser único no sistema.
+- Não permite campos além dos definidos no schema.
+- Campo `ativo`: padrão true, pode ser informado.
+
+#### Resultado Esperado
+- Rota criada com sucesso.
+- Retorno do objeto rota com `_id`, `nome`, `ativo` e `data_criacao`.
+- Em caso de nome duplicado, retorna erro 409.
+- Em caso de dados inválidos, retorna erro 400.
+
+### 12.2 GET /rotas e /rotas/:id
+
+#### Caso de Uso
+- Listar rotas cadastradas ou obter rota específica por id.
+
+#### Regras de Negócio Envolvidas
+- Paginação: parâmetros `page` e `limite` opcionais, limite máximo 100.
+- Filtros disponíveis: nome, ativo.
+- Se id não existir na busca específica, retorna erro 404.
+
+#### Resultado Esperado
+- Lista paginada de rotas ou rota específica.
+- Retorno com informações completas da rota.
+- Em caso de erro de validação, retorna erro 400.
+
+### 12.3 PATCH/PUT /rotas/:id
+
+#### Caso de Uso
+- Atualizar informações de uma rota existente.
+
+#### Regras de Negócio Envolvidas
+- Permite atualização parcial dos campos.
+- Nome deve continuar sendo único.
+- Se rota não existir, retorna erro 404.
+- Não permite campos além dos definidos no schema.
+
+#### Resultado Esperado
+- Rota atualizada com sucesso.
+- Retorno do objeto rota atualizado.
+- Em caso de nome duplicado, retorna erro 409.
+- Em caso de dados inválidos, retorna erro 400.
+
+### 12.4 DELETE /rotas/:id
+
+#### Caso de Uso
+- Remover rota do sistema.
+
+#### Regras de Negócio Envolvidas
+- Verificar se rota não possui relacionamentos ativos.
+- Se rota não existir, retorna erro 404.
+- Não permite exclusão se houver permissões vinculadas.
+
+#### Resultado Esperado
+- Rota removida com sucesso.
+- Retorno de confirmação da exclusão.
+- Em caso de relacionamentos ativos, retorna erro de integridade.
+
+---
 
 # Considerações Finais
 - Segurança: Em todos os endpoints, a segurança deve ser uma prioridade, com a implementação de mecanismos de autenticação, autorização e registro de logs.
