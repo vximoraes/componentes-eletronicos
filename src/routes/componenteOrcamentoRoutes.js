@@ -14,6 +14,6 @@ router
     .post("/componente_orcamentos", AuthMiddleware, authPermission, asyncWrapper(componenteController.criar.bind(componenteController)))
     .patch("/componente_orcamentos/:id", AuthMiddleware, authPermission, asyncWrapper(componenteController.atualizar.bind(componenteController)))
     .put("/componente_orcamentos/:id", AuthMiddleware, authPermission, asyncWrapper(componenteController.atualizar.bind(componenteController)))
-    .delete("/componente_orcamentos/:id", AuthMiddleware, authPermission, asyncWrapper(componenteController.deletar.bind(componenteController)))
+    .delete("/componente_orcamentos/:id", AuthMiddleware, authPermission, asyncWrapper(componenteController.deletar.bind(componenteController)));
 
 export default router;

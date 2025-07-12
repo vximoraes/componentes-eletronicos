@@ -1,6 +1,6 @@
 import ComponenteOrcamentoService from '../services/ComponenteOrcamentoService.js';
 import { ComponenteOrcamentoQuerySchema, ComponenteOrcamentoIdSchema } from '../utils/validators/schemas/zod/querys/ComponenteOrcamentoQuerySchema.js';
-import { ComponenteOrcamentoSchema, ComponenteOrcamentoUpdateSchema } from '../utils/validators/schemas/zod/ComponenteOrcamentoSchema.js';
+import { ComponenteOrcamentoSchema, ComponenteOrcamentoUpdateSchema } from '../utils/validators/schemas/zod/OrcamentoSchema.js';
 import { CommonResponse, CustomError, HttpStatusCodes, errorHandler, messages, StatusService, asyncWrapper } from '../utils/helpers/index.js';
 
 class ComponenteOrcamentoController {

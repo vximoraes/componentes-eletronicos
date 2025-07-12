@@ -11,7 +11,8 @@ import componentes from './componenteRoutes.js';
 import fornecedores from './fornecedorRoutes.js';
 import movimentacoes from './movimentacaoRoutes.js';
 import notificacoes from './notificacaoRoutes.js';
-import orcamentos from './orcamentoRoutes.js'
+import orcamentos from './orcamentoRoutes.js';
+import componentes_orcamentos from './componenteOrcamentoRoutes.js';
 
 import dotenv from "dotenv";
 
@@ -41,7 +42,8 @@ const routes = (app) => {
         fornecedores,
         movimentacoes,
         notificacoes,
-        orcamentos
+        orcamentos,
+        componentes_orcamentos
     );
 
     app.use((req, res) => {
