@@ -14,13 +14,13 @@ const ComponenteOrcamentoSchema = z.object({
         })
         .transform((val) => val?.trim()),
     quantidade: z
-        .string()
+        .union([z.string(), z.number()])
         .transform((val) => (val ? parseInt(val) : undefined))
         .refine((val) => val === undefined || (Number.isInteger(val) && val > 0), {
             message: "Quantidade deve ser um número inteiro maior que zero",
         }),
     valor_unitario: z
-        .string()
+        .union([z.string(), z.number()])
         .transform((val) => (val ? parseFloat(val) : undefined))
         .refine((val) => val === undefined || (!isNaN(val) && typeof val === "number"), {
             message: "Valor unitário deve ser um número válido.",
