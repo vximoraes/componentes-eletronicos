@@ -1,6 +1,6 @@
 services:
   mongodb:
-    container_name: mongodb
+    container_name: mongodb-componentes-eletronicos
     image: mongo:8
     volumes:
       - vol-mongodb:/data/db

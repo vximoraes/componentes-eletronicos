@@ -179,13 +179,20 @@ describe('Rotas de Componente', () => {
             expect(res.body.data.nome).toBe(novoNome);
         }, 30000);
         it('não deve permitir atualizar quantidade diretamente', async () => {
+            // Cria um componente válido para testar a atualização
             const dados = await criarComponenteValido();
+            // Realiza o cadastro do componente
             const compRes = await request(BASE_URL).post('/componentes').set('Authorization', `Bearer ${token}`).send(dados);
+            // Aguarda persistência do componente
             await new Promise(r => setTimeout(r, 100));
+            // Garante que o componente foi criado corretamente
             expect(compRes.body.data).toBeTruthy();
             const id = compRes.body.data._id;
+            // Tenta atualizar o campo 'quantidade' diretamente via PATCH
             const res = await request(BASE_URL).patch(`/componentes/${id}`).set('Authorization', `Bearer ${token}`).send({ quantidade: 999 });
+            // Verifica se a requisição foi aceita (status 200 ou 201)
             expect([200, 201]).toContain(res.status);
+            // Garante que o valor de 'quantidade' não foi alterado para 999
             expect(res.body.data.quantidade).not.toBe(999);
         }, 30000);
         it('deve falhar ao atualizar para nome já existente', async () => {

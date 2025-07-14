@@ -99,11 +99,17 @@ describe('ComponenteService', () => {
 
     describe('atualizar', () => {
         it('deve atualizar dados do componente, exceto quantidade', async () => {
+            // Simula que o componente existe no banco
             repositoryMock.buscarPorId.mockResolvedValue(makeComponente());
+            // Simula que não existe outro componente com o mesmo nome
             repositoryMock.buscarPorNome.mockResolvedValue(null);
+            // Simula atualização no banco, mas mantém quantidade original
             repositoryMock.atualizar.mockResolvedValue(makeComponente({ nome: 'Novo Nome', quantidade: 10 }));
+            // Tenta atualizar o nome e a quantidade do componente
             const result = await service.atualizar('comp1', { nome: 'Novo Nome', quantidade: 999 });
+            // Verifica se o nome foi atualizado corretamente
             expect(result.nome).toBe('Novo Nome');
+            // Garante que o método atualizar foi chamado sem o campo quantidade
             expect(repositoryMock.atualizar).toHaveBeenCalledWith('comp1', { nome: 'Novo Nome' });
         });
         it('deve lançar erro se componente não existir', async () => {
