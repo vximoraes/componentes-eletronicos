@@ -1,26 +1,23 @@
 import ComponenteOrcamentoFilterBuilder from './filters/ComponenteOrcamentoFilterBuilder.js';
 import ComponenteOrcamentoModel from '../models/ComponenteOrcamento.js';
-import { CommonResponse, CustomError, HttpStatusCodes, errorHandler, messages, StatusService, asyncWrapper } from '../utils/helpers/index.js';
+import { CustomError, messages } from '../utils/helpers/index.js';
 
 class ComponenteOrcamentoRepository {
-    constructor({
-        componenteOrcamentoModel = ComponenteOrcamentoModel,
-    } = {}) {
+    constructor({ componenteOrcamentoModel = ComponenteOrcamentoModel } = {}) {
         this.model = componenteOrcamentoModel;
-    }
+    };
 
     async criar(dadosComponente) {
         const componente = new this.model(dadosComponente);
         const componenteSalvo = await componente.save();
-        return componenteSalvo.toObject();
-    }
+        return await this.model.findById(componenteSalvo._id).lean();
+    };
 
     async listar(req) {
         const id = req.params.id || null;
 
-        // Se um ID for fornecido, retorna o componente específico
         if (id) {
-            const data = await this.model.findById(id);
+            const data = await this.model.findById(id).lean();
 
             if (!data) {
                 throw new CustomError({
@@ -28,62 +25,53 @@ class ComponenteOrcamentoRepository {
                     errorType: 'resourceNotFound',
                     field: 'ComponenteOrcamento',
                     details: [],
-                    customMessage: messages.error.resourceNotFound('Componente de Orçamento')
+                    customMessage: messages.error.resourceNotFound('Componente de Orçamento'),
                 });
             }
 
-            return data.toObject();
+            return data;
         }
 
-        const { nome, fornecedor, quantidade, valor_unitario, subtotal, page = 1 } = req.query;
-        const limite = Math.min(parseInt(req.query.limite, 10) || 10, 100);
+        const {
+            nome,
+            fornecedor,
+            quantidade,
+            valor_unitario_min,
+            valor_unitario_max,
+            subtotal_min,
+            subtotal_max,
+            page = 1,
+            limite = 10,
+        } = req.query;
 
         const filterBuilder = new ComponenteOrcamentoFilterBuilder()
             .comNome(nome || '')
             .comFornecedor(fornecedor || '')
-            .comQuantidade(quantidade || '');
-
-        if (valor_unitario) {
-            filterBuilder.comValorUnitarioMinimo(valor_unitario.min)
-                       .comValorUnitarioMaximo(valor_unitario.max);
-        }
-
-        if (subtotal) {
-            filterBuilder.comSubtotalMinimo(subtotal.min)
-                         .comSubtotalMaximo(subtotal.max);
-        }
-
-        if (typeof filterBuilder.build !== 'function') {
-            throw new CustomError({
-                statusCode: 500,
-                errorType: 'internalServerError',
-                field: 'ComponenteOrcamento',
-                details: [],
-                customMessage: messages.error.internalServerError('Componente de Orçamento')
-            });
-        }
+            .comQuantidade(quantidade || '')
+            .comValorUnitarioMinimo(valor_unitario_min || '')
+            .comValorUnitarioMaximo(valor_unitario_max || '')
+            .comSubtotalMinimo(subtotal_min || '')
+            .comSubtotalMaximo(subtotal_max || '');
 
         const filtros = filterBuilder.build();
 
         const options = {
             page: parseInt(page),
-            limit: parseInt(limite),
+            limit: Math.min(parseInt(limite), 100),
             sort: { nome: 1 },
         };
 
         const resultado = await this.model.paginate(filtros, options);
-
-        // Converter documentos para objetos simples
         resultado.docs = resultado.docs.map(doc => doc.toObject());
 
         return resultado;
-    }
+    };
 
     async atualizar(id, parsedData) {
-        const componente = await this.model.findByIdAndUpdate(id, parsedData, { 
+        const componente = await this.model.findByIdAndUpdate(id, parsedData, {
             new: true,
-            runValidators: true 
-        });
+            runValidators: true,
+        }).lean();
 
         if (!componente) {
             throw new CustomError({
@@ -91,12 +79,12 @@ class ComponenteOrcamentoRepository {
                 errorType: 'resourceNotFound',
                 field: 'ComponenteOrcamento',
                 details: [],
-                customMessage: messages.error.resourceNotFound('Componente de Orçamento')
+                customMessage: messages.error.resourceNotFound('Componente de Orçamento'),
             });
         }
 
-        return componente.toObject();
-    }
+        return componente;
+    };
 
     async deletar(id) {
         const componente = await this.model.findById(id);
@@ -107,13 +95,13 @@ class ComponenteOrcamentoRepository {
                 errorType: 'resourceNotFound',
                 field: 'ComponenteOrcamento',
                 details: [],
-                customMessage: messages.error.resourceNotFound('Componente de Orçamento')
+                customMessage: messages.error.resourceNotFound('Componente de Orçamento'),
             });
         }
 
         await this.model.findByIdAndDelete(id);
         return componente.toObject();
-    }
+    };
 
     // Métodos auxiliares
 
@@ -126,12 +114,12 @@ class ComponenteOrcamentoRepository {
                 errorType: 'resourceNotFound',
                 field: 'ComponenteOrcamento',
                 details: [],
-                customMessage: messages.error.resourceNotFound('Componente de Orçamento')
+                customMessage: messages.error.resourceNotFound('Componente de Orçamento'),
             });
         }
 
         return componente.toObject();
-    }
+    };
 
     async buscarPorNome(nome, idIgnorado) {
         const filtro = { nome };
@@ -142,7 +130,7 @@ class ComponenteOrcamentoRepository {
 
         const documento = await this.model.findOne(filtro);
         return documento ? documento.toObject() : null;
-    }
-}
+    };
+};
 
 export default ComponenteOrcamentoRepository;
